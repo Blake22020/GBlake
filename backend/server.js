@@ -78,6 +78,13 @@ const postSchema = new Schema({
         type: Date,
         default: Date.now
     },
+
+    likes: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        default: []
+    }],
+
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User',
@@ -127,7 +134,7 @@ app.post("/api/users/login", async (req, res) => {
         const user = await User.findOne({email});
 
         if(!user) {
-            res.status(404).json({
+            return res.status(404).json({
                 error: "Пользователь не найден",
             })
         }
@@ -144,7 +151,7 @@ app.post("/api/users/login", async (req, res) => {
             user: {
                 _id: user._id,
                 name: user.name,
-                avatar: user.bio,
+                avatar: user.avatar,
             },
         })
     } catch(err) {
@@ -181,7 +188,7 @@ app.post("/upload/:userId", async (req, res) => {
     if (user.avatar && !user.avatar.startsWith("http")) {
       const oldPath = path.join(__dirname, user.avatar);
       fs.unlink(oldPath, (err) => {
-        if (err) console.log("❌ Не удалось удалить старую аватарку:", err.message);
+        if (err) rconsole.log("❌ Не удалось удалить старую аватарку:", err.message);
       });
     }
 
@@ -203,7 +210,7 @@ app.post("/upload/:userId", async (req, res) => {
 app.put("/api/users/:id", async (req, res) => {
     const user = await User.findById(req.params.id);
     if(!user) {
-        res.status(404).json({
+        return res.status(404).json({
             error: "Пользователь не найден",
         });
     }
@@ -268,7 +275,7 @@ app.get("/api/users/:id/follow", async (req, res) => {
         const { userId } = req.body;
 
         if(userId === targetId) {
-            res.status(400).json({
+            return res.status(400).json({
                 error: "Нельзя подписаться на самого себя",
             })
         }
@@ -277,7 +284,7 @@ app.get("/api/users/:id/follow", async (req, res) => {
         const target = await User.findById(targetId);
 
         if(!user || !target) {
-            res.status(404).json({
+            return res.status(404).json({
                 error: "Пользователь не найден",
             })
         }
@@ -309,7 +316,7 @@ app.get("/api/users/:id/unfollow", async (req, res) => {
         const { userId } = req.body;
 
         if(userId === targetId) {
-            res.status(400).json({
+            return res.status(400).json({
                 error: "Нельзя подписаться на самого себя",
             })
         }
@@ -318,7 +325,7 @@ app.get("/api/users/:id/unfollow", async (req, res) => {
         const target = await User.findById(targetId);
 
         if(!user || !target) {
-            res.status(404).json({
+            return res.status(404).json({
                 error: "Пользователь не найден",
             })
         }
@@ -346,8 +353,8 @@ app.get("/api/users/:id/unfollow", async (req, res) => {
 app.get("/api/users/:id/followers", async (req, res) => {
     try {
         const user = await User.findById(req.params.id).populate("followers", "name avatar _id");
-        if (!users) {
-            res.status(404).json({
+        if (!user) {
+            return res.status(404).json({
                 error: "Пользователь не найден",
             })
         }
@@ -364,7 +371,7 @@ app.get("/api/users/:id/followings", async (req, res) => {
     try {
         const user = await User.findById(req.params.id).populate("followings", "name avatar _id");
         if (!user) {
-            res.status(404).json({
+            return res.status(404).json({
                 error: "Пользователь не найден",
             })
         }
@@ -377,22 +384,17 @@ app.get("/api/users/:id/followings", async (req, res) => {
     }
 })
 
-
-
-
-
-
 app.post("/api/posts", async (req, res) => {
     try {
         const {title, text, authorId} = req.body;
         if(!title || !text || !authorId) {
-            res.status(400).json({
+            return res.status(400).json({
                 error: "Не все данные переданы",
             })
         }
         const author = await User.findById(authorId);
         if(!author) {
-            res.status(404).json({
+            return res.status(404).json({
                 error: "Пользователь не найден",
             })
         }
@@ -420,7 +422,7 @@ app.get("/api/posts/", async (req, res) => {
     try {
         const posts = await Post.find({}).populate("author", "name avatar _id");
         if(!posts) {
-            res.status(404).json({
+            return res.status(404).json({
                 error: "Посты не найдены",
             })
         }
@@ -435,9 +437,9 @@ app.get("/api/posts/", async (req, res) => {
 
 app.get("/api/posts/:id", async (req, res) => {
     try {
-        const post = await Post.findById(req.params.id).populate("author", "name avatar _id");
+        const post = await Post.findById(req.params.id).populate("author", "name avatar _id").sort({createdAt: -1});
         if(!post) {
-            res.status(404).json({
+            return res.status(404).json({
                 error: "Пост не найден",
             })
         }
@@ -455,6 +457,11 @@ app.delete("/api/posts/:id", async (req, res) => {
         const post = await Post.findById(req.params.id);
 
         await Post.findByIdAndDelete(req.params.id);
+        if(!post) {
+            return res.status(404).json({
+                error: "Пост не найден",
+            })
+        }
 
         await User.updateOne({
             _id: post.author,
@@ -466,6 +473,122 @@ app.delete("/api/posts/:id", async (req, res) => {
 
         res.json({
             message: "Пост удален",
+        })
+    } catch(err) {
+        res.status(500).json({
+            error: "Ошибка сервера",
+        })
+    }
+})
+
+app.get("/api/posts/likes", async (req, res) => {
+    try{
+        const userId = req.body.userId;
+        if(!userId) {
+            return res.status(400).json({
+                error: "Не передан id пользователя",
+            })
+        }
+        const user = await User.findById(userId);
+
+        if(!user) {
+            return res.status(404).json({
+                error: "Пользователь не найден",
+            })
+        }
+
+        const posts = await Post.find({
+            _id: {
+                $in: user.likes,
+            }
+        }).populate("author", "name avatar _id");
+
+        res.json(posts)
+    } catch(err) {
+        res.status(500).json({
+            error: "Ошибка сервера",
+        })
+    }
+})
+
+app.get("/api/posts/followings", async (req, res) => {
+    try {
+        const userId = req.body.userId;
+        if(!userId) {
+            return res.status(400).json({
+                error: "Не передан id пользователя",
+            })
+        }
+
+        const user = await User.findById(userId);
+
+        const posts = await Post.find({
+            author: {
+                $in: user.followings,
+            }
+        }).populate("author", "name avatar _id");
+
+        res.json(posts)
+    } catch(err) {
+        res.status(500).json({
+            error: "Ошибка сервера",
+        })
+    }
+})
+
+
+app.post("/api/posts/:id/like", async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        const { userId } = req.body;
+
+        const user = await User.findById(userId);
+        if(!user) {
+            return res.status(404).json({
+                error: "Пользователь не найден",
+            })
+        }
+        if(post.likes.includes(userId)) {
+            res.status(400).json({
+                error: "Вы уже лайкали этот пост",
+            })
+        }
+        
+        post.likes.push(userId);
+        await post.save();
+
+        res.json({
+            message: "Пост лайкнут",
+        })
+    } catch(err) {
+        res.status(500).json({
+            error: "Ошибка сервера",
+        })
+    }
+})
+
+app.post("/api/posts/:id/unlike", async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        const { userId } = req.body;
+
+        const user = await User.findById(userId);
+        if(!user) {
+            return res.status(404).json({
+                error: "Пользователь не найден",
+            })
+        }
+        if(!post.likes.includes(userId)) {
+            res.status(400).json({
+                error: "Вы ещё не лайкали этот пост",
+            })
+        }
+        
+        post.likes.pull(userId);
+        await post.save();
+
+        res.json({
+            message: "Лайк убран",
         })
     } catch(err) {
         res.status(500).json({
