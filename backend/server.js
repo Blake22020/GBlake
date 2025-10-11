@@ -345,7 +345,7 @@ app.get("/api/users/:id/unfollow", async (req, res) => {
 
 app.get("/api/users/:id/followers", async (req, res) => {
     try {
-        const user = await User.findById(req.params.id).populate("followers", "name avatar");
+        const user = await User.findById(req.params.id).populate("followers", "name avatar _id");
         if (!users) {
             res.status(404).json({
                 error: "Пользователь не найден",
@@ -362,7 +362,7 @@ app.get("/api/users/:id/followers", async (req, res) => {
 
 app.get("/api/users/:id/followings", async (req, res) => {
     try {
-        const user = await User.findById(req.params.id).populate("followings", "name avatar");
+        const user = await User.findById(req.params.id).populate("followings", "name avatar _id");
         if (!user) {
             res.status(404).json({
                 error: "Пользователь не найден",
@@ -373,6 +373,103 @@ app.get("/api/users/:id/followings", async (req, res) => {
     } catch (err) {
         res.status(500).json({
             error: "Ошибка сервера"
+        })
+    }
+})
+
+
+
+
+
+
+app.post("/api/posts", async (req, res) => {
+    try {
+        const {title, text, authorId} = req.body;
+        if(!title || !text || !authorId) {
+            res.status(400).json({
+                error: "Не все данные переданы",
+            })
+        }
+        const author = await User.findById(authorId);
+        if(!author) {
+            res.status(404).json({
+                error: "Пользователь не найден",
+            })
+        }
+
+        const post = new Post({
+            title,
+            text,
+            author: authorId,
+        })
+
+        await post.save();
+
+        author.posts.push(post._id);
+        await author.save();
+
+        res.json(post); 
+    } catch(err) {
+        res.status(500).json({
+            error: "Ошибка сервера",
+        })
+    }
+})
+
+app.get("/api/posts/", async (req, res) => {
+    try {
+        const posts = await Post.find({}).populate("author", "name avatar _id");
+        if(!posts) {
+            res.status(404).json({
+                error: "Посты не найдены",
+            })
+        }
+
+        res.json(posts)
+    } catch(err) {
+        res.status(500).json({
+            error: "Ошибка сервера",
+        })
+    }
+})
+
+app.get("/api/posts/:id", async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id).populate("author", "name avatar _id");
+        if(!post) {
+            res.status(404).json({
+                error: "Пост не найден",
+            })
+        }
+
+        res.json(post)
+    } catch(err) {
+        res.status(500).json({
+            error: "Ошибка сервера",
+        })
+    }
+})
+
+app.delete("/api/posts/:id", async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+
+        await Post.findByIdAndDelete(req.params.id);
+
+        await User.updateOne({
+            _id: post.author,
+        }, {
+            $pull: {
+                posts: post._id,
+            }
+        })
+
+        res.json({
+            message: "Пост удален",
+        })
+    } catch(err) {
+        res.status(500).json({
+            error: "Ошибка сервера",
         })
     }
 })
