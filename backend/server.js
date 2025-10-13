@@ -619,6 +619,7 @@ app.get("/api/search", async (req, res) => {
             name: user.name,
             bio: user.bio,
             avatar: user.avatar,
+            posts: user.posts.length,
         }));
 
 
@@ -635,6 +636,7 @@ app.get("/api/search", async (req, res) => {
         const formatedPosts = posts.map((post) => ({
             type: "post",
             _id: post._id,
+            likes: post.likes.length,
             title: post.title,
             text: post.text,
             createdAt: post.createdAt,
@@ -644,11 +646,25 @@ app.get("/api/search", async (req, res) => {
         const results = [...formatedUsersm , ...formatedPosts]
 
         results.sort((a, b) => {
-            if(a.type === "posts" && b.type === "user") {
+            if(a.type === "post" && b.type === "user") {
                 return -1;
             }
             if(a.type === "user" && b.type === "posts") {
                 return 1;
+            }
+            if(a.type === "post" && b.type === "post") {
+                if(a.likes < b.likes) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }
+            if(a.type === "user" && b.type === "user") {
+                if(a.posts < b.posts) {
+                    return -1;
+                } else {
+                    return 1;
+                }
             }
             return 0;
         })
