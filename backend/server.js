@@ -597,4 +597,68 @@ app.post("/api/posts/:id/unlike", async (req, res) => {
     }
 })
 
+app.get("/api/search", async (req, res) => {
+    try {
+        const { q } = req.query;
+        if(!q) {
+            return res.status(400).json({
+                error: "Не передан поисковый запрос",
+            })
+        }
+
+        const users = await User.find({
+            $or: [
+                { name: { $regex: q, $options: "i" } },
+                { bio: { $regex: q, $options: "i" } },
+            ]
+        }).select("_id name avatar").lean();
+
+        const formatedUsers = users.map((user) => ({
+            type: "user",
+            _id: user._id,
+            name: user.name,
+            bio: user.bio,
+            avatar: user.avatar,
+        }));
+
+
+        const posts = await Post.find({
+            $or: [
+                { title: { $regex: q, $options: "i" } },
+                { text: { $regex: q, $options: "i" } },
+            ],
+        })
+        .populate("author", "name avatar _id")
+        .select("title text author createdAt _id")
+        .lean()
+
+        const formatedPosts = posts.map((post) => ({
+            type: "post",
+            _id: post._id,
+            title: post.title,
+            text: post.text,
+            createdAt: post.createdAt,
+            author: post.author,
+        }))
+
+        const results = [...formatedUsersm , ...formatedPosts]
+
+        results.sort((a, b) => {
+            if(a.type === "posts" && b.type === "user") {
+                return -1;
+            }
+            if(a.type === "user" && b.type === "posts") {
+                return 1;
+            }
+            return 0;
+        })
+
+        res.json(results)
+    } catch(err) {
+        res.status(500).json({
+            error: "Ошибка сервера",
+        })
+    }
+})
+
 app.listen(3000)
