@@ -1,15 +1,25 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+require('dotenv').config();
+
 const Schema = mongoose.Schema;
 const app = express();
+
+
  
 app.use(express.static("public"));
 app.use(express.json());
 
 app.use(express.static(__dirname));
-app.use(multer({dest:"uploads"}).single("filedata"));
-
+const uploads = multer({
+    dest: "uploads/",
+})
 
 mongoose.connect("mongodb://localhost:27017/social", {
     useNewUrlParser: true,
@@ -57,7 +67,15 @@ const userSchema = new Schema({
         type: String,
         default: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
         minlength:3,
-    }
+    },
+
+    likes: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Post',
+            default: [],
+        }
+    ]
     
 })
 const postSchema = new Schema({
@@ -95,6 +113,28 @@ const postSchema = new Schema({
 const User = mongoose.model('User', userSchema);
 const Post = mongoose.model('Post', postSchema);
 
+function verifyToken(req, res, next) {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if(!token) {
+        return res.status(401).json({
+            error: "Пользователь не авторизован",
+        })
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        req.user = decoded;
+
+        next();
+    } catch (err) {
+        res.status(403).json({
+            error: "Неверный токен",
+        })
+    }
+}
+
 app.post("/api/users/register", async (req, res) => {
     try {
         const {email, password} = req.body;
@@ -112,8 +152,15 @@ app.post("/api/users/register", async (req, res) => {
 
         await newUser.save();
 
+        const token = jwt.sign(
+            {id: newUser._id},
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRES_IN },
+        );
+
         res.status(201).json({
             message: "Пользователь создан!",
+            token,
             user: {
                 _id: newUser._id,
                 name: newUser.name,
@@ -146,8 +193,15 @@ app.post("/api/users/login", async (req, res) => {
             })
         }
 
+        const token = jwt.sign(
+            { id: user._id },
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRES_IN },
+        )
+
         res.json({
             message: "Пользователь авторизован!",
+            token,
             user: {
                 _id: user._id,
                 name: user.name,
@@ -177,7 +231,7 @@ app.get("/api/users/:id", async (req, res) => {
     }
 })
 
-app.post("/upload/:userId", async (req, res) => {
+app.post("/upload/:userId", uploads.single("filedata") , async (req, res) => {
   try {
     const filedata = req.file;
     if (!filedata) return res.status(400).send("Файл не загружен");
@@ -188,7 +242,7 @@ app.post("/upload/:userId", async (req, res) => {
     if (user.avatar && !user.avatar.startsWith("http")) {
       const oldPath = path.join(__dirname, user.avatar);
       fs.unlink(oldPath, (err) => {
-        if (err) rconsole.log("❌ Не удалось удалить старую аватарку:", err.message);
+        if (err) console.log("❌ Не удалось удалить старую аватарку:", err.message);
       });
     }
 
@@ -207,7 +261,12 @@ app.post("/upload/:userId", async (req, res) => {
   }
 });
 
-app.put("/api/users/:id", async (req, res) => {
+app.put("/api/users/:id", verifyToken, async (req, res) => {
+    if(req.user.id !== req.params.id) {
+        res.status(403).json({
+            error: "Нельзя редактировать чужой профиль",
+        })
+    }
     const user = await User.findById(req.params.id);
     if(!user) {
         return res.status(404).json({
@@ -225,7 +284,7 @@ app.put("/api/users/:id", async (req, res) => {
     res.json(user);
 })
 
-app.delete("/api/users/:id", async (req, res) => {
+app.delete("/api/users/:id", verifyToken, async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
         if (!user) {
@@ -268,11 +327,11 @@ app.delete("/api/users/:id", async (req, res) => {
     }
 })
 
-app.get("/api/users/:id/follow", async (req, res) => {
+app.get("/api/users/:id/follow", verifyToken, async (req, res) => {
     try {
         const targetId = req.params.id;
 
-        const { userId } = req.body;
+        const userId  = req.user.id;
 
         if(userId === targetId) {
             return res.status(400).json({
@@ -309,11 +368,11 @@ app.get("/api/users/:id/follow", async (req, res) => {
     }
 })
 
-app.get("/api/users/:id/unfollow", async (req, res) => {
+app.get("/api/users/:id/unfollow", verifyToken, async (req, res) => {
     try {
         const targetId = req.params.id;
 
-        const { userId } = req.body;
+        const userId  = req.user.id;
 
         if(userId === targetId) {
             return res.status(400).json({
@@ -384,9 +443,10 @@ app.get("/api/users/:id/followings", async (req, res) => {
     }
 })
 
-app.post("/api/posts", async (req, res) => {
+app.post("/api/posts", verifyToken, async (req, res) => {
     try {
-        const {title, text, authorId} = req.body;
+        const {title, text} = req.body;
+        const authorId = req.user.id;
         if(!title || !text || !authorId) {
             return res.status(400).json({
                 error: "Не все данные переданы",
@@ -437,7 +497,7 @@ app.get("/api/posts/", async (req, res) => {
 
 app.get("/api/posts/:id", async (req, res) => {
     try {
-        const post = await Post.findById(req.params.id).populate("author", "name avatar _id").sort({createdAt: -1});
+        const post = await Post.findById(req.params.id).populate("author", "name avatar _id");
         if(!post) {
             return res.status(404).json({
                 error: "Пост не найден",
@@ -460,6 +520,12 @@ app.delete("/api/posts/:id", async (req, res) => {
         if(!post) {
             return res.status(404).json({
                 error: "Пост не найден",
+            })
+        }
+
+        if( req.params.id !== post.author.toString()) {
+            res.status(403).json({
+                error: "Нельзя удалить чужой пост",
             })
         }
 
@@ -537,10 +603,11 @@ app.get("/api/posts/followings", async (req, res) => {
 })
 
 
-app.post("/api/posts/:id/like", async (req, res) => {
+app.post("/api/posts/:id/like", verifyToken, async (req, res) => {
     try {
-        const post = await Post.findById(req.params.id);
-        const { userId } = req.body;
+        const postId = req.params.id;
+        const post = await Post.findById(postId);
+        const userId = req.user.id;
 
         const user = await User.findById(userId);
         if(!user) {
@@ -567,10 +634,11 @@ app.post("/api/posts/:id/like", async (req, res) => {
     }
 })
 
-app.post("/api/posts/:id/unlike", async (req, res) => {
+app.post("/api/posts/:id/unlike", verifyToken, async (req, res) => {
     try {
-        const post = await Post.findById(req.params.id);
-        const { userId } = req.body;
+        const postId = req.params.id;
+        const post = await Post.findById(postId);
+        const userId = req.user.id;
 
         const user = await User.findById(userId);
         if(!user) {
@@ -643,13 +711,13 @@ app.get("/api/search", async (req, res) => {
             author: post.author,
         }))
 
-        const results = [...formatedUsersm , ...formatedPosts]
+        const results = [...formatedUsers , ...formatedPosts]
 
         results.sort((a, b) => {
             if(a.type === "post" && b.type === "user") {
                 return -1;
             }
-            if(a.type === "user" && b.type === "posts") {
+            if(a.type === "user" && b.type === "post") {
                 return 1;
             }
             if(a.type === "post" && b.type === "post") {
