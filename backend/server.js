@@ -97,11 +97,10 @@ const postSchema = new Schema({
         default: Date.now
     },
 
-    likes: [{
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        default: []
-    }],
+    likes: {
+        type: Number,
+        default: 0,
+    },
 
     author: {
         type: Schema.Types.ObjectId,
@@ -327,7 +326,7 @@ app.delete("/api/users/:id", verifyToken, async (req, res) => {
     }
 })
 
-app.get("/api/users/:id/follow", verifyToken, async (req, res) => {
+app.post("/api/users/:id/follow", verifyToken, async (req, res) => {
     try {
         const targetId = req.params.id;
 
@@ -368,7 +367,7 @@ app.get("/api/users/:id/follow", verifyToken, async (req, res) => {
     }
 })
 
-app.get("/api/users/:id/unfollow", verifyToken, async (req, res) => {
+app.post("/api/users/:id/unfollow", verifyToken, async (req, res) => {
     try {
         const targetId = req.params.id;
 
@@ -512,40 +511,22 @@ app.get("/api/posts/:id", async (req, res) => {
     }
 })
 
-app.delete("/api/posts/:id", async (req, res) => {
+app.delete("/api/posts/:id", verifyToken, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
+        if (!post) return res.status(404).json({ error: "Пост не найден" });
+
+        if (post.author.toString() !== req.user.id) {
+            return res.status(403).json({ error: "Не твой пост" });
+        }
 
         await Post.findByIdAndDelete(req.params.id);
-        if(!post) {
-            return res.status(404).json({
-                error: "Пост не найден",
-            })
-        }
 
-        if( req.params.id !== post.author.toString()) {
-            res.status(403).json({
-                error: "Нельзя удалить чужой пост",
-            })
-        }
-
-        await User.updateOne({
-            _id: post.author,
-        }, {
-            $pull: {
-                posts: post._id,
-            }
-        })
-
-        res.json({
-            message: "Пост удален",
-        })
-    } catch(err) {
-        res.status(500).json({
-            error: "Ошибка сервера",
-        })
+        res.json({ success: true });
+    } catch {
+        res.status(500).json({ error: "Ошибка сервера" });
     }
-})
+});
 
 app.get("/api/posts/likes", async (req, res) => {
     try{
@@ -615,14 +596,29 @@ app.post("/api/posts/:id/like", verifyToken, async (req, res) => {
                 error: "Пользователь не найден",
             })
         }
-        if(post.likes.includes(userId)) {
+        if(user.likes.includes(postId)) {
             res.status(400).json({
                 error: "Вы уже лайкали этот пост",
             })
         }
         
-        post.likes.push(userId);
+        post.likes = post.likes + 1;
+        user.likes.push(postId);
+
+        await user.save();
         await post.save();
+
+        user.likes.push({
+            post: {
+                _id: post._id,
+                title: post.title,
+                text: post.text,
+                author: post.author,
+                createdAt: post.createdAt,
+                likes: post.likes,
+                comments: post.comments,
+            }
+        })
 
         res.json({
             message: "Пост лайкнут",
@@ -652,7 +648,10 @@ app.post("/api/posts/:id/unlike", verifyToken, async (req, res) => {
             })
         }
         
-        post.likes.pull(userId);
+        post.likes = Math.max(0, post.likes - 1);
+        user.likes = user.likes.filter((id) => { id.toString !== postId })
+
+        await user.save();
         await post.save();
 
         res.json({
@@ -679,7 +678,7 @@ app.get("/api/search", async (req, res) => {
                 { name: { $regex: q, $options: "i" } },
                 { bio: { $regex: q, $options: "i" } },
             ]
-        }).select("_id name avatar").lean();
+        }).select("_id name avatar posts").lean();
 
         const formatedUsers = users.map((user) => ({
             type: "user",
@@ -687,7 +686,7 @@ app.get("/api/search", async (req, res) => {
             name: user.name,
             bio: user.bio,
             avatar: user.avatar,
-            posts: user.posts.length,
+            posts: user.posts ? user.posts.length : 0,
         }));
 
 
@@ -704,7 +703,7 @@ app.get("/api/search", async (req, res) => {
         const formatedPosts = posts.map((post) => ({
             type: "post",
             _id: post._id,
-            likes: post.likes.length,
+            likes: post.likes,
             title: post.title,
             text: post.text,
             createdAt: post.createdAt,
