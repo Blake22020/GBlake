@@ -83,8 +83,13 @@ const userSchema = new Schema({
             ref: 'Post',
             default: [],
         }
-    ]
-    
+    ],
+
+    role: {
+        type: Number,
+        default: 0,
+        enum: [0, 1, 2, 3]
+    }
 })
 const postSchema = new Schema({
     title: {
@@ -120,6 +125,13 @@ const postSchema = new Schema({
 const User = mongoose.model('User', userSchema);
 const Post = mongoose.model('Post', postSchema);
 
+function isAdmin(req, res, next) {
+    if (req.user.role < 2) {
+        return res.status(403).json({ error: "Доступ запрещён" });
+    }
+    next();
+}
+
 function verifyToken(req, res, next) {
     const token = req.headers.authorization?.split(" ")[1];
 
@@ -154,8 +166,9 @@ app.post("/api/users/register", async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
+        const role = email === "your-email@example.com" ? 3 : 0;
 
-        const newUser = new User({email, password: hashedPassword});
+        const newUser = new User({email, password: hashedPassword, role});
 
         await newUser.save();
 
@@ -172,6 +185,7 @@ app.post("/api/users/register", async (req, res) => {
                 _id: newUser._id,
                 name: newUser.name,
                 avatar: newUser.avatar,
+                role: newUser.role,
             },
         })
     } catch(err) {
@@ -213,6 +227,7 @@ app.post("/api/users/login", async (req, res) => {
                 _id: user._id,
                 name: user.name,
                 avatar: user.avatar,
+                role: user.role,
             },
         })
     } catch(err) {
@@ -237,6 +252,29 @@ app.get("/api/users/:id", async (req, res) => {
         });
     }
 })
+
+app.post("/api/users/:id/promote", verifyToken, isAdmin, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) return res.status(404).json({ error: "Пользователь не найден" });
+
+        const newRole = parseInt(req.body.role);
+        if(newRole === 3) {
+            return res.status(400).json({ error: "Нельзя повышать до создателя" });
+        }
+        if (![0, 1, 2].includes(newRole)) {
+            return res.status(400).json({ error: "Неверная роль" });
+        }
+
+        user.role = newRole;
+        await user.save();
+
+        res.json({ message: "Роль обновлена", role: user.role });
+    } catch (err) {
+        res.status(500).json({ error: "Ошибка сервера" });
+    }
+});
+
 
 app.post("/upload/:userId", uploads.single("filedata") , async (req, res) => {
   try {
@@ -723,8 +761,8 @@ app.get("/api/search", async (req, res) => {
     } catch(err) {
         res.status(500).json({
             error: "Ошибка сервера",
-        })
+        });
     }
 })
 
-app.listen(3000)
+app.listen(3000);
