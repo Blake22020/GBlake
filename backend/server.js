@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const cors = require('cors');
+
 
 require('dotenv').config();
 
@@ -15,11 +17,17 @@ const app = express();
  
 app.use(express.static("public"));
 app.use(express.json());
+app.use(cors());
 
-app.use(express.static(__dirname));
-const uploads = multer({
-    dest: "uploads/",
-})
+const storage = multer.diskStorage({
+    destination: "uploads/",
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname);
+        cb(null, file.fieldname + '-' + Date.now() + ext);
+    }
+});
+
+const uploads = multer({ storage });
 
 mongoose.connect("mongodb://localhost:27017/social", {
     useNewUrlParser: true,
@@ -261,11 +269,10 @@ app.post("/upload/:userId", uploads.single("filedata") , async (req, res) => {
 });
 
 app.put("/api/users/:id", verifyToken, async (req, res) => {
-    if(req.user.id !== req.params.id) {
-        res.status(403).json({
-            error: "Нельзя редактировать чужой профиль",
-        })
+    if (req.user.id !== req.params.id) {
+        return res.status(403).json({ error: "Нельзя редактировать чужой профиль" });
     }
+
     const user = await User.findById(req.params.id);
     if(!user) {
         return res.status(404).json({
@@ -312,7 +319,9 @@ app.delete("/api/users/:id", verifyToken, async (req, res) => {
         )
 
         if(user.avatar && !user.avatar.startsWith("http")) {
-            fs.unlink(path.join(__dirname, user.avatar))
+            fs.unlink(path.join(__dirname, user.avatar), err => {
+                if (err) console.log("Ошибка удаления:", err.message);
+            });
         }
 
         res.json({
@@ -480,11 +489,10 @@ app.post("/api/posts", verifyToken, async (req, res) => {
 app.get("/api/posts/", async (req, res) => {
     try {
         const posts = await Post.find({}).populate("author", "name avatar _id");
-        if(!posts) {
-            return res.status(404).json({
-                error: "Посты не найдены",
-            })
+        if (posts.length === 0) {
+            return res.status(404).json({ error: "Посты не найдены" });
         }
+
 
         res.json(posts)
     } catch(err) {
@@ -530,7 +538,7 @@ app.delete("/api/posts/:id", verifyToken, async (req, res) => {
 
 app.get("/api/posts/likes", async (req, res) => {
     try{
-        const userId = req.body.userId;
+        const { userId } = req.query;
         if(!userId) {
             return res.status(400).json({
                 error: "Не передан id пользователя",
@@ -608,17 +616,7 @@ app.post("/api/posts/:id/like", verifyToken, async (req, res) => {
         await user.save();
         await post.save();
 
-        user.likes.push({
-            post: {
-                _id: post._id,
-                title: post.title,
-                text: post.text,
-                author: post.author,
-                createdAt: post.createdAt,
-                likes: post.likes,
-                comments: post.comments,
-            }
-        })
+
 
         res.json({
             message: "Пост лайкнут",
@@ -642,14 +640,14 @@ app.post("/api/posts/:id/unlike", verifyToken, async (req, res) => {
                 error: "Пользователь не найден",
             })
         }
-        if(!post.likes.includes(userId)) {
+        if(!user.likes.includes(postId)) {
             res.status(400).json({
                 error: "Вы ещё не лайкали этот пост",
             })
         }
         
         post.likes = Math.max(0, post.likes - 1);
-        user.likes = user.likes.filter((id) => { id.toString !== postId })
+        user.likes = user.likes.filter(id => id.toString() !== postId);
 
         await user.save();
         await post.save();
@@ -713,28 +711,13 @@ app.get("/api/search", async (req, res) => {
         const results = [...formatedUsers , ...formatedPosts]
 
         results.sort((a, b) => {
-            if(a.type === "post" && b.type === "user") {
-                return -1;
-            }
-            if(a.type === "user" && b.type === "post") {
-                return 1;
-            }
-            if(a.type === "post" && b.type === "post") {
-                if(a.likes < b.likes) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            }
-            if(a.type === "user" && b.type === "user") {
-                if(a.posts < b.posts) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            }
+            if (a.type === "post" && b.type === "user") return -1;
+            if (a.type === "user" && b.type === "post") return 1;
+            if (a.type === "post") return b.likes - a.likes;
+            if (a.type === "user") return (b.posts || 0) - (a.posts || 0);
             return 0;
-        })
+        });
+
 
         res.json(results)
     } catch(err) {
