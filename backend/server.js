@@ -13,8 +13,6 @@ require('dotenv').config();
 const Schema = mongoose.Schema;
 const app = express();
 
-
- 
 app.use(express.static("public"));
 app.use(express.json());
 app.use(cors());
@@ -259,12 +257,20 @@ app.post("/api/users/:id/promote", verifyToken, isAdmin, async (req, res) => {
         if (!user) return res.status(404).json({ error: "Пользователь не найден" });
 
         const newRole = parseInt(req.body.role);
-        if(newRole === 3) {
-            return res.status(400).json({ error: "Нельзя повышать до создателя" });
-        }
-        if (![0, 1, 2].includes(newRole)) {
-            return res.status(400).json({ error: "Неверная роль" });
-        }
+        
+        if (![0, 1, 2, 3].includes(newRole)) {
+            return res.status(400).json({
+                error: "Неверная роль"
+            });
+        } else if(newRole === 3) {
+            return res.status(400).json({
+                error: "Нельзя повышать до создателя" 
+            });
+        } else if(user.role >= req.user.role || newRole > req.user.role) {
+            return res.status(403).json({
+                error: "Нельзя повышать роль выше своей или чужой",
+            });
+        } 
 
         user.role = newRole;
         await user.save();
