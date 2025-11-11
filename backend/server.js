@@ -152,6 +152,129 @@ function verifyToken(req, res, next) {
     }
 }
 
+function verifyTokenOptional(req, res, next) {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+        req.user = null; // Аноним
+        return next();
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+        next();
+    } catch (err) {
+        req.user = null; // Неверный токен → аноним
+        next();
+    }
+}
+
+app.get("/api/feed", verifyTokenOptional, async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
+        // 🔹 Аноним: последние посты
+        if (!req.user) {
+            const posts = await Post.find({})
+                .populate("author", "name avatar _id")
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(limit)
+                .lean();
+
+            return res.json(posts);
+        }
+
+        // 🔹 Зарегистрированный: умные рекомендации
+        const user = await User.findById(req.user.id).populate("likes");
+        const likedPosts = await Post.find({ _id: { $in: user.likes } }).limit(5);
+        const keywords = [...new Set(
+            likedPosts.flatMap(p => p.title.split(/\W+/).concat(p.text.split(/\W+/)))
+                .filter(word => word.length > 3)
+        )].slice(0, 10);
+
+        let posts = [];
+        if (keywords.length === 0) {
+            posts = await Post.find({})
+                .populate("author", "name avatar _id")
+                .sort({ likes: -1, createdAt: -1 })
+                .skip(skip)
+                .limit(limit)
+                .lean();
+        } else {
+            posts = await Post.find({
+                _id: { $nin: user.likes },
+                $text: { $search: keywords.join(" ") }
+            })
+            .populate("author", "name avatar _id")
+            .sort({ likes: -1, createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .lean();
+        }
+
+        res.json(posts);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Ошибка сервера" });
+    }
+});
+
+app.get("/api/following-posts", verifyToken, async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
+        const user = await User.findById(req.user.id).populate("followings");
+        if (!user) {
+            return res.status(404).json({ error: "Пользователь не найден" });
+        }
+
+        const followingIds = user.followings.map(f => f._id);
+
+        const posts = await Post.find({ author: { $in: followingIds } })
+            .populate("author", "name avatar _id")
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .lean();
+
+        res.json(posts);
+    } catch (err) {
+        res.status(500).json({ error: "Ошибка сервера" });
+    }
+});
+
+app.get("/api/liked-posts", verifyToken, async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
+        const user = await User.findById(req.user.id).populate("likes");
+        if (!user) {
+            return res.status(404).json({ error: "Пользователь не найден" });
+        }
+
+
+        const posts = await Post.find({ _id: { $in: user.likes } })
+            .populate("author", "name avatar _id")
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .lean();
+
+        res.json(posts);
+    } catch (err) {
+        res.status(500).json({ error: "Ошибка сервера" });
+    }
+})
+
+
 app.post("/api/users/register", async (req, res) => {
     try {
         const {email, password} = req.body;
@@ -599,31 +722,6 @@ app.get("/api/posts/likes", async (req, res) => {
         const posts = await Post.find({
             _id: {
                 $in: user.likes,
-            }
-        }).populate("author", "name avatar _id");
-
-        res.json(posts)
-    } catch(err) {
-        res.status(500).json({
-            error: "Ошибка сервера",
-        })
-    }
-})
-
-app.get("/api/posts/followings", async (req, res) => {
-    try {
-        const userId = req.body.userId;
-        if(!userId) {
-            return res.status(400).json({
-                error: "Не передан id пользователя",
-            })
-        }
-
-        const user = await User.findById(userId);
-
-        const posts = await Post.find({
-            author: {
-                $in: user.followings,
             }
         }).populate("author", "name avatar _id");
 
