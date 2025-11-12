@@ -6,6 +6,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const cors = require('cors');
+const { isPromise } = require('util/types');
 
 
 require('dotenv').config();
@@ -87,6 +88,16 @@ const userSchema = new Schema({
         type: Number,
         default: 0,
         enum: [0, 1, 2, 3]
+    },
+
+    isElite: {
+        type: Boolean,
+        default: false,
+    },
+
+    EliteExpiresAt: {
+        type: Date,
+        default: null,
     }
 })
 const postSchema = new Schema({
@@ -123,14 +134,14 @@ const postSchema = new Schema({
 const User = mongoose.model('User', userSchema);
 const Post = mongoose.model('Post', postSchema);
 
-function isAdmin(req, res, next) {
+async function isAdmin(req, res, next) {
     if (req.user.role < 2) {
         return res.status(403).json({ error: "Доступ запрещён" });
     }
     next();
 }
 
-function verifyToken(req, res, next) {
+async function verifyToken(req, res, next) {
     const token = req.headers.authorization?.split(" ")[1];
 
     if(!token) {
@@ -142,7 +153,22 @@ function verifyToken(req, res, next) {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        req.user = decoded;
+        const user = await User.findById(decoded.id);
+        
+        if (!user) {
+            res.status(404).json({
+                error: "Пользователь не найден",
+            })
+        }
+
+        const now = new Date();
+        if(user.isElite && user.EliteExpiresAt && user.EliteExpiresAt <= now) {
+            user.isElite = false;
+            user.EliteExpiresAt = null;
+            await user.save();
+        }
+
+        req.user = user;
 
         next();
     } catch (err) {
@@ -152,17 +178,34 @@ function verifyToken(req, res, next) {
     }
 }
 
-function verifyTokenOptional(req, res, next) {
+async function verifyTokenOptional(req, res, next) {
     const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
-        req.user = null; // Аноним
+        req.user = null;
         return next();
     }
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
+
+        const user = await User.findById(decoded.id);
+        
+        if (!user) {
+            res.status(404).json({
+                error: "Пользователь не найден",
+            })
+        }
+
+        const now = new Date();
+        if(user.isElite && user.EliteExpiresAt && user.EliteExpiresAt <= now) {
+            user.isElite = false;
+            user.EliteExpiresAt = null;
+            await user.save();
+        }
+
+        req.user = user;
+
         next();
     } catch (err) {
         req.user = null; // Неверный токен → аноним
@@ -868,5 +911,100 @@ app.get("/api/search", async (req, res) => {
         });
     }
 })
+
+app.post("/api/users/elite/subscribe/month", verifyToken, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        if(!user) {
+            res.status(404).json({
+                error: "Пользователь не найден",
+            })
+        }
+
+        const month = 30 * 24 * 60 * 60 * 1000;
+        const now = new Date();
+
+        const currentExpire = user.EliteExpiresAt ? new Date(user.EliteExpiresAt) : now;
+
+        const newExpire = currentExpire > now ? new Date(currentExpire.getTime() + month) : new Date(now.getTime() + month);
+
+        user.isElite = true;
+        user.EliteExpiresAt = newExpire;
+
+
+        await user.save();
+
+        res.json({
+            message: "Подписка Elite успешно продлена!",
+            isElite: true,
+            EliteExpiresAt: user.EliteExpiresAt,
+            remainingDays: Math.ceil((user.EliteExpiresAt - new Date()) / (1000 * 60 * 60 * 24)),
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Ошибка сервера при продлении подписки" });
+    }
+})
+
+app.post("/api/users/elite/subscribe/year", verifyToken, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        if(!user) {
+            res.status(404).json({
+                error: "Пользователь не найден",
+            })
+        }
+
+        const year = 12 * 30 * 24 * 60 * 60 * 1000;
+        const now = new Date();
+
+        const currentExpire = user.EliteExpiresAt ? new Date(user.EliteExpiresAt) : now;
+
+        const newExpire = currentExpire > now ? new Date(currentExpire.getTime() + year) : new Date(now.getTime() + year);
+
+        user.isElite = true;
+        user.EliteExpiresAt = newExpire;
+
+
+        await user.save();
+
+        res.json({
+            message: "Подписка Elite успешно продлена!",
+            isElite: true,
+            EliteExpiresAt: user.EliteExpiresAt,
+            remainingDays: Math.ceil((user.EliteExpiresAt - new Date()) / (1000 * 60 * 60 * 24)),
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Ошибка сервера при продлении подписки" });
+    }
+})
+
+app.get("/api/users/elite/status", verifyToken, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ error: "Пользователь не найден" });
+        }
+
+        const now = new Date();
+        const isActive = user.isElite && user.EliteExpiresAt && user.EliteExpiresAt > now;
+
+        if (user.isElite && user.EliteExpiresAt && user.EliteExpiresAt <= now) {
+            user.isElite = false;
+            user.EliteExpiresAt = null;
+            await user.save();
+        }
+
+        res.json({
+            isElite: isActive,
+            EliteExpiresAt: isActive ? user.EliteExpiresAt : null,
+            remainingDays: isActive ? Math.ceil((user.EliteExpiresAt - now) / (1000 * 60 * 60 * 24)) : 0,
+        });
+    } catch (err) {
+        res.status(500).json({ error: "Ошибка при проверке статуса подписки" });
+    }
+});
+
 
 app.listen(3000);
