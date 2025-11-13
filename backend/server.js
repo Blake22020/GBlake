@@ -87,7 +87,7 @@ const userSchema = new Schema({
     role: {
         type: Number,
         default: 0,
-        enum: [0, 1, 2, 3]
+        enum: [-1, 0, 1, 2, 3]
     },
 
     isElite: {
@@ -424,24 +424,57 @@ app.post("/api/users/:id/promote", verifyToken, isAdmin, async (req, res) => {
 
         const newRole = parseInt(req.body.role);
         
-        if (![0, 1, 2, 3].includes(newRole)) {
+        if (![-1, 0, 1, 2, 3].includes(newRole)) {
             return res.status(400).json({
                 error: "Неверная роль"
             });
-        } else if(newRole === 3) {
-            return res.status(400).json({
-                error: "Нельзя повышать до создателя" 
-            });
-        } else if(user.role >= req.user.role || newRole > req.user.role) {
+        }
+
+        if (targetUser.role >= req.user.role || (newRole !== -1 && newRole > req.user.role)) {
             return res.status(403).json({
                 error: "Нельзя повышать роль выше своей или чужой",
             });
-        } 
+        }
 
-        user.role = newRole;
-        await user.save();
+        
+        if(newRole === -1) {
+            await Post.deleteMany({ author: targetUser._id });
 
-        res.json({ message: "Роль обновлена", role: user.role });
+            await User.updateMany(
+                { followings: targetUser._id },
+                { $pull: { followings: targetUser._id } }
+            );
+
+            await User.updateMany(
+                { followers: targetUser._id },
+                { $pull: { followers: targetUser._id } }
+            );
+
+            if (targetUser.avatar && !targetUser.avatar.startsWith("http")) {
+                const avatarPath = path.join(__dirname, targetUser.avatar);
+                fs.unlink(avatarPath, (err) => {
+                    if (err) console.log("Ошибка удаления аватара:", err.message);
+                });
+            }
+
+            await User.findByIdAndDelete(targetUser._id);
+
+            return res.json({ message: "Пользователь забанен и удалён" });
+        }
+
+        if (![0, 1, 2, 3].includes(newRole)) {
+            return res.status(400).json({ error: "Неверная роль" });
+        }
+
+        if (newRole === 3) {
+            return res.status(400).json({ error: "Нельзя повышать до создателя" });
+        }
+
+        targetUser.role = newRole;
+        await targetUser.save();
+
+        res.json({ message: "Роль обновлена", role: targetUser.role });
+
     } catch (err) {
         res.status(500).json({ error: "Ошибка сервера" });
     }
