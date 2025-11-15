@@ -330,7 +330,7 @@ app.post("/api/users/register", async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const role = email === "your-email@example.com" ? 3 : 0;
+        const role = email === process.env.CREATOR ? 3 : 0;
 
         const newUser = new User({email, password: hashedPassword, role});
 
