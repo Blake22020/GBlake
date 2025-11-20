@@ -8,6 +8,7 @@ export interface IUser extends Document {
     followings: Schema.Types.ObjectId[];
     followers: Schema.Types.ObjectId[];
     avatar: string;
+    role: Number;
 }
 
 const UserSchema = new Schema<IUser>({
@@ -45,6 +46,12 @@ const UserSchema = new Schema<IUser>({
     avatar: {
         type: String,
         default: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+    },
+    role: {
+        type: Number,
+        default: 0,
+        extends: [-1, 0, 1, 2, 3],
+        required: true,
     }
 })
 
