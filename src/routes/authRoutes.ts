@@ -1,0 +1,52 @@
+import { Router, Request, Response } from 'express';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { body, validationResult } from 'express-validator'
+import User from '../models/User'
+import { env } from '../config/env'
+
+const router = Router();
+
+router.post('/api/register',
+    [
+        body('email').isEmail(),
+        body('password').isLength({ min: 6 }),
+        body('username').optional().isLength({ min: 1 , max: 20 }),
+        body('visualName').optional().isLength({ min: 1 , max: 20 })
+    ],
+    async (req :Request, res :Response) => {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const { email, password, username, visualName } = req.body;
+
+        const existingEmail = await User.findOne({ email });
+        if (existingEmail) {
+            return res.status(409).json( { message: 'Email already exist' } );
+        }
+
+        const existingUsername = await User.findOne( {email} );
+        if(existingUsername) {
+            return res.status(409).json( { message: 'Username already exist' } );
+        }
+
+        const hashed = await bcrypt.hash(password, 10);
+
+        const user = await User.create({
+            email,
+            password: hashed,
+            username,
+            visualName,
+        })
+
+        const token = jwt.sign(
+            { id: user._id, role: user.role },
+            env.jwtSecret,
+            { expiresIn: "365d" }
+        )
+
+        res.json( { user, token } )
+    }
+)
