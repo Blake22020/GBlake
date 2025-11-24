@@ -9,7 +9,7 @@ export interface IUser extends Document {
     followings: Schema.Types.ObjectId[];
     followers: Schema.Types.ObjectId[];
     avatar: string;
-    role: Number;
+    role: number;
 }
 
 const UserSchema = new Schema<IUser>({
