@@ -58,7 +58,7 @@ const UserSchema = new Schema<IUser>({
     role: {
         type: Number,
         default: 0,
-        extends: [-1, 0, 1, 2, 3],
+        enum: [-1, 0, 1, 2, 3],
         required: true,
     }
 })

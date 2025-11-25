@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 import { body, validationResult } from 'express-validator'
 import User from '../models/User'
 import { env } from '../config/env'
-import UserSchema from "../models/User";
 
 const router = Router();
 
@@ -28,7 +27,7 @@ router.post('/api/register',
             return res.status(409).json( { message: 'Email already exist' } );
         }
 
-        const existingUsername = await User.findOne( {email} );
+        const existingUsername = await User.findOne( {username} );
         if(existingUsername) {
             return res.status(409).json( { message: 'Username already exist' } );
         }
@@ -60,7 +59,7 @@ router.post('/api/login',
     async (req :Request, res :Response) => {
         const errors = validationResult(req);
         if(!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(400).json({ message: 'Invalid credentials' });
         }
 
         const { email, password } = req.body;
