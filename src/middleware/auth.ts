@@ -32,7 +32,7 @@ export async function optionalAuth(req: Request, res: Response, next: NextFuncti
     try {
         const header = req.headers.authorization;
         if (!header || !header.startsWith("Bearer ")) {
-            req.user = undefined;
+            req.user = null;
             return next();
         }
 
@@ -46,11 +46,25 @@ export async function optionalAuth(req: Request, res: Response, next: NextFuncti
         req.user = user ? {
             id: user._id.toString(),
             role: user.role
-        } : undefined;
+        } : null;
 
         next();
     } catch {
-        req.user = undefined;
+        req.user = null;
+        next();
+    }
+}
+
+export function role(minRole: number) {
+    return (req: Request, res: Response, next: NextFunction) => {
+        if(!req.user) {
+            return res.status(401).json({ ok: false, message: "User not found" });
+        }
+
+        if(req.user.role < minRole) {
+            return res.status(401).json({ ok: false, message: "Forbidden" });
+        }
+
         next();
     }
 }
