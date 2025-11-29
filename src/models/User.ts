@@ -61,6 +61,12 @@ const UserSchema = new Schema<IUser>({
         enum: [-1, 0, 1, 2, 3],
         required: true,
     }
-})
+}, { timestamps: true });
+
+UserSchema.methods.toJSON = function () {
+    const obj = this.toObject();
+    delete obj.password;
+    return obj
+}
 
 export default mongoose.model<IUser>("User", UserSchema);
