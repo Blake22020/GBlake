@@ -23,6 +23,7 @@ router.get("/api/users/:id", async (req :Request, res:Response) => {
     }
 })
 
+
 router.patch("/api/user/me", auth, async (req :Request, res :Response) => {
     try {
         const { visualName, bio, username } = req.body;
@@ -47,6 +48,47 @@ router.patch("/api/user/me", auth, async (req :Request, res :Response) => {
         res.status(500).json({ message: "Server Error" });
     }
 })
+
+router.post("/api/users/:id/follow", auth, async (req :Request, res :Response) => {
+    try {
+        const meId = req.user!.id;
+        const targetId = req.params.id;
+
+        if(meId  === targetId) {
+            return res.status(404).send("Cannot follow yourself");
+        }
+
+        const me = await User.findById(meId);
+
+        const target = await User.findById(targetId);
+        if(!target) return res.status(404).send("User Not Found");
+
+        const already = me!.followings.includes(targetId as any);
+        if(!already) {
+            me!.followings = me!.followings.filter( id => id.toString() !== targetId);
+            target.followers = target.followers.filter(id => id.toString() !== meId);
+
+            await me!.save();
+            await target.save();
+
+            return res.json({
+                following: false,
+            })
+        } else {
+            me!.followings.push(targetId as any);
+            target.followers.push(meId as any);
+
+            await me!.save();
+            await target.save();
+
+            return res.json({
+                followings: false,
+            })
+        }
+    } catch {
+        res.status(500).json({ message: "Server Error" });
+    }
+});
 
 function formatUser(u: any) {
     return {
