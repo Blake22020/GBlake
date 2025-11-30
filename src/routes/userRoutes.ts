@@ -23,6 +23,31 @@ router.get("/api/users/:id", async (req :Request, res:Response) => {
     }
 })
 
+router.patch("/api/user/me", auth, async (req :Request, res :Response) => {
+    try {
+        const { visualName, bio, username } = req.body;
+
+        const user = await User.findById(req.user!.id);
+        if(!user) return res.status(404).send("User Not Found");
+
+        if(username && username !== user.username)  {
+            const exist = await User.findOne({ username })
+            if (exist) {
+                res.status(409).send("Username already used");
+            }
+        }
+
+        if (visualName) user.visualName = visualName;
+        if(bio) user.bio = bio;
+
+        await user.save();
+
+        res.json(formatUser(user));
+    } catch {
+        res.status(500).json({ message: "Server Error" });
+    }
+})
+
 function formatUser(u: any) {
     return {
         id: u._id,
