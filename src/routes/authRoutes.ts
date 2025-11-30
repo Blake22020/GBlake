@@ -79,7 +79,6 @@ router.post('/api/login',
             env.jwtSecret,
             { expiresIn: "365d" }
         )
-
-        res.json( { user, token } )
+        res.json( { user , token } )
     }
 )
