@@ -96,6 +96,25 @@ router.get("/api/users/:id/followers", async (req :Request, res :Response) => {
     res.json(user.followers)
 })
 
+router.get("/api/users/:id/followings", async (req :Request, res :Response) => {
+    const user = await User.findById(req.params.id).populate("followings", "username visualName avatar")
+    if(!user) return res.status(404).send("User Not Found");
+    res.json(user.followings)
+})
+
+router.post("/api/users/me/avatar", auth, upload.single("file"), async (req :Request, res :Response) => {
+    const user = await User.findById(req.user!.id);
+    if (!user) {
+        res.status(404).json({ message: "User Not Found" });
+    }
+
+    if (!req.file) return res.status(499).json( {message: "No file uploaded"});
+    user.avatar = "/uploads/" + req.file.filename;
+    await user.save();
+
+    res.json({ avatar: user.avatar })
+})
+
 function formatUser(u: any) {
     return {
         id: u._id,
