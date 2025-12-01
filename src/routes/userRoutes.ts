@@ -90,6 +90,12 @@ router.post("/api/users/:id/follow", auth, async (req :Request, res :Response) =
     }
 });
 
+router.get("/api/users/:id/followers", async (req :Request, res :Response) => {
+    const user = await User.findById(req.params.id).populate("followers", "username visualName avatar")
+    if(!user) return res.status(404).send("User Not Found");
+    res.json(user.followers)
+})
+
 function formatUser(u: any) {
     return {
         id: u._id,
