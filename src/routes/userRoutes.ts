@@ -105,7 +105,7 @@ router.get("/api/users/:id/followings", async (req :Request, res :Response) => {
 router.post("/api/users/me/avatar", auth, upload.single("file"), async (req :Request, res :Response) => {
     const user = await User.findById(req.user!.id);
     if (!user) {
-        res.status(404).json({ message: "User Not Found" });
+        return res.status(404).json({ message: "User Not Found" });
     }
 
     if (!req.file) return res.status(499).json( {message: "No file uploaded"});
