@@ -115,6 +115,17 @@ router.post("/api/users/me/avatar", auth, upload.single("file"), async (req :Req
     res.json({ avatar: user.avatar })
 })
 
+router.get("/api/search/users", async (req :Request, res :Response) => {
+    const q = req.query.q as string;
+    if (!q) return res.json([]);
+
+    const users = await User.find({
+        username: new RegExp(q, "i"),
+    }).select("username visualName avatar");
+
+    res.json(users)
+})
+
 function formatUser(u: any) {
     return {
         id: u._id,
