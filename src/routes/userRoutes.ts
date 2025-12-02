@@ -136,3 +136,5 @@ function formatUser(u: any) {
         followings: u.followings.length
     }
 }
+
+export default router;

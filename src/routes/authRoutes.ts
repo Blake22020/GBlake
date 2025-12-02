@@ -7,7 +7,7 @@ import { env } from '../config/env'
 
 const router = Router();
 
-router.post('/api/register',
+router.post('/register',
     [
         body('email').isEmail(),
         body('password').isLength({ min: 6 }),
@@ -51,7 +51,7 @@ router.post('/api/register',
     }
 )
 
-router.post('/api/login',
+router.post('/login',
     [
         body('email').isEmail(),
         body('password').exists()
@@ -82,3 +82,5 @@ router.post('/api/login',
         res.json( { user , token } )
     }
 )
+
+export default router;

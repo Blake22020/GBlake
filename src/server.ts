@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import userRoutes from './routes/userRoutes';
+import authRoutes from './routes/authRoutes';
 import { env } from './config/env';
 import { connectDB } from './config/db'
 
@@ -11,6 +13,9 @@ app.use(cors());
 app.get('/', async (_req, res) => {
     res.send('GET /');
 });
+
+app.use("/api", userRoutes);
+app.use("/api", authRoutes);
 
 const PORT = env.port || 3000;
 
