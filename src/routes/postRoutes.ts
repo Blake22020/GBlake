@@ -1,7 +1,6 @@
 import { Router, Request, Response } from "express";
 import User from "../models/User";
 import { auth } from "../middleware/auth";
-import multer from "multer";
 import Post from "../models/Post";
 
 
