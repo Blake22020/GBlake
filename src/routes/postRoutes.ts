@@ -62,3 +62,39 @@ router.get("/api/posts/:id", async (req: Request, res: Response) => {
         })
     }
 })
+
+router.delete("/api/posts/:id", auth, async (req: Request, res: Response) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post) {
+            return res.status(404).json({
+                error: "Пост не найден",
+            })
+        }
+
+
+        if (req.user!.id !== post.author.id.toString() && req.user!.id !== post.author._id.toString()) {
+            return res.status(400).json({
+                error: "Нельзя удалить чужой код"
+            })
+        }
+
+        await User.updateOne({
+                _id: post.author
+            },
+            {
+                $pull: {
+                    posts: post._id,
+                }
+            }
+        )
+
+        res.json({
+            message: "Пост удален"
+        })
+    } catch(err) {
+        res.status(500).json({
+            error: "Ошибка сервера"
+        })
+    }
+})
