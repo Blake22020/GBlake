@@ -45,7 +45,7 @@ router.post("/", auth, async (req: Request, res: Response) => {
     }
 })
 
-router.get("/api/posts/:id", async (req: Request, res: Response) => {
+router.get("/:id", async (req: Request, res: Response) => {
     try {
         const post = await Post.findById(req.params.id).populate("author", "name avatar _id");
         if (!post) {
@@ -62,7 +62,7 @@ router.get("/api/posts/:id", async (req: Request, res: Response) => {
     }
 })
 
-router.delete("/api/posts/:id", auth, async (req: Request, res: Response) => {
+router.delete("/:id", auth, async (req: Request, res: Response) => {
     try {
         const post = await Post.findById(req.params.id);
         if (!post) {
