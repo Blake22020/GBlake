@@ -11,6 +11,7 @@ export interface IUser extends Document {
     avatar: string;
     role: number;
     posts: Types.ObjectId[];
+    likes: Types.ObjectId[];
 }
 
 const UserSchema = new Schema<IUser>({
@@ -66,7 +67,14 @@ const UserSchema = new Schema<IUser>({
         type: Types.ObjectId,
         ref: 'Post',
         default: []
-    }]
+    }],
+    likes: [
+        {
+            type: Types.ObjectId,
+            ref: 'Post',
+            default: []
+        }
+    ]
 }, { timestamps: true });
 
 UserSchema.methods.toJSON = function () {

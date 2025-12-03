@@ -97,3 +97,27 @@ router.delete("/:id", auth, async (req: Request, res: Response) => {
         })
     }
 })
+
+
+router.get("/likes/:id", async(req: Request, res: Response) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if(!user) {
+            return res.status(404).json({
+                error: "Не удалось найти пользователя"
+            })
+        }
+
+        const posts = await Post.find({
+            _id: {
+                $in: user.likes,
+            }
+        }).populate("author", "name avatar _id");
+
+        res.json(posts)
+    } catch(err) {
+        res.status(500).json({
+            error: "Ошибка севера",
+        })
+    }
+})
