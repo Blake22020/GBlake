@@ -181,3 +181,6 @@ router.get("/followings", async (req: Request, res: Response) => {
         })
     }
 })
+
+// TODO: add post "/:id/like
+// TODO: add post "/:id/unlike"
