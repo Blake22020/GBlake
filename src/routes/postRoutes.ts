@@ -121,3 +121,24 @@ router.get("/likes/:id", async(req: Request, res: Response) => {
         })
     }
 })
+
+router.get("/followings", async (req: Request, res: Response) => {
+    try {
+        const userId = req.body.userId;
+        if(!userId) {
+            return res.status(400).json({
+                error: "Не передан id пользователя"
+            })
+        }
+
+        const user = await User.findById(userId);
+
+        const posts = Post.find({
+            author: {
+                $in: user.followings,
+            }
+        }).populate("author", "name avatar _id");
+
+        res.json(posts);
+    }
+})
