@@ -1,4 +1,4 @@
-import mongoose, {Schema, Document} from "mongoose";
+import mongoose, {Schema, Types, Document} from "mongoose";
 
 export interface IUser extends Document {
     username: string;
@@ -6,10 +6,12 @@ export interface IUser extends Document {
     bio: string;
     email: string;
     password: string;
-    followings: Schema.Types.ObjectId[];
-    followers: Schema.Types.ObjectId[];
+    followings: Types.ObjectId[];
+    followers: Types.ObjectId[];
     avatar: string;
     role: number;
+    posts: Types.ObjectId[];
+    likes: Types.ObjectId[];
 }
 
 const UserSchema = new Schema<IUser>({
@@ -42,12 +44,12 @@ const UserSchema = new Schema<IUser>({
         required: true,
     },
     followings: [{
-        type: Schema.Types.ObjectId,
+        type: Types.ObjectId,
         ref: 'User',
         default: []
     }],
     followers: [{
-        type: Schema.Types.ObjectId,
+        type: Types.ObjectId,
         ref: 'User',
         default: []
     }],
@@ -60,7 +62,19 @@ const UserSchema = new Schema<IUser>({
         default: 0,
         enum: [-1, 0, 1, 2, 3],
         required: true,
-    }
+    },
+    posts: [{
+        type: Types.ObjectId,
+        ref: 'Post',
+        default: []
+    }],
+    likes: [
+        {
+            type: Types.ObjectId,
+            ref: 'Post',
+            default: []
+        }
+    ]
 }, { timestamps: true });
 
 UserSchema.methods.toJSON = function () {
