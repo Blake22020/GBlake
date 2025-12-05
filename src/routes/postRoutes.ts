@@ -182,5 +182,38 @@ router.get("/followings", async (req: Request, res: Response) => {
     }
 })
 
-// TODO: add post "/:id/like
-// TODO: add post "/:id/unlike"
+router.post("/:id/like", auth, async (req: Request, res: Response) => {
+    try {
+        const postId = req.params.id;
+        const post = await Post.findById(postId);
+        if(!post) {
+            return res.status(404).json({
+                error: "Пост не найден"
+            })
+        }
+        const userId = req.user!.id;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                error: "Пользователь не найден"
+            })
+        }
+        if(user.likes.includes(post._id)) {
+            post.likes = post.likes - 1;
+            user.likes.filter((id) => !id.equals(post._id));
+        } else {
+            post.likes = post.likes + 1;
+            user.likes.push(post._id)
+        }
+
+        await post.save()
+        await user.save();
+
+        res.json({ likes: post.likes })
+    } catch(err) {
+        res.status(500).json({
+            error: "Ошибка сервера"
+        })
+    }
+})
