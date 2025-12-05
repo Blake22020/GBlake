@@ -33,12 +33,14 @@ router.post('/register',
         }
 
         const hashed = await bcrypt.hash(password, 10);
+        const role = existingEmail === env.creator ? 3 : 0;
 
         const user = await User.create({
             email,
             password: hashed,
             username,
             visualName,
+            role,
         })
 
         const token = jwt.sign(

@@ -55,16 +55,9 @@ export async function optionalAuth(req: Request, res: Response, next: NextFuncti
     }
 }
 
-export function role(minRole: number) {
-    return (req: Request, res: Response, next: NextFunction) => {
-        if(!req.user) {
-            return res.status(401).json({ ok: false, message: "User not found" });
-        }
-
-        if(req.user.role < minRole) {
-            return res.status(401).json({ ok: false, message: "Forbidden" });
-        }
-
-        next();
+export async function isAdmin(req: Request, res: Response, next: NextFunction) {
+    if (req.user!.role < 2) {
+        return res.status(403).json({ ok: false, message: "Доступ запрещён" });
     }
+    next();
 }

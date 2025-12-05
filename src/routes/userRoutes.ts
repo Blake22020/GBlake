@@ -2,6 +2,8 @@ import { Router, Request, Response } from "express";
 import User from "../models/User";
 import { auth } from "../middleware/auth";
 import multer from "multer";
+import path from "path";
+import fs from "fs";
 
 const router = Router();
 
@@ -103,16 +105,33 @@ router.get("/:id/followings", async (req :Request, res :Response) => {
 })
 
 router.post("/me/avatar", auth, upload.single("file"), async (req :Request, res :Response) => {
-    const user = await User.findById(req.user!.id);
-    if (!user) {
-        return res.status(404).json({ message: "User Not Found" });
+    try {
+        const fileData = req.file;
+        if (!fileData) return res.status(400).send("Файл не загружен");
+
+        const user = await User.findById(req.params.userId);
+        if (!user) return res.status(404).send("Пользователь не найден");
+
+        if (user.avatar && !user.avatar.startsWith("http")) {
+            const oldPath = path.join(__dirname, user.avatar);
+            fs.unlink(oldPath, (err) => {
+                if (err) console.log("❌ Не удалось удалить старую аватарку:", err.message);
+            });
+        }
+
+        const newAvatarPath = "/uploads/" + fileData.filename;
+
+        user.avatar = newAvatarPath;
+        await user.save();
+
+        res.json({
+            message: "Аватар обновлён!",
+            avatar: newAvatarPath,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Ошибка сервера" });
     }
-
-    if (!req.file) return res.status(499).json( {message: "No file uploaded"});
-    user.avatar = "/uploads/" + req.file.filename;
-    await user.save();
-
-    res.json({ avatar: user.avatar })
 })
 
 
