@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import userRoutes from './routes/userRoutes';
 import authRoutes from './routes/authRoutes';
+import postRoutes from './routes/postRoutes';
 import { env } from './config/env';
 import { connectDB } from './config/db'
 
@@ -14,8 +15,9 @@ app.get('/', async (_req, res) => {
     res.send('GET /');
 });
 
-app.use("/api", userRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api", authRoutes);
+app.use("/api/posts", postRoutes);
 
 const PORT = env.port || 3000;
 

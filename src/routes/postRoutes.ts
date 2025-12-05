@@ -217,3 +217,5 @@ router.post("/:id/like", auth, async (req: Request, res: Response) => {
         })
     }
 })
+
+export default router;

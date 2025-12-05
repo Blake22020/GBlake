@@ -10,7 +10,7 @@ const upload = multer({
 });
 
 
-router.get("/api/users/:id", async (req :Request, res:Response) => {
+router.get("/:id", async (req :Request, res:Response) => {
     try {
         const user = await User.findById(req.params.id).select("-password");
         if (!user) {
@@ -24,7 +24,7 @@ router.get("/api/users/:id", async (req :Request, res:Response) => {
 })
 
 
-router.patch("/api/user/me", auth, async (req :Request, res :Response) => {
+router.patch("/me", auth, async (req :Request, res :Response) => {
     try {
         const { visualName, bio, username } = req.body;
 
@@ -49,7 +49,7 @@ router.patch("/api/user/me", auth, async (req :Request, res :Response) => {
     }
 })
 
-router.post("/api/users/:id/follow", auth, async (req :Request, res :Response) => {
+router.post("/:id/follow", auth, async (req :Request, res :Response) => {
     try {
         const meId = req.user!.id;
         const targetId = req.params.id;
@@ -90,19 +90,19 @@ router.post("/api/users/:id/follow", auth, async (req :Request, res :Response) =
     }
 });
 
-router.get("/api/users/:id/followers", async (req :Request, res :Response) => {
+router.get("/:id/followers", async (req :Request, res :Response) => {
     const user = await User.findById(req.params.id).populate("followers", "username visualName avatar")
     if(!user) return res.status(404).send("User Not Found");
     res.json(user.followers)
 })
 
-router.get("/api/users/:id/followings", async (req :Request, res :Response) => {
+router.get("/:id/followings", async (req :Request, res :Response) => {
     const user = await User.findById(req.params.id).populate("followings", "username visualName avatar")
     if(!user) return res.status(404).send("User Not Found");
     res.json(user.followings)
 })
 
-router.post("/api/users/me/avatar", auth, upload.single("file"), async (req :Request, res :Response) => {
+router.post("/me/avatar", auth, upload.single("file"), async (req :Request, res :Response) => {
     const user = await User.findById(req.user!.id);
     if (!user) {
         return res.status(404).json({ message: "User Not Found" });
@@ -115,16 +115,7 @@ router.post("/api/users/me/avatar", auth, upload.single("file"), async (req :Req
     res.json({ avatar: user.avatar })
 })
 
-router.get("/api/search/users", async (req :Request, res :Response) => {
-    const q = req.query.q as string;
-    if (!q) return res.json([]);
 
-    const users = await User.find({
-        username: new RegExp(q, "i"),
-    }).select("username visualName avatar");
-
-    res.json(users)
-})
 
 function formatUser(u: any) {
     return {
