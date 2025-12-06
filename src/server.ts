@@ -6,6 +6,7 @@ import authRoutes from './routes/authRoutes';
 import postRoutes from './routes/postRoutes';
 import feedRoutes from './routes/feedRoutes';
 import adminRoutes from './routes/adminRoutes';
+import searchRoutes from './routes/searchRoutes';
 
 import { env } from './config/env';
 import { connectDB } from './config/db'
@@ -24,6 +25,7 @@ app.use("/api", authRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/feed", feedRoutes);
 app.use("/api/users/", adminRoutes)
+app.use("/api/search", searchRoutes)
 
 const PORT = env.port || 3000;
 
