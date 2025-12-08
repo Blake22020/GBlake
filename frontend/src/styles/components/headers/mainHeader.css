@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap');
+
+header {
+    width: 100dvw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.25);
+    background: #0B0C10;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    align-items: center;
+}
+
