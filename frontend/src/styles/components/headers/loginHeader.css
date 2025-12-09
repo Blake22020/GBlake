@@ -68,16 +68,15 @@ header .search-icon {
     -webkit-text-fill-color: white !important;
 }
 
-header .loginButton {
-    background: #6E5BFF;
-    border: none;
-    padding: 5px 35px;
-    color: white;
-    font-size: 1.5rem;
-    border-radius: 35px;
+header a {
+    width: 32px;
+    height: 32px;
     cursor: pointer;
+}
 
-    &:hover {
-        background: #8A7EF5;
-    }
+header a img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 50%;
 }
