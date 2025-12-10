@@ -15,6 +15,7 @@ header {
     color: white;
     align-items: center;
     padding: 0 30px;
+    z-index: 99;
 }
 
 header h1{
@@ -82,89 +83,6 @@ header .loginButton {
     }
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap');
-
-header {
-    font-family: "Montserrat", sans-serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.25);
-    background: #0B0C10;
-    display: flex;
-    justify-content: space-between;
-    color: white;
-    align-items: center;
-    padding: 0 30px;
-}
-
-header h1{
-    font-size: 2rem;
-}
-
-header .search-bar {
-    display: flex;
-    height: fit-content;
-    gap: 4px;
-    background: rgba(255, 255, 255, 0.2);
-    padding: 1px 5px;
-    border-radius: 25px;
-}
-
-header .search-bar input {
-    height: fit-content;
-    background: none;
-    color: white;
-    font-size: 1rem;
-}
-
-header .search-icon {
-    fill: white;
-}
-
-.search-input {
-    background: none;
-    border: none;
-    outline: none;
-    color: white;
-    font-size: 14px;
-    padding: 4px 8px;
-    width: 400px;
-}
-
-.search-input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.search-input:focus {
-    outline: none;
-    box-shadow: none;
-}
-
-.search-input:-webkit-autofill,
-.search-input:-webkit-autofill:hover,
-.search-input:-webkit-autofill:focus,
-.search-input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 1000px #0B0C10 inset !important;
-    -webkit-text-fill-color: white !important;
-}
-
-header .loginButton {
-    background: #6E5BFF;
-    border: none;
-    padding: 5px 35px;
-    color: white;
-    font-size: 1.2rem;
-    border-radius: 35px;
-    cursor: pointer;
-
-    &:hover {
-        background: #8A7EF5;
-    }
-}
 
 @media (max-width: 900px) {
     header {
