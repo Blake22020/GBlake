@@ -80,3 +80,52 @@ header a img {
     object-fit: cover;
     border-radius: 50%;
 }
+
+@media (max-width: 900px) {
+    header {
+        padding: 0 20px;
+    }
+
+    header h1 {
+        font-size: 1.7rem;
+    }
+
+    header .search-input {
+        width: 250px;
+        font-size: 0.9rem;
+    }
+
+    header .loginButton {
+        padding: 5px 25px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 0 15px;
+        gap: 10px;
+    }
+
+    header h1 {
+        font-size: 1.4rem;
+    }
+
+    header .search-bar {
+        padding: 1px 8px;
+        gap: 6px;
+        border-radius: 20px;
+        display: none;
+    }
+
+    .search-input {
+        width: 160px;
+        font-size: 0.85rem;
+    }
+
+    header .loginButton {
+        padding: 5px 20px;
+        font-size: 0.8rem;
+    }
+}
+

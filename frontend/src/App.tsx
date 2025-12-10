@@ -1,5 +1,6 @@
 import React from 'react';
-import LoginHeader from './components/headers/loginHeader'
+import MainHeader from './components/headers/mainHeader'
+import LoginHeader from "./components/headers/loginHeader";
 
 function App() {
   return (
