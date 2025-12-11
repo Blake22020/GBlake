@@ -3,16 +3,18 @@ import '../../styles/components/headers/loginHeader.css'
 
 type Props = {
     openFunction: () => void;
+    open: boolean
 }
 
-function loginHeader({ openFunction } : Props) {
+
+function loginHeader({ openFunction, open } : Props) {
     return (
         <header>
             <div className='title'>
                 <div className='burger' onClick={() => openFunction()}>
-                    <div className='line'></div>
-                    <div className='line'></div>
-                    <div className='line'></div>
+                    <div className={open ? 'line top open' : 'line top'}></div>
+                    <div className={open ? 'line middle open' : 'line middle'}></div>
+                    <div className={open ? 'line bottom open' : 'line bottom'}></div>
                 </div>
                 <h1>GBlake</h1>
             </div>

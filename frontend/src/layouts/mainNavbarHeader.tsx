@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import LoginHeader from '../components/headers/loginHeader'
-import LoginNavbar from "../components/navbars/loginNavbar";
+import MainNavbar from "../components/navbars/mainNavbar";
+import MainHeader from "../components/headers/mainHeader";
 
 function LoginNavbarHeader() {
     const [navbarOpen, setNavbarOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+
 
     useEffect(() => {
         const checkWidth = () => {
@@ -17,13 +18,12 @@ function LoginNavbarHeader() {
         return () => window.removeEventListener('resize', checkWidth);
     }, []);
 
-
     return (
         <div className='loginNavbarHeader'>
-            <LoginHeader openFunction={() => {
+            <MainHeader openFunction={() => {
                 setNavbarOpen(prev => !prev);
             }} open={navbarOpen}/>
-            <LoginNavbar open={isMobile ? navbarOpen: true}></LoginNavbar>
+            <MainNavbar open={isMobile ? navbarOpen: true}></MainNavbar>
         </div>
     )
 }

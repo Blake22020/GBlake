@@ -1,10 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap');
 
-.mainNavbar {
+.loginNavbar {
     position: fixed;
     z-index: 90;
-    padding: 20px;
-    padding-top: 110px;
+    padding: 110px 20px 20px 20px;
     background: #0B0C10;
     display: flex;
     flex-direction: column;
@@ -14,9 +13,14 @@
     width: 200px;
     border-right: 2px solid rgba(255, 255, 255, 0.25);
     gap: 28px;
+    transform: translateX(-100%);
+    transition: transform 0.5s;
+}
+.loginNavbar.open {
+    transform: translateX(0);
 }
 
-.mainNavbar .createButton {
+.loginNavbar .createButton {
     border: none;
     background: #6E5BFF;
     display: flex;
@@ -47,12 +51,12 @@ svg {
     height: 24px
 }
 
-.mainNavbar h1 {
+.loginNavbar h1 {
     font-size: 1.6rem;
     color: #fff;
 }
 
-.mainNavbar .contacts {
+.loginNavbar .contacts {
     display: flex;
     flex-direction: column;
     gap: 28px;
@@ -64,7 +68,7 @@ svg {
     width: 100%;
 }
 
-.mainNavbar .contacts .contactButton {
+.loginNavbar .contacts .contactButton {
     color: white;
     text-decoration: none;
     text-align: center;
@@ -109,29 +113,33 @@ svg {
     &:hover {
         background: rgba(255, 255, 255, 0.15);
         transform: translateY(-5px);
-    }}
+    }
+}
+
+
+
 
 @media (max-width: 900px) {
-    .mainNavbar {
+    .loginNavbar {
         width: 150px;
     }
 
-    .mainNavbar .createButton {
+    .loginNavbar .createButton {
         font-size: 1rem;
         gap: 6px;
     }
 
-    .mainNavbar .contacts .contactButton {
+    .loginNavbar .contacts .contactButton {
         font-size: 1rem;
     }
 
-    .mainNavbar .buttons button {
+    .loginNavbar .buttons button {
         font-size: 1rem;
     }
 }
 
 @media (max-width: 600px) {
-    .mainNavbar {
+    .loginNavbar {
         padding-top: 90px;
     }
 }

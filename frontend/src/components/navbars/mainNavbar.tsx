@@ -2,9 +2,9 @@ import React from 'react';
 import '../../styles/components/navbars/mainNavbar.css'
 
 
-function mainNavbar() {
+function mainNavbar({ open } : any) {
     return (
-        <div className="mainNavbar">
+        <div className={open ? 'mainNavbar open' : 'mainNavbar'}>
             <button className='createButton'>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_7_6)">

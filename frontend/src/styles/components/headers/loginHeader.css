@@ -22,6 +22,41 @@ header h1{
     font-size: 2rem;
 }
 
+header .title {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+header .title .burger {
+    display: none;
+    flex-direction: column;
+    height: 100%;
+    gap: 5px;
+    cursor: pointer;
+}
+
+header .title .burger .line {
+    background: white;
+    height: 5px;
+    width: 30px;
+    border-radius: 10px;
+    transition: 0.2s ease-in-out;
+}
+
+header .title .burger .line.middle.open {
+    display: none;
+}
+
+header .title .burger .line.bottom.open {
+    transform: translateY(-5px) rotate(45deg);
+
+}
+
+header .title .burger .line.top.open {
+    transform: translateY(5px) rotate(135deg) ;
+}
+
 header .search-bar {
     display: flex;
     height: fit-content;
@@ -127,6 +162,10 @@ header a img {
     header .loginButton {
         padding: 5px 20px;
         font-size: 0.8rem;
+    }
+
+    header .title .burger {
+        display: flex;
     }
 }
 
