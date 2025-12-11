@@ -83,6 +83,34 @@ svg {
 
 }
 
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.buttons button {
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 0;
+    width: 100%;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 1.3rem;
+    border: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateY(-5px);
+    }}
+
 @media (max-width: 900px) {
     .mainNavbar {
         width: 150px;
@@ -90,9 +118,14 @@ svg {
 
     .mainNavbar .createButton {
         font-size: 1rem;
+        gap: 6px;
     }
 
     .mainNavbar .contacts .contactButton {
+        font-size: 1rem;
+    }
+
+    .mainNavbar .buttons button {
         font-size: 1rem;
     }
 }
