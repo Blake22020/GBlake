@@ -105,12 +105,28 @@ header .search-icon {
     -webkit-text-fill-color: white !important;
 }
 
+.mobileIcon {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+
+.mobileIcon svg {
+    cursor: pointer;
+    display: none;
+}
+
+.closeIcon {
+    display: none;
+    cursor: pointer;
+}
+
 header .loginButton {
     background: #6E5BFF;
     border: none;
     padding: 5px 35px;
     color: white;
-    font-size: 1.5rem;
+    font-size: 1rem;
     border-radius: 35px;
     cursor: pointer;
 
@@ -151,10 +167,11 @@ header .loginButton {
     }
 
     header .search-bar {
-        padding: 1px 8px;
-        gap: 6px;
-        border-radius: 20px;
         display: none;
+    }
+
+    header .mobileIcon svg {
+        display: block;
     }
 
     .search-input {

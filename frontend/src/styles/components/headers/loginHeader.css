@@ -117,6 +117,22 @@ header a img {
     border-radius: 50%;
 }
 
+.mobileIcon {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+
+.mobileIcon svg {
+    cursor: pointer;
+    display: none;
+}
+
+.closeIcon {
+    display: none;
+    cursor: pointer;
+}
+
 @media (max-width: 900px) {
     header {
         padding: 0 20px;
@@ -157,6 +173,10 @@ header a img {
     .search-input {
         width: 160px;
         font-size: 0.85rem;
+    }
+
+    header .mobileIcon svg {
+        display: block;
     }
 
     header .loginButton {

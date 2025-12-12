@@ -9,7 +9,7 @@ import MainNavbarHeader from "./layouts/mainNavbarHeader";
 function App() {
   return (
     <div className="App">
-        <MainNavbarHeader></MainNavbarHeader>
+        <LoginNavbarHeader></LoginNavbarHeader>
     </div>
   );
 }
