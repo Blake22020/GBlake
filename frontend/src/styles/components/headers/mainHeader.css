@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap');
 
-header {
+.main-header {
     font-family: "Montserrat", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
@@ -18,17 +18,17 @@ header {
     z-index: 99;
 }
 
-header h1{
+.main-header h1{
     font-size: 2rem;
 }
 
-header .title {
+.main-header .title {
     display: flex;
     gap: 20px;
     align-items: center;
 }
 
-header .title .burger {
+.main-header .title .burger {
     display: none;
     flex-direction: column;
     height: 100%;
@@ -36,7 +36,7 @@ header .title .burger {
     cursor: pointer;
 }
 
-header .title .burger .line {
+.main-header .title .burger .line {
     background: white;
     height: 5px;
     width: 30px;
@@ -44,21 +44,21 @@ header .title .burger .line {
     transition: 0.2s ease-in-out;
 }
 
-header .title .burger .line.middle.open {
+.main-header .title .burger .line.middle.open {
     display: none;
 }
 
-header .title .burger .line.bottom.open {
+.main-header .title .burger .line.bottom.open {
     transform: translateY(-5px) rotate(45deg);
 
 }
 
-header .title .burger .line.top.open {
+.main-header .title .burger .line.top.open {
     transform: translateY(5px) rotate(135deg) ;
 }
 
 
-header .search-bar {
+.main-header .search-bar {
     display: flex;
     height: fit-content;
     gap: 4px;
@@ -67,18 +67,19 @@ header .search-bar {
     border-radius: 25px;
 }
 
-header .search-bar input {
+.main-header .search-bar input {
     height: fit-content;
     background: none;
     color: white;
     font-size: 1rem;
+    width: 100%;
 }
 
-header .search-icon {
+.main-header .search-icon {
     fill: white;
 }
 
-.search-input {
+.main-header .search-input {
     background: none;
     border: none;
     outline: none;
@@ -88,40 +89,40 @@ header .search-icon {
     width: 400px;
 }
 
-.search-input::placeholder {
+.main-header .search-input::placeholder {
     color: rgba(255, 255, 255, 0.5);
 }
 
-.search-input:focus {
+.main-header .search-input:focus {
     outline: none;
     box-shadow: none;
 }
 
-.search-input:-webkit-autofill,
-.search-input:-webkit-autofill:hover,
-.search-input:-webkit-autofill:focus,
-.search-input:-webkit-autofill:active {
+.main-header .search-input:-webkit-autofill,
+.main-header .search-input:-webkit-autofill:hover,
+.main-header .search-input:-webkit-autofill:focus,
+.main-header .search-input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 1000px #0B0C10 inset !important;
     -webkit-text-fill-color: white !important;
 }
 
-.mobileIcon {
+.main-header .mobileIcon {
     display: flex;
     gap: 14px;
     align-items: center;
 }
 
-.mobileIcon svg {
+.main-header .mobileIcon svg {
     cursor: pointer;
     display: none;
 }
 
-.closeIcon {
+.main-header .closeIcon {
     display: none;
     cursor: pointer;
 }
 
-header .loginButton {
+.main-header .loginButton {
     background: #6E5BFF;
     border: none;
     padding: 5px 35px;
@@ -137,54 +138,54 @@ header .loginButton {
 
 
 @media (max-width: 900px) {
-    header {
+    .main-header {
         padding: 0 20px;
     }
 
-    header h1 {
+    .main-header h1 {
         font-size: 1.7rem;
     }
 
-    header .search-input {
+    .main-header .search-input {
         width: 250px;
         font-size: 0.9rem;
     }
 
-    header .loginButton {
+    .main-header .loginButton {
         padding: 5px 25px;
         font-size: 1rem;
     }
 }
 
 @media (max-width: 600px) {
-    header {
+    .main-header {
         padding: 0 15px;
         gap: 10px;
     }
 
-    header h1 {
+    .main-header h1 {
         font-size: 1.4rem;
     }
 
-    header .search-bar {
+    .main-header .search-bar {
         display: none;
     }
 
-    header .mobileIcon svg {
+    .main-header .mobileIcon svg {
         display: block;
     }
 
-    .search-input {
+    .main-header .search-input {
         width: 160px;
         font-size: 0.85rem;
     }
 
-    header .loginButton {
+    .main-header .loginButton {
         padding: 5px 20px;
         font-size: 0.8rem;
     }
 
-    header .title .burger {
+    .main-header .title .burger {
         display: flex;
     }
 }

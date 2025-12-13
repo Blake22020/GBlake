@@ -19,3 +19,5 @@ function Post(post: PostInterface) {
         </article>
     )
 }
+
+export default Post;

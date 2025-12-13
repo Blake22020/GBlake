@@ -9,7 +9,7 @@ type Props = {
 
 function MainHeader({ openFunction, open } : Props,) {
     return (
-        <header>
+        <header className="main-header">
             <div className='title'>
                 <div className='burger' onClick={() => openFunction()}>
                     <div className={open ? 'line top open' : 'line top'}></div>
@@ -24,11 +24,11 @@ function MainHeader({ openFunction, open } : Props,) {
             </div>
             <div className='mobileIcon'>
                 <svg  onClick={() => {
-                    const title = document.querySelector('header .title') as HTMLElement;
-                    const mobileIcon = document.querySelector('header .mobileIcon') as HTMLElement;
-                    const closeIcon = document.querySelector('header .closeIcon') as HTMLElement;
-                    const searchBar = document.querySelector('header .search-bar') as HTMLElement;
-                    const header = document.querySelector('header') as HTMLElement;
+                    const title = document.querySelector('.main-header .title') as HTMLElement;
+                    const mobileIcon = document.querySelector('.main-header .mobileIcon') as HTMLElement;
+                    const closeIcon = document.querySelector('.main-header .closeIcon') as HTMLElement;
+                    const searchBar = document.querySelector('.main-header .search-bar') as HTMLElement;
+                    const header = document.querySelector('.main-header') as HTMLElement;
 
                     searchBar.style.display = 'flex';
                     searchBar.style.width = '95%';
@@ -42,11 +42,11 @@ function MainHeader({ openFunction, open } : Props,) {
                 <button className='loginButton' type='button'>Войти</button>
             </div>
             <svg onClick={() => {
-                const title = document.querySelector('header .title') as HTMLElement;
-                const mobileIcon = document.querySelector('header .mobileIcon') as HTMLElement;
-                const closeIcon = document.querySelector('header .closeIcon') as HTMLElement;
-                const searchBar = document.querySelector('header .search-bar') as HTMLElement;
-                const header = document.querySelector('header') as HTMLElement;
+                const title = document.querySelector('.main-header .title') as HTMLElement;
+                const mobileIcon = document.querySelector('.main-header .mobileIcon') as HTMLElement;
+                const closeIcon = document.querySelector('.main-header .closeIcon') as HTMLElement;
+                const searchBar = document.querySelector('.main-header .search-bar') as HTMLElement;
+                const header = document.querySelector('.main-header') as HTMLElement;
 
                 searchBar.style.display = 'none';
                 title.style.display = 'flex'

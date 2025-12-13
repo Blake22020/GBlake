@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap');
 
-header {
+.login-header {
     font-family: "Montserrat", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
@@ -18,17 +18,17 @@ header {
     z-index: 99;
 }
 
-header h1{
+.login-header h1{
     font-size: 2rem;
 }
 
-header .title {
+.login-header .title {
     display: flex;
     gap: 20px;
     align-items: center;
 }
 
-header .title .burger {
+.login-header .title .burger {
     display: none;
     flex-direction: column;
     height: 100%;
@@ -36,7 +36,7 @@ header .title .burger {
     cursor: pointer;
 }
 
-header .title .burger .line {
+.login-header .title .burger .line {
     background: white;
     height: 5px;
     width: 30px;
@@ -44,20 +44,20 @@ header .title .burger .line {
     transition: 0.2s ease-in-out;
 }
 
-header .title .burger .line.middle.open {
+.login-header .title .burger .line.middle.open {
     display: none;
 }
 
-header .title .burger .line.bottom.open {
+.login-header .title .burger .line.bottom.open {
     transform: translateY(-5px) rotate(45deg);
 
 }
 
-header .title .burger .line.top.open {
+.login-header .title .burger .line.top.open {
     transform: translateY(5px) rotate(135deg) ;
 }
 
-header .search-bar {
+.login-header .search-bar {
     display: flex;
     height: fit-content;
     gap: 4px;
@@ -66,18 +66,19 @@ header .search-bar {
     border-radius: 25px;
 }
 
-header .search-bar input {
+.login-header .search-bar input {
     height: fit-content;
     background: none;
     color: white;
     font-size: 1rem;
+    width: 100%;
 }
 
-header .search-icon {
+.login-header .search-icon {
     fill: white;
 }
 
-.search-input {
+.login-header .search-input {
     background: none;
     border: none;
     outline: none;
@@ -87,104 +88,104 @@ header .search-icon {
     width: 400px;
 }
 
-.search-input::placeholder {
+.login-header .search-input::placeholder {
     color: rgba(255, 255, 255, 0.5);
 }
 
-.search-input:focus {
+.login-header .search-input:focus {
     outline: none;
     box-shadow: none;
 }
 
-.search-input:-webkit-autofill,
-.search-input:-webkit-autofill:hover,
-.search-input:-webkit-autofill:focus,
-.search-input:-webkit-autofill:active {
+.login-header .search-input:-webkit-autofill,
+.login-header .search-input:-webkit-autofill:hover,
+.login-header .search-input:-webkit-autofill:focus,
+.login-header .search-input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 1000px #0B0C10 inset !important;
     -webkit-text-fill-color: white !important;
 }
 
-header a {
+.login-header a {
     width: 32px;
     height: 32px;
     cursor: pointer;
 }
 
-header a img {
+.login-header a img {
     width: 32px;
     height: 32px;
     object-fit: cover;
     border-radius: 50%;
 }
 
-.mobileIcon {
+.login-header .mobileIcon {
     display: flex;
     gap: 14px;
     align-items: center;
 }
 
-.mobileIcon svg {
+.login-header .mobileIcon svg {
     cursor: pointer;
     display: none;
 }
 
-.closeIcon {
+.login-header .closeIcon {
     display: none;
     cursor: pointer;
 }
 
 @media (max-width: 900px) {
-    header {
+    .login-header {
         padding: 0 20px;
     }
 
-    header h1 {
+    .login-headerheader h1 {
         font-size: 1.7rem;
     }
 
-    header .search-input {
+    .login-headerheader .search-input {
         width: 250px;
         font-size: 0.9rem;
     }
 
-    header .loginButton {
+    .login-header header .loginButton {
         padding: 5px 25px;
         font-size: 1rem;
     }
 }
 
 @media (max-width: 600px) {
-    header {
+    .login-header {
         padding: 0 15px;
         gap: 10px;
     }
 
-    header h1 {
+    .login-header  h1 {
         font-size: 1.4rem;
     }
 
-    header .search-bar {
+    .login-header  .search-bar {
         padding: 1px 8px;
         gap: 6px;
         border-radius: 20px;
         display: none;
     }
 
-    .search-input {
+    .login-header .search-input {
         width: 160px;
         font-size: 0.85rem;
     }
 
-    header .mobileIcon svg {
+    .login-header  .mobileIcon svg {
         display: block;
     }
 
-    header .loginButton {
+    .login-header .loginButton {
         padding: 5px 20px;
         font-size: 0.8rem;
     }
 
-    header .title .burger {
+    .login-header .title .burger {
         display: flex;
     }
 }

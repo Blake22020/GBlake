@@ -87,13 +87,13 @@ svg {
 
 }
 
-.buttons {
+.loginNavbar .buttons {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-.buttons button {
+.loginNavbar .buttons button {
     color: white;
     text-decoration: none;
     text-align: center;

@@ -9,7 +9,7 @@ type Props = {
 
 function loginHeader({ openFunction, open } : Props) {
     return (
-        <header>
+        <header className='login-header'>
             <div className='title'>
                 <div className='burger' onClick={() => openFunction()}>
                     <div className={open ? 'line top open' : 'line top'}></div>
@@ -24,14 +24,16 @@ function loginHeader({ openFunction, open } : Props) {
             </div>
             <div className='mobileIcon'>
                 <svg  onClick={() => {
-                    const title = document.querySelector('header .title') as HTMLElement;
-                    const mobileIcon = document.querySelector('header .mobileIcon') as HTMLElement;
-                    const closeIcon = document.querySelector('header .closeIcon') as HTMLElement;
-                    const searchBar = document.querySelector('header .search-bar') as HTMLElement;
-                    const header = document.querySelector('header') as HTMLElement;
+                    const title = document.querySelector('.login-header .title') as HTMLElement;
+                    const mobileIcon = document.querySelector('.login-header .mobileIcon') as HTMLElement;
+                    const closeIcon = document.querySelector('.login-header .closeIcon') as HTMLElement;
+                    const searchBar = document.querySelector('.login-header .search-bar') as HTMLElement;
+                    const header = document.querySelector('.login-header') as HTMLElement;
+                    const searchInput = document.querySelector('.login-header .search-bar input') as HTMLElement;
 
                     searchBar.style.display = 'flex';
                     searchBar.style.width = '95%';
+                    searchInput.style.width = '100%';
                     title.style.display = 'none'
                     mobileIcon.style.display = 'none'
                     closeIcon.style.display = 'block'
@@ -44,11 +46,11 @@ function loginHeader({ openFunction, open } : Props) {
                 </a>
             </div>
             <svg onClick={() => {
-                const title = document.querySelector('header .title') as HTMLElement;
-                const mobileIcon = document.querySelector('header .mobileIcon') as HTMLElement;
-                const closeIcon = document.querySelector('header .closeIcon') as HTMLElement;
-                const searchBar = document.querySelector('header .search-bar') as HTMLElement;
-                const header = document.querySelector('header') as HTMLElement;
+                const title = document.querySelector('.login-header .title') as HTMLElement;
+                const mobileIcon = document.querySelector('.login-header .mobileIcon') as HTMLElement;
+                const closeIcon = document.querySelector('.login-header .closeIcon') as HTMLElement;
+                const searchBar = document.querySelector('.login-header .search-bar') as HTMLElement;
+                const header = document.querySelector('.login-header') as HTMLElement;
 
                 searchBar.style.display = 'none';
                 title.style.display = 'flex'
