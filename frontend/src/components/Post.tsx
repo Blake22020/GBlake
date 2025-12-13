@@ -12,10 +12,83 @@ interface PostInterface {
     }
 }
 
+function plural(value: number, forms: [string, string, string]): string {
+    const mod10 = value % 10;
+    const mod100 = value % 100;
+
+    if (mod100 >= 11 && mod100 <= 14) return forms[2];
+    if (mod10 === 1) return forms[0];
+    if (mod10 >= 2 && mod10 <= 4) return forms[1];
+    return forms[2];
+}
+
+function timeAgo(date: Date): string {
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+
+    if (diffMs < 0) return "только что";
+
+    const seconds = Math.floor(diffMs / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours   = Math.floor(minutes / 60);
+    const days    = Math.floor(hours / 24);
+    const months  = Math.floor(days / 30);
+    const years   = Math.floor(days / 365);
+
+    if (years > 0) {
+        return `${years} ${plural(years, ["год", "года", "лет"])} назад`;
+    }
+
+    if (months > 0) {
+        return `${months} ${plural(months, ["месяц", "месяца", "месяцев"])} назад`;
+    }
+
+    if (days > 0) {
+        return `${days} ${plural(days, ["день", "дня", "дней"])} назад`;
+    }
+
+    if (hours > 0) {
+        return `${hours} ${plural(hours, ["час", "часа", "часов"])} назад`;
+    }
+
+    if (minutes > 0) {
+        return `${minutes} ${plural(minutes, ["минута", "минуты", "минут"])} назад`;
+    }
+
+    return "только что";
+}
+
 function Post(post: PostInterface) {
     return (
         <article className="post">
-
+            <div className="post__header">
+                <div className="post__header__title">
+                    <a href={'https://gblake.ru/users/' + post.author._id}> <img src={"https://gblake.ru/uploads/" + post.author.avatar} className="post__header__avatar" alt=""/> </a>
+                    <h1 className="post__header__title">{post.title}</h1>
+                </div>
+                <p className="post__header__date">{timeAgo(post.createdAt)}</p>
+            </div>
+            <div className='post__body'>
+                <h1>{post.title}</h1>
+                <p>{post.text}</p>
+            </div>
+            <div className="post__footer">
+                <div className="post__footer__buttons">
+                    <button className="post__footer__buttons__btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_12_92)">
+                                <path d="M12 21C11.8684 21.0008 11.7379 20.9755 11.6161 20.9258C11.4943 20.876 11.3834 20.8027 11.29 20.71L3.52 12.93C2.54536 11.9452 1.99866 10.6156 1.99866 9.23C1.99866 7.84443 2.54536 6.51482 3.52 5.53C4.50226 4.55051 5.83283 4.00047 7.22 4.00047C8.60717 4.00047 9.93774 4.55051 10.92 5.53L12 6.61L13.08 5.53C14.0623 4.55051 15.3928 4.00047 16.78 4.00047C18.1672 4.00047 19.4977 4.55051 20.48 5.53C21.4546 6.51482 22.0013 7.84443 22.0013 9.23C22.0013 10.6156 21.4546 11.9452 20.48 12.93L12.71 20.71C12.6166 20.8027 12.5057 20.876 12.3839 20.9258C12.2621 20.9755 12.1316 21.0008 12 21ZM7.22 6C6.79668 5.99808 6.37718 6.08018 5.98581 6.24154C5.59444 6.40289 5.23897 6.6403 4.94 6.94C4.33606 7.54712 3.99704 8.36865 3.99704 9.225C3.99704 10.0814 4.33606 10.9029 4.94 11.51L12 18.58L19.06 11.51C19.6639 10.9029 20.003 10.0814 20.003 9.225C20.003 8.36865 19.6639 7.54712 19.06 6.94C18.4437 6.35771 17.6279 6.0333 16.78 6.0333C15.9321 6.0333 15.1163 6.35771 14.5 6.94L12.71 8.74C12.617 8.83373 12.5064 8.90812 12.3846 8.95889C12.2627 9.00966 12.132 9.0358 12 9.0358C11.868 9.0358 11.7373 9.00966 11.6154 8.95889C11.4936 8.90812 11.383 8.83373 11.29 8.74L9.5 6.94C9.20103 6.6403 8.84557 6.40289 8.45419 6.24154C8.06282 6.08018 7.64333 5.99808 7.22 6Z" fill="white"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_12_92">
+                                    <rect width="24" height="24" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        {post.likes}
+                    </button>
+                </div>
+            </div>
         </article>
     )
 }
