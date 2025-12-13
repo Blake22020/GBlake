@@ -65,29 +65,23 @@
     background: rgba(255, 255, 255, 0.2);
     padding: 1px 5px;
     border-radius: 25px;
+    width: 300px;
 }
 
-.main-header .search-bar input {
+.main-header .search-bar .search-input {
     height: fit-content;
-    background: none;
     color: white;
     font-size: 1rem;
     width: 100%;
+    border: none;
+    outline: none;
+    background: none;
 }
 
 .main-header .search-icon {
     fill: white;
 }
 
-.main-header .search-input {
-    background: none;
-    border: none;
-    outline: none;
-    color: white;
-    font-size: 14px;
-    padding: 4px 8px;
-    width: 400px;
-}
 
 .main-header .search-input::placeholder {
     color: rgba(255, 255, 255, 0.5);

@@ -53,6 +53,7 @@ function loginHeader({ openFunction, open } : Props) {
                 const header = document.querySelector('.login-header') as HTMLElement;
 
                 searchBar.style.display = 'none';
+                searchBar.style.width = '300px';
                 title.style.display = 'flex'
                 mobileIcon.style.display = 'flex'
                 closeIcon.style.display = 'none'

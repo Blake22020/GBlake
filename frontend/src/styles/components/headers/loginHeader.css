@@ -64,6 +64,7 @@
     background: rgba(255, 255, 255, 0.2);
     padding: 1px 5px;
     border-radius: 25px;
+    width: 300px;
 }
 
 .login-header .search-bar input {
@@ -72,21 +73,14 @@
     color: white;
     font-size: 1rem;
     width: 100%;
+    border: none;
+    outline: none;
 }
 
 .login-header .search-icon {
     fill: white;
 }
 
-.login-header .search-input {
-    background: none;
-    border: none;
-    outline: none;
-    color: white;
-    font-size: 14px;
-    padding: 4px 8px;
-    width: 400px;
-}
 
 .login-header .search-input::placeholder {
     color: rgba(255, 255, 255, 0.5);
@@ -139,11 +133,11 @@
         padding: 0 20px;
     }
 
-    .login-headerheader h1 {
+    .login-header h1 {
         font-size: 1.7rem;
     }
 
-    .login-headerheader .search-input {
+    .login-header .search-input {
         width: 250px;
         font-size: 0.9rem;
     }

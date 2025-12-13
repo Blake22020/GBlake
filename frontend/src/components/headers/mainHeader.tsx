@@ -50,6 +50,7 @@ function MainHeader({ openFunction, open } : Props,) {
 
                 searchBar.style.display = 'none';
                 title.style.display = 'flex'
+                searchBar.style.width = '300px';
                 mobileIcon.style.display = 'flex'
                 closeIcon.style.display = 'none'
                 header.style.paddingTop = '0'
