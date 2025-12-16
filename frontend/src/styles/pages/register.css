@@ -1,0 +1,151 @@
+.register-main-window {
+    background: #191919;
+    width: 100dvw;
+    height: 100dvh;
+}
+
+.register-window {
+    width: 100dvw;
+    height: 100dvh;
+    background: #6E5BFF;
+    background: linear-gradient(180deg, rgba(110, 91, 255, 0.35) 0%, rgba(11, 12, 16, 1) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register {
+    width: 678px;
+    display: flex;
+    flex-direction: column;
+    gap: 66px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 55px;
+    color: white;
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+}
+
+.register-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 25px;
+}
+
+.register-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.register-header h1:nth-child(2) {
+    color: #6E5BFF;
+    display: flex;
+    flex-direction: column;
+}
+
+.register-header h1:nth-child(2)::after {
+    content: '';
+    width: 100%;
+    height: 6px;
+    background: #6E5BFF;
+    margin-top: 8px;
+    border-radius: 35px;   
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.register-form input {
+    padding: 15px 25px;
+    background: rgba(255, 255, 255, 0.1);
+    outline: none;
+    border: none;
+    font-size: 2rem;
+    font-weight: 500;
+    color: white;
+    border-radius: 35px;
+}
+
+.register-form button {
+    background: rgb(110, 91, 255);
+    outline: none;
+    border: 0;
+    text-align: center;
+    padding: 20px;
+    color: white;
+    border-radius: 35px;
+    cursor: pointer;
+    font-size: 2rem;
+}
+
+.register-form button:hover {
+    background: rgba(110, 91, 255, 0.75);
+}
+
+@media (max-width: 900px) {
+    .register {
+        width: 500px;
+        gap: 30px;
+    }
+
+    .register-form input {
+        padding: 10px 20px;
+        font-size: 1.5rem;
+    }
+
+    .register-form {
+        gap: 30px;
+    }
+
+    .register-form button {
+        padding: 15px;
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .register {
+        width: 400px;
+    }
+
+    .register-header h1{
+        font-size: 1.5rem;
+    }
+
+    .register-form {
+        gap: 20px;
+    }
+
+    .register-form input {
+        font-size: 1rem;
+    }
+
+    .register-form button {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 430px) {
+    .register {
+        width: 300px;
+        padding: 10px;
+        border-radius: 35px;
+    }
+
+    .register-header {
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    .register-header h1 {
+        font-size: 1.3rem;
+    }
+
+    .register-form {
+        gap: 15px;
+    }
+}

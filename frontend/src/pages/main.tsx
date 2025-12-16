@@ -1,4 +1,3 @@
-import react from 'react'
 import MainNavbarHeader from "../layouts/mainNavbarHeader";
 import Post from "../components/Post";
 import '../styles/pages/main.css'
@@ -8,7 +7,7 @@ function mainPage() {
         <div className="main">
             <MainNavbarHeader />
             <main>
-                <Post author={{
+                <Post _id='wsf' author={{
                     _id: 'fs',
                     avatar: 'fdfdad',
                     name: 'blake',
@@ -19,7 +18,7 @@ function mainPage() {
                     "Lastly, I do fear that he did the Linux community a disfavor by  basically promoting Arch linux, despite his disclaimers and explanation  that it is a difficult to use distro, to non-technical people.....  Hmmmm, hopefully I'm wrong.\n" +
                     "\n" +
                     " TL:DR - try some other distros before you jump into Arch."} title='Please do NOT try Arch linux just because PewDiePie did' createdAt={new Date(Date.now() - 5 * 60 * 1000)}/>
-                <Post author={{
+                <Post _id='fdfdf' author={{
                     _id: 'fs',
                     avatar: 'fdfdad',
                     name: 'blake',
