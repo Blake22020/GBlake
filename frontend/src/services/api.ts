@@ -28,3 +28,20 @@ export async function likePost(postId : string, token: string | null) {
         console.error(e);
     }
 }
+
+export async function register({email, password, username, visualName} : {email: string, password: string, username: string, visualName: string}, ) {
+    try {
+        const res = await axios.post('https://gblake.ru/api/register', {
+            body: {
+                email,
+                password,
+                username,
+                visualName
+            }
+        }) 
+
+        return res.data
+    } catch(e) {
+        console.error(e)
+    } 
+}
