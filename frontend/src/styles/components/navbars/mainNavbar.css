@@ -92,7 +92,9 @@ svg {
 
 @media (max-width: 900px) {
     .mainNavbar {
-        width: 150px;
+        width: 200px;
+        padding: 10px;
+        padding-top: 110px;
     }
 
     .mainNavbar .createButton {
@@ -107,5 +109,6 @@ svg {
 @media (max-width: 600px) {
     .mainNavbar {
         padding-top: 90px;
+        width: 150px;
     }
 }

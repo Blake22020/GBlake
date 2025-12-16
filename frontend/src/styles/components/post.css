@@ -1,0 +1,139 @@
+.post {
+    margin: 25px auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 35px;
+    padding: 20px;
+    width: 700px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+
+.post .post__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post .post__header__title {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    height: fit-content;
+}
+
+.post .post__header__title a {
+    background: white;
+    width: 32px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.post .post__header__title h1 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.post .post__header p {
+    margin: 0;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.post .post__body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.post .post__body h1{
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.post .post__body p {
+    font-size: 1.4rem;
+}
+
+.post .post__footer__buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.post .post__footer__buttons button {
+    border: none;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 5px 20px;
+    border-radius: 25px;
+}
+
+.post .post__footer__buttons button:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+@media (max-width: 1050px) {
+    .post {
+        width: 550px;
+    }
+
+    .post .post__body {
+        gap: 40px;
+    } 
+
+    .post .post__body p {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .post {
+        width: 450px;
+    }
+    
+    .post .post__body h1 {
+        font-size: 1.7rem;
+    }
+}
+
+@media (max-width: 750px) {
+    .post {
+        width: 350px;
+    }
+
+    .post .post__body h1 {
+        font-size:  1.5rem;
+    }
+
+    .post .post__body p {
+        font-size: 1.2rem;
+    }
+
+    .post .post__body {
+        gap: 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    .post {
+        width: 400px;
+    }
+}
+
+@media (max-width: 500px) {
+    .post {
+        width: 90%;
+    }
+
+    .post .post__body p {
+        font-size: 1.1rem;
+    }
+}

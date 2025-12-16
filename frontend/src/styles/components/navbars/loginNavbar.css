@@ -121,7 +121,8 @@ svg {
 
 @media (max-width: 900px) {
     .loginNavbar {
-        width: 150px;
+        width: 200px;
+        
     }
 
     .loginNavbar .createButton {

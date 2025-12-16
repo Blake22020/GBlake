@@ -14,7 +14,7 @@
     justify-content: space-between;
     color: white;
     align-items: center;
-    padding: 0 30px;
+    padding: 10px 30px;
     z-index: 99;
 }
 
@@ -130,7 +130,7 @@
 
 @media (max-width: 900px) {
     .login-header {
-        padding: 0 20px;
+        padding: 10px 20px;
     }
 
     .login-header h1 {
@@ -150,7 +150,7 @@
 
 @media (max-width: 600px) {
     .login-header {
-        padding: 0 15px;
+        padding: 10px 15px;
         gap: 10px;
     }
 
