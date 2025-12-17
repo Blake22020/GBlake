@@ -1,6 +1,35 @@
 import '../styles/pages/register.css'
+import { registerRequest  } from '../services/api'
+import { useState  } from 'react'
+
 
 function Register() {
+    const [formData, setFormData] = useState({
+        username: '',
+        email: '',
+        password: '',
+        repeatPassword: '',
+    })
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { id, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [id.replace('-input', '')]: value,
+        }));
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (formData.password !== formData.repeatPassword) {
+            alert('Пароли не совпадают!');
+            return;
+        }
+        registerRequest(formData);
+    };
+
+
+
     return (
         <div className='register-main-window'>
             <div className='register-window'>
@@ -10,10 +39,10 @@ function Register() {
                         <h1>Регистрация</h1>
                     </div>
                     <form className='register-form'>
-                        <input placeholder='Уникальное имя' id='username-input' type='text'  />
-                        <input placeholder='Почта' id='mail-input' type='email'  />
-                        <input placeholder='Пароль' id='password-input' type='password'  />
-                        <input placeholder='Повторите пароль' id='repeat-password-input' type='password' />
+                        <input placeholder='Уникальное имя' id='username-input' type='text' onSubmit={handleSubmit} onChange={handleChange} />
+                        <input placeholder='Почта' id='mail-input' type='email'  onChange={handleChange} />
+                        <input placeholder='Пароль' id='password-input' type='password'  onChange={handleChange} />
+                        <input placeholder='Повторите пароль' id='repeat-password-input' type='password' onChange={handleChange} />
                         <button type='submit'>
                             Регистрация
                         </button>
