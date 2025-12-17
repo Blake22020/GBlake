@@ -1,6 +1,6 @@
 import '../styles/pages/register.css'
-import { registerRequest  } from '../services/api'
-import { useState  } from 'react'
+import { registerRequest1  } from '../services/api'
+import React, { useState  } from 'react'
 
 
 function Register() {
@@ -25,7 +25,9 @@ function Register() {
             alert('Пароли не совпадают!');
             return;
         }
-        registerRequest(formData);
+
+        const { repeatPassword, ...dataToSend } = formData;
+        registerRequest1(dataToSend);
     };
 
 
@@ -38,8 +40,8 @@ function Register() {
                         <h1>Вход</h1>
                         <h1>Регистрация</h1>
                     </div>
-                    <form className='register-form'>
-                        <input placeholder='Уникальное имя' id='username-input' type='text' onSubmit={handleSubmit} onChange={handleChange} />
+                    <form className='register-form' onSubmit={handleSubmit}     >
+                        <input placeholder='Уникальное имя' id='username-input' type='text' onChange={handleChange} />
                         <input placeholder='Почта' id='mail-input' type='email'  onChange={handleChange} />
                         <input placeholder='Пароль' id='password-input' type='password'  onChange={handleChange} />
                         <input placeholder='Повторите пароль' id='repeat-password-input' type='password' onChange={handleChange} />

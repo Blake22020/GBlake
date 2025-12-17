@@ -29,16 +29,35 @@ export async function likePost(postId : string, token: string | null) {
     }
 }
 
-export async function registerRequest({email, password, username} : {email: string, password: string, username: string}, ) {
+export async function registerRequest1({email, password, username} : {email: string, password: string, username: string}, ) {
     try {
-        const res = await axios.post('https://gblake.ru/api/register', {
+        const res = await axios.post('https://gblake.ru/api/register1', {
             body: {
                 email,
                 password,
                 username,
-                
             }
         }) 
+
+        return res.data
+    } catch(e) {
+        console.error(e)
+    } 
+}
+
+export async function registerRequest2({visualName, bio} : {visualName: string, bio: string}, token : string | null) {
+    try {
+        const res = await axios.patch('https://gblake.ru/api/register2', {
+            body: {
+                visualName,
+                bio
+            },
+            headers: {
+                Authorization: token ? `Bearer ${token}` : "",
+            }
+        }) 
+
+
 
         return res.data
     } catch(e) {

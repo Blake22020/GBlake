@@ -7,12 +7,11 @@ import { env } from '../config/env'
 
 const router = Router();
 
-router.post('/register',
+router.post('/register1',
     [
         body('email').isEmail(),
         body('password').isLength({ min: 6 }),
         body('username').optional().isLength({ min: 1 , max: 20 }),
-        body('visualName').optional().isLength({ min: 1 , max: 20 })
     ],
     async (req :Request, res :Response) => {
         const errors = validationResult(req);
@@ -20,7 +19,7 @@ router.post('/register',
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { email, password, username, visualName } = req.body;
+        const { email, password, username } = req.body;
 
         const existingEmail = await User.findOne({ email });
         if (existingEmail) {
@@ -39,7 +38,6 @@ router.post('/register',
             email,
             password: hashed,
             username,
-            visualName,
             role,
         })
 
@@ -52,6 +50,26 @@ router.post('/register',
         res.json( { user, token } )
     }
 )
+
+router.patch("/register2", async (req: Request, res: Response) => {
+    try {
+        const { visualName, bio } = req.body;
+        
+        const user = await User.findById(req.user!.id);
+        if(!user) {
+            return res.status(404).send("User Not Found")
+        }
+
+        if(visualName) user.visualName = visualName;
+        if(bio) user.bio = bio;
+
+        await user.save();
+
+        res.json(formatUser(user));
+    } catch {
+        res.status(500).json({ message: "Server Error"})
+    }
+})
 
 router.post('/login',
     [
@@ -84,5 +102,17 @@ router.post('/login',
         res.json( { user , token } )
     }
 )
+
+function formatUser(u: any) {
+    return {
+        id: u._id,
+        username: u.username,
+        visualName: u.visualName,
+        bio: u.bio,
+        followers: u.followers.length,
+        followings: u.followings.length
+    }
+}
+
 
 export default router;
