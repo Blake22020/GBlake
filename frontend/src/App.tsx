@@ -4,11 +4,12 @@ import MainNavbar from "./components/navbars/mainNavbar";
 import MainNavbarHeader from "./layouts/mainNavbarHeader";
 import MainPage from './pages/main'
 import Register from './pages/register'
+import Register2 from './pages/register2';
 
 function App() {
   return (
     <div className="App">
-        <Register></Register>
+        <Register2></Register2>
     </div>
   );
 }
