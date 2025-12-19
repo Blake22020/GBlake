@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(
 root.render(
 	<React.StrictMode>
 		<Snowfall
-		color="#fff"
+		color="#ffffff49"
 		style={{
 			position: 'fixed',
 			top: 0,
@@ -21,7 +21,9 @@ root.render(
 			pointerEvents: 'none',
 			zIndex: 1000,
 		}}
+		speed={[0.5, 1]}
 		/>
 		<App />
 	</React.StrictMode>
 );
+ 

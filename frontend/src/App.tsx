@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="App">
   
-		<MainPage />
+		<Register2 />
     </div>
   );
 }
