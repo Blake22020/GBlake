@@ -15,9 +15,10 @@
 #root {
     font-family: 'Montserrat', sans-serif;
     background: #111318;
-    height: 100dvh;
     padding: 0;
     margin: 0;
+    z-index: 0;
+    overflow: hidden;
 }
 
 a, button {
