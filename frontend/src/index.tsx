@@ -9,11 +9,19 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
+	<React.StrictMode>
 		<Snowfall
-			color="#fff"
-			style={{height: '100%'}}
-		/> 
+		color="#fff"
+		style={{
+			position: 'fixed',
+			top: 0,
+			left: 0,
+			width: '100dvw',
+			height: '100dvh',
+			pointerEvents: 'none',
+			zIndex: 1000,
+		}}
+		/>
 		<App />
-  </React.StrictMode>
+	</React.StrictMode>
 );
