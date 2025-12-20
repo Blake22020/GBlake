@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(
 root.render(
 	<React.StrictMode>
 		<Snowfall
-		color="#ffffff49"
+		color="#ffffff91"
 		style={{
 			position: 'fixed',
 			top: 0,

@@ -25,14 +25,14 @@ const UserSchema = new Schema<IUser>({
     visualName: {
         type: String,
         minlength:1,
-        maxlength:20,
+        maxlength:40,
         default: 'New User',
     },
     bio: {
         type: String,
         default: "...",
         minlength:3,
-        maxlength:40
+        maxlength:80
     },
     password: {
         type: String,

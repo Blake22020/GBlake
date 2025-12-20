@@ -1,0 +1,123 @@
+.register-main-window {
+    background: #191919;
+    width: 100dvw;
+    height: 100dvh;
+}
+
+.register-window {
+    width: 100dvw;
+    height: 100dvh;
+    background: #6E5BFF;
+    background: linear-gradient(180deg, rgba(110, 91, 255, 0.35) 0%, rgba(11, 12, 16, 1) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register2 {
+    display: flex;
+    gap: 66px;
+    padding: 100px 85px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 55px;
+    color: white;
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    width: 1000px;
+
+}
+
+.addForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.addForm .addInputs{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+
+
+.addForm input, .addForm textarea {
+    padding: 15px 25px;
+    background: rgba(255, 255, 255, 0.1);
+    outline: none;
+    border: none;
+    font-size: 2rem;
+    font-weight: 500;
+    color: white;
+    border-radius: 35px;
+    font-family: 'Montserrat', sans-serif;
+    resize: none;
+    width: 100%;
+}
+
+.addForm button {
+    background: rgb(110, 91, 255);
+    outline: none;
+    border: 0;
+    text-align: center;
+    padding: 20px;
+    color: white;
+    border-radius: 35px;
+    cursor: pointer;
+    font-size: 2rem;
+}
+
+.addForm button:hover {
+    background: rgba(110, 91, 255, 0.75);
+}
+
+.addCard {
+    width: 40%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 45px;
+    gap: 20px;
+    font-size: 1.8rem;
+}
+
+.addCard:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.addCard .addIcon{
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 25px;
+    padding: 15px;
+}
+
+.addCard .addIcon img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover   ;
+    border-radius: 10px;
+}
+
+
+
+@media (max-width: 1080px) {
+    .register2 {
+        padding: 20px;
+        width: 778px;
+    }
+}
+
+@media (max-width: 900px) {
+    .register2 {
+        width: 678px;
+    }
+
+    .addInputs input, .addInputs textarea, .addForm button {
+        font-size: 1.5rem;
+    }
+
+    .addCard {
+        font-size: 1.3rem;
+    }
+}
