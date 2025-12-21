@@ -21,7 +21,7 @@ router.get("/:id", async (req :Request, res:Response) => {
 
         res.json(formatUser(user));
     } catch {
-        res.status(404).send("Server Error");
+        res.status(500).send("Server Error");
     }
 })
 
@@ -61,11 +61,12 @@ router.post("/:id/follow", auth, async (req :Request, res :Response) => {
         }
 
         const me = await User.findById(meId);
+        if (!me) return res.status(404).send("Ваш аккаунт не найден");
 
         const target = await User.findById(targetId);
         if(!target) return res.status(404).send("User Not Found");
 
-        const already = me!.followings.includes(targetId as any);
+        const already = me!.followings.some(id => id.toString() === targetId);
         if(!already) {
             me!.followings = me!.followings.filter( id => id.toString() !== targetId);
             target.followers = target.followers.filter(id => id.toString() !== meId);
@@ -84,7 +85,7 @@ router.post("/:id/follow", auth, async (req :Request, res :Response) => {
             await target.save();
 
             return res.json({
-                followings: false,
+                following: true,
             })
         }
     } catch {
@@ -109,7 +110,7 @@ router.post("/me/avatar", auth, upload.single("file"), async (req :Request, res 
         const fileData = req.file;
         if (!fileData) return res.status(400).send("Файл не загружен");
 
-        const user = await User.findById(req.params.userId);
+        const user = await User.findById(req.user?.id);
         if (!user) return res.status(404).send("Пользователь не найден");
 
         if (user.avatar && !user.avatar.startsWith("http")) {

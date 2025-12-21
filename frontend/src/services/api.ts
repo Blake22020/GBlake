@@ -62,7 +62,6 @@ export async function registerRequest2({visualName, bio} : {visualName: string, 
     } 
 }
 
-// ✅ Хорошо
 export async function loginRequest(
   credentials: 
     | { email: string; password: string }

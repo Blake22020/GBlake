@@ -1,4 +1,4 @@
-import '../styles/pages/register.css';
+import '../styles/pages/login.css';
 import { loginRequest } from '../services/api';
 import React, { useState } from 'react';
 
@@ -50,6 +50,7 @@ function Login() {
                 <div className="login">
                     <div className="login-header">
                         <h1>Вход</h1>
+                        <h1>Регистрация</h1>
                     </div>
                     <form className="login-form" onSubmit={handleSubmit}>
                         <input
