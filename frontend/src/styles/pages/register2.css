@@ -54,6 +54,14 @@
     width: 100%;
 }
 
+.addForm input:hover, .addForm textarea:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.addForm input:focus, .addForm textarea:focus {
+    background: rgba(255, 255, 255, 0.2);
+}
+
 .addForm button {
     background: rgb(110, 91, 255);
     outline: none;
@@ -80,6 +88,7 @@
     border-radius: 45px;
     gap: 20px;
     font-size: 1.8rem;
+    cursor: pointer;
 }
 
 .addCard:hover {
@@ -119,5 +128,63 @@
 
     .addCard {
         font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 750px) {
+    .register2 {
+        width: 578px;
+        gap: 22px;
+    }
+
+    .addCard {
+        padding: 5px;
+        gap: 5px;
+        border-radius: 35px;
+    }
+
+    .addCard .addIcon{
+        padding: 5px;
+        border-radius: 30px;
+    }
+
+    .addCard .addIcon img {
+        border-radius: 25px;
+    }
+
+    .addForm button {
+        padding: 15px;
+    }
+
+    .addForm .addInputs {
+        gap: 10px;
+    }
+
+    .addForm input, .addForm textarea {
+        font-size: 1.2rem;
+        padding: 15px;
+        border-radius: 25px;
+    }
+}
+
+@media (max-width: 600px) {
+    .register2 {
+        flex-direction: column;
+        width: 95%;
+    }
+
+    .register2 .addForm {
+        gap: 25px;
+    }
+
+    .register2 .addCard {
+        width: 50%;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 500px) {
+    .register2 .addCard {
+        width: 100%;
     }
 }
