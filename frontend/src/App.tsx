@@ -5,12 +5,13 @@ import MainNavbarHeader from "./layouts/mainNavbarHeader";
 import MainPage from './pages/main'
 import Register from './pages/register'
 import Register2 from './pages/register2';
+import Login from './pages/login';
 
 function App() {
   return (
     <div className="App">
   
-		<Register2 />
+		< Login />
     </div>
   );
 }

@@ -32,7 +32,7 @@ router.post('/register1',
         }
 
         const hashed = await bcrypt.hash(password, 10);
-        const role = existingEmail === env.creator ? 3 : 0;
+        const role = email === env.creator ? 3 : 0;
 
         const user = await User.create({
             email,
@@ -47,7 +47,7 @@ router.post('/register1',
             { expiresIn: "365d" }
         )
 
-        res.json( { user, token } )
+        res.json( {user, token } )
     }
 )
 
@@ -73,35 +73,43 @@ router.patch("/register2", async (req: Request, res: Response) => {
 
 router.post('/login',
     [
-        body('email').isEmail(),
-        body('password').exists()
+        body('password').notEmpty().withMessage('Password is required'),
+        body('email').optional().isEmail().withMessage('Invalid email'),
+        body('username').optional().isString().trim().isLength({ min: 1 }).withMessage('Invalid username')
     ],
-    async (req :Request, res :Response) => {
+    async (req: Request, res: Response) => {
         const errors = validationResult(req);
-        if(!errors.isEmpty()) {
-            return res.status(400).json({ message: 'Invalid credentials' });
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ message: 'Invalid credentials', errors: errors.array() });
         }
 
-        const { email, password } = req.body;
+        const { email, username, password } = req.body;
 
-        const user  = await User.findOne({ email })
-        if(!user) {
-            return res.status(404).json( { message: 'User not found' } );
+        if ((!email && !username) || (email && username)) {
+            return res.status(400).json({
+                message: 'Please provide either email or username, but not both.'
+            });
         }
 
-        const isMatch = await bcrypt.compare(password, user.password)
+        const user = await User.findOne(email ? { email } : { username });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(400).json({ message: 'Invalid credentials' });
         }
 
         const token = jwt.sign(
             { id: user._id, role: user.role },
             env.jwtSecret,
-            { expiresIn: "365d" }
-        )
-        res.json( { user , token } )
+            { expiresIn: '365d' }
+        );
+
+        res.json({ user, token });
     }
-)
+);
 
 function formatUser(u: any) {
     return {
