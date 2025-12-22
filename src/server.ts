@@ -32,7 +32,7 @@ app.use("/api/search", searchRoutes)
 const clientPath = path.join(ROOT, 'frontend', 'build');
 app.use(express.static(clientPath));
 
-app.get('/:any(*)', (req, res) => {
+app.get('*', (req, res) => {
   if (req.path.startsWith('/api')) {
     return res.sendStatus(404);
   }
