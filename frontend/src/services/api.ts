@@ -57,8 +57,6 @@ export async function registerRequest2({visualName, bio} : {visualName: string, 
             }
         }) 
 
-
-
         return res.data
     } catch(e) {
         console.error(e)
