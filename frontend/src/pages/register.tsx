@@ -51,7 +51,7 @@ function Register() {
             openModal('Ошибка регистрации', 'Неизвестная ошибка')
         }
     };
-
+ 
 
 
     return (
@@ -63,7 +63,7 @@ function Register() {
                             navigate("/login")
                         }}>Вход</h1>
                         <h1>Регистрация</h1>
-                    </div>и
+                    </div>
                     <form className='register-form' onSubmit={handleSubmit}     >
                         <input placeholder='Уникальное имя' id='username-input' type='text' onChange={handleChange} />
                         <input placeholder='Почта' id='email-input' type='email'  onChange={handleChange} />
