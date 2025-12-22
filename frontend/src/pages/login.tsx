@@ -19,34 +19,59 @@ function Login() {
         }));
     };
 
+    const [formError, setFormError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setFormError(null);
+        setIsLoading(true);
 
-        // Определяем, что ввёл пользователь: email или username
         const { identifier, password } = formData;
-        const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
 
-        const payload = {
-            ...(isEmail ? { email: identifier } : { username: identifier }),
-            password,
-        };
+        if (!identifier.trim() || !password.trim()) {
+            setFormError('Заполните все поля');
+            setIsLoading(false);
+            return;
+        }
+
+        const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier.trim());
+        const payload = isEmail
+            ? { email: identifier.trim(), password }
+            : { username: identifier.trim(), password };
 
         try {
-            const res = await loginRequest(payload); 
+            const res = await loginRequest(payload);
 
-            if (res.token) {
+            if (res?.token) {
                 localStorage.setItem('token', res.token);
-                console.log('Успешный вход');
-                navigate('/')
-
+                navigate('/');
             } else {
-                alert('Ошибка входа');
+                setFormError('Сервер не вернул токен');
             }
-        } catch (err) {
-            console.error(err);
-            alert('Ошибка сети или сервера');
+        } catch (err: any) {
+            let msg = 'Неизвестная ошибка';
+
+            if (err.response) {
+                const { status, data } = err.response;
+
+                if (status === 400 || status === 404) {
+                    msg = data?.message || 'Неверные данные для входа';
+                } else if (status >= 500) {
+                    msg = 'Сервер временно недоступен';
+                } else {
+                    msg = data?.message || 'Ошибка входа';
+                }
+            } else if (err.request) {
+                msg = 'Нет соединения с сервером';
+            }
+
+            setFormError(msg);
+        } finally {
+            setIsLoading(false);
         }
     };
+
 
     return (
         <div className="login-main-window">
