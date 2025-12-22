@@ -2,7 +2,7 @@ import React from 'react';
 import '../../styles/components/navbars/mainNavbar.css'
 
 
-function mainNavbar({ open } : any) {
+function MainNavbar({ open } : any) {
     return (
         <div className={open ? 'mainNavbar open' : 'mainNavbar'}>
             <button className='createButton'>
@@ -29,4 +29,4 @@ function mainNavbar({ open } : any) {
     )
 }
 
-export default mainNavbar;
+export default MainNavbar;

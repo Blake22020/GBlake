@@ -12,12 +12,13 @@ export async function loadPosts(token: string, page = 1) {
         return res.data
     } catch (e) {
         console.error(e)
+        throw e;
     }
 }
 
 export async function likePost(postId : string, token: string | null) {
     try {
-        const res = await axios.post("https://gblake.ru/api/like/" + postId, {
+        const res = await axios.post("https://gblake.ru/api/posts/" + postId + "/like", {}, {
             headers: {
                 Authorization: token ? `Bearer ${token}` : "",
             }
@@ -26,6 +27,7 @@ export async function likePost(postId : string, token: string | null) {
         return res.data;
     } catch (e) {
         console.error(e);
+        throw e;
     }
 }
 
@@ -49,6 +51,7 @@ export async function registerRequest2({visualName, bio} : {visualName: string, 
         const res = await axios.post('https://gblake.ru/api/register2', {
             visualName,
             bio,
+        }, {
             headers: {
                 Authorization: token ? `Bearer ${token}` : "",
             }

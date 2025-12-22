@@ -36,7 +36,7 @@ router.patch("/me", auth, async (req :Request, res :Response) => {
         if(username && username !== user.username)  {
             const exist = await User.findOne({ username })
             if (exist) {
-                res.status(409).send("Username already used");
+                return res.status(409).send("Username already used");
             }
         }
 
@@ -67,7 +67,7 @@ router.post("/:id/follow", auth, async (req :Request, res :Response) => {
         if(!target) return res.status(404).send("User Not Found");
 
         const already = me!.followings.some(id => id.toString() === targetId);
-        if(!already) {
+        if(already) {
             me!.followings = me!.followings.filter( id => id.toString() !== targetId);
             target.followers = target.followers.filter(id => id.toString() !== meId);
 

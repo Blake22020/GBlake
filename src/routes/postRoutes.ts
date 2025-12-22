@@ -28,7 +28,7 @@ router.post("/", auth, async (req: Request, res: Response) => {
         const post = new Post({
             title,
             text,
-            authorId,
+            author: authorId,
             createdAt: new Date(),
         })
 
@@ -48,7 +48,7 @@ router.post("/", auth, async (req: Request, res: Response) => {
 
 router.get("/:id", async (req: Request, res: Response) => {
     try {
-        const post = await Post.findById(req.params.id).populate("author", "name avatar _id");
+        const post = await Post.findById(req.params.id).populate("author", "username avatar _id");
         if (!post) {
             return res.status(404).json({
                 error: "Пост не найден"
@@ -113,7 +113,7 @@ router.get("/likes/:id", async(req: Request, res: Response) => {
             _id: {
                 $in: user.likes,
             }
-        }).populate("author", "name avatar _id");
+        }).populate("author", "username avatar _id");
 
         res.json(posts)
     } catch(err) {
@@ -139,11 +139,11 @@ router.get("/likes", async (req: Request, res: Response) => {
             })
         }
 
-        const posts = Post.find({
+        const posts = await Post.find({
             _id: {
                 $in: user.likes,
             }
-        }).populate("author", "name avatar _id");
+        }).populate("author", "username avatar _id");
 
         res.json(posts);
     } catch(err) {
@@ -169,11 +169,11 @@ router.get("/followings", async (req: Request, res: Response) => {
             })
         }
 
-        const posts = Post.find({
+        const posts = await Post.find({
             author: {
                 $in: user.followings,
             }
-        }).populate("author", "name avatar _id");
+        }).populate("author", "username avatar _id");
 
         res.json(posts);
     } catch(err) {
@@ -202,7 +202,7 @@ router.post("/:id/like", auth, async (req: Request, res: Response) => {
         }
         if(user.likes.includes(post._id)) {
             post.likes = post.likes - 1;
-            user.likes.filter((id) => !id.equals(post._id));
+            user.likes = user.likes.filter((id) => !id.equals(post._id));
         } else {
             post.likes = post.likes + 1;
             user.likes.push(post._id)

@@ -2,7 +2,7 @@ import MainNavbarHeader from "../layouts/mainNavbarHeader";
 import Post from "../components/Post";
 import '../styles/pages/main.css'
 
-function mainPage() {
+function MainPage() {
     return (
         <div className="main">
             <MainNavbarHeader />
@@ -29,4 +29,4 @@ function mainPage() {
     )
 }
 
-export default mainPage;
+export default MainPage;
