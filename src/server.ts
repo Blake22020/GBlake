@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path'
 
-const __dirname__ = process.cwd();
+const ROOT = process.cwd();
 
 import userRoutes from './routes/userRoutes';
 import authRoutes from './routes/authRoutes';
@@ -18,7 +18,8 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
-app.use('/uploads', express.static(path.join(__dirname__, 'uploads')));
+app.use('/uploads', express.static(path.join(ROOT, 'uploads')));
+
 
 app.use("/api/users", userRoutes);
 app.use("/api", authRoutes);
@@ -27,16 +28,16 @@ app.use("/api/feed", feedRoutes);
 app.use("/api/users/", adminRoutes)
 app.use("/api/search", searchRoutes)
 
-const clientPath = path.join(__dirname, 'frontend/build')
-app.use(express.static(clientPath))
 
-app.get('*', (req, res) => {
+const clientPath = path.join(ROOT, 'frontend', 'build');
+app.use(express.static(clientPath));
+
+app.get('/*fallback', (req, res) => {
   if (req.path.startsWith('/api')) {
-    return res.sendStatus(404)
+    return res.sendStatus(404);
   }
-
-  res.sendFile(path.join(clientPath, 'index.html'))
-})
+  res.sendFile(path.join(clientPath, 'index.html'));
+});
 
 const PORT = env.port || 3000;
 
