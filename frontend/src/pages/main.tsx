@@ -1,8 +1,20 @@
 import MainNavbarHeader from "../layouts/mainNavbarHeader";
 import Post from "../components/Post";
 import '../styles/pages/main.css'
+import Modal from "../components/Modal";
+import { useEffect, useState } from "react";
 
 function MainPage() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalData, setModalData] = useState({ title: '', text: '' });
+    const openModal = (title: string, text: string) => {
+        setModalData({ title, text });
+        setIsModalOpen(true);
+    };
+
+
+
+
     return (
         <div className="main">
             <MainNavbarHeader />
@@ -25,6 +37,13 @@ function MainPage() {
                 }} likes={123} text={"Firstly what this is about:  Arch linux will frustrate newcomers.  If you're looking to escape the Microsoft world, do yourself a favour  and try at least one or two other distros first.  There are a million  posts a day on these forums about what distro/flavor to choose, and  that's great, but there are some good pinned resource all over these  subs.\n" +
                     ""} title='Please do NOT try Arch linux just because PewDiePie did' createdAt={new Date(Date.now() - 5 * 60 * 1000)}/>
             </main>
+
+            <Modal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                title={modalData.title}
+                text={modalData.text}
+            />
         </div>
     )
 }
