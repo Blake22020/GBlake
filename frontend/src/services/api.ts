@@ -48,7 +48,7 @@ export async function registerRequest1({email, password, username} : {email: str
 
 export async function registerRequest2({visualName, bio} : {visualName: string, bio: string}, token : string | null) {
     try {
-        const res = await axios.post('https://gblake.ru/api/register2', {
+        const res = await axios.patch('https://gblake.ru/api/register2', {
             visualName,
             bio,
         }, {

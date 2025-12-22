@@ -50,10 +50,7 @@ function Register2() {
         formData.append('name', name);
         formData.append('bio', bio);
 
-        registerRequest2({
-            visualName: name,
-            bio: bio,
-        }, localStorage.getItem('token'))
+        registerRequest2({visualName: name, bio: bio}, localStorage.getItem('token'))
     }
 
     return (
