@@ -1,10 +1,13 @@
 import '../styles/pages/login.css';
 import { loginRequest } from '../services/api';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
-        identifier: '', // будет либо email, либо username
+        identifier: '', 
         password: '',
     });
 
@@ -29,12 +32,13 @@ function Login() {
         };
 
         try {
-            const res = await loginRequest(payload); // loginRequest должен принимать { email?, username?, password }
+            const res = await loginRequest(payload); 
 
             if (res.token) {
                 localStorage.setItem('token', res.token);
-                // Перенаправление или обновление состояния
                 console.log('Успешный вход');
+                navigate('/')
+
             } else {
                 alert('Ошибка входа');
             }
@@ -50,7 +54,9 @@ function Login() {
                 <div className="login">
                     <div className="login-header">
                         <h1>Вход</h1>
-                        <h1>Регистрация</h1>
+                        <h1 onClick={() => {
+                            navigate('/register');
+                        }} >Регистрация</h1>
                     </div>
                     <form className="login-form" onSubmit={handleSubmit}>
                         <input
@@ -74,4 +80,4 @@ function Login() {
     );
 }
 
-export default Login; // ✅ Исправлено: не Register!
+export default Login;

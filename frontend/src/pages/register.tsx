@@ -1,9 +1,12 @@
 import '../styles/pages/register.css'
 import { registerRequest1  } from '../services/api'
 import React, { useState  } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 
 function Register() {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -19,7 +22,7 @@ function Register() {
         }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (formData.password !== formData.repeatPassword) {
             alert('Пароли не совпадают!');
@@ -27,7 +30,19 @@ function Register() {
         }
 
         const { repeatPassword, ...dataToSend } = formData;
-        registerRequest1(dataToSend);
+        const data = await registerRequest1(dataToSend);
+        if(data.token && data.user) {
+            try {
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('avatar', data.avatar)
+                localStorage.setItem('id', data.user.id.toString())
+                navigate('/register2')
+            } catch (error) {
+                alert('Ошибка при сохранении токена:' + error);
+            }
+        } else {
+            alert('Ошибка входа')
+        }
     };
 
 
@@ -37,7 +52,9 @@ function Register() {
             <div className='register-window'>
                 <div className='register'>
                     <div className='register-header'>
-                        <h1>Вход</h1>
+                        <h1 onClick={() => {
+                            navigate("/login")
+                        }}>Вход</h1>
                         <h1>Регистрация</h1>
                     </div>
                     <form className='register-form' onSubmit={handleSubmit}     >
