@@ -76,3 +76,22 @@ export async function loginRequest(
     throw e;
   }
 }
+
+export async function uploadAvatar(file: File, token: string) {
+    try {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const res = await axios.post("https://gblake.ru/api/users/me/avatar", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            }
+        });
+
+        return res.data;
+    } catch (e) {
+        console.error(e);
+        throw e;
+    }
+}
