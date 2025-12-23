@@ -1,9 +1,21 @@
-import { registerRequest2  } from '../services/api'
+import { registerRequest2, uploadAvatar } from '../services/api'
 import React, { useState, useRef, useEffect  } from 'react'
 import '../styles/pages/register2.css'
+import { useNavigate } from 'react-router-dom';
+import Modal from '../components/Modal';
 
+  
 
 function Register2() {
+    const nvaigate = useNavigate();
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalData, setModalData] = useState({ title: '', text: '' });
+    const openModal = (title: string, text: string) => {
+        setModalData({ title, text });
+        setIsModalOpen(true);
+    };
+
     const [name, setName] = useState('')
     const [bio, setBio] = useState('')
     const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -36,24 +48,38 @@ function Register2() {
 
     async function handleSubmit() {
         if(!avatar) {
-            alert('Выбери фото')
+            openModal('Ошибка добавления аватара', 'Выбери фото')
             return
         }
 
         if(!name.trim()) {
-            alert('Введи имя')
+            openModal('Нету имени','Введи имя')
             return
         }
 
-        const formData = new FormData();
-        formData.append('avatar', avatar);
-        formData.append('name', name);
-        formData.append('bio', bio);
+        if(avatar.size > 4 * 1024 * 1024) {
+            openModal('Ошибка добавления аватара','Фото слишком большое (макс 4МБ)')
+            return
+        }
 
-        registerRequest2({
-            visualName: name,
-            bio: bio,
-        }, localStorage.getItem('token'))
+        if(!avatar.type.startsWith('image/')) {
+            openModal('Ошибка добавления аватара','Неверный формат файла')
+            return
+        }
+
+        try {
+            const token = localStorage.getItem('token');
+            if(!token) {
+                openModal('Ошибка добавления аватара','Требуется авторизация')
+                return
+            }
+
+            await registerRequest2({visualName: name, bio: bio}, token);
+            await uploadAvatar(avatar, token);
+            nvaigate('/')
+        } catch(error) {
+            alert('Ошибка при сохранении')
+        }
     }
 
     return (
@@ -100,6 +126,12 @@ function Register2() {
                     </form>
                 </div>
             </div>
+            <Modal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                title={modalData.title}
+                text={modalData.text}
+            />
         </div>
     )
 }

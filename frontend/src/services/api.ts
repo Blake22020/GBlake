@@ -48,7 +48,7 @@ export async function registerRequest1({email, password, username} : {email: str
 
 export async function registerRequest2({visualName, bio} : {visualName: string, bio: string}, token : string | null) {
     try {
-        const res = await axios.post('https://gblake.ru/api/register2', {
+        const res = await axios.patch('https://gblake.ru/api/register2', {
             visualName,
             bio,
         }, {
@@ -56,8 +56,6 @@ export async function registerRequest2({visualName, bio} : {visualName: string, 
                 Authorization: token ? `Bearer ${token}` : "",
             }
         }) 
-
-
 
         return res.data
     } catch(e) {
@@ -77,4 +75,23 @@ export async function loginRequest(
     console.error(e);
     throw e;
   }
+}
+
+export async function uploadAvatar(file: File, token: string) {
+    try {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const res = await axios.post("https://gblake.ru/api/users/me/avatar", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            }
+        });
+
+        return res.data;
+    } catch (e) {
+        console.error(e);
+        throw e;
+    }
 }

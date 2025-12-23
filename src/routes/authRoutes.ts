@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { body, validationResult } from 'express-validator'
 import User from '../models/User'
 import { env } from '../config/env'
+import { auth } from 'middleware/auth';
 
 const router = Router();
 
@@ -51,7 +52,7 @@ router.post('/register1',
     }
 )
 
-router.patch("/register2", async (req: Request, res: Response) => {
+router.patch("/register2", auth,  async (req: Request, res: Response) => {
     try {
         const { visualName, bio } = req.body;
         
