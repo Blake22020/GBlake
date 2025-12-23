@@ -4,7 +4,7 @@ import '../styles/pages/register2.css'
 import { useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal';
 
-
+  
 
 function Register2() {
     const nvaigate = useNavigate();
@@ -57,8 +57,8 @@ function Register2() {
             return
         }
 
-        if(avatar.size > 5 * 1024 * 1024) {
-            openModal('Ошибка добавления аватара','Фото слишком большое (макс 5МБ)')
+        if(avatar.size > 4 * 1024 * 1024) {
+            openModal('Ошибка добавления аватара','Фото слишком большое (макс 4МБ)')
             return
         }
 
