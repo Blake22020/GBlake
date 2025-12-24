@@ -4,7 +4,8 @@ import jwt from 'jsonwebtoken';
 import { body, validationResult } from 'express-validator'
 import User from '../models/User'
 import { env } from '../config/env'
-import { auth } from 'middleware/auth';
+import { auth } from '../middleware/auth';
+import { format } from 'path';
 
 const router = Router();
 
@@ -48,7 +49,7 @@ router.post('/register1',
             { expiresIn: "365d" }
         )
 
-        res.json( {user, token } )
+        res.json( {user: formatUser(user), token } )
     }
 )
 
@@ -108,7 +109,7 @@ router.post('/login',
             { expiresIn: '365d' }
         );
 
-        res.json({ user, token });
+        res.json({ user: formatUser(user), token });
     }
 );
 
