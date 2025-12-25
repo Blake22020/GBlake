@@ -2,6 +2,7 @@ import '../styles/pages/login.css';
 import { loginRequest } from '../services/api';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Modal from '../components/Modal';
 
 function Login() {
     const navigate = useNavigate();
@@ -11,6 +12,14 @@ function Login() {
         password: '',
     });
 
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalData, setModalData] = useState({ title: '', text: '' });
+    const openModal = (title: string, text: string) => {
+        setModalData({ title, text });
+        setIsModalOpen(true);
+    };
+    
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
@@ -19,19 +28,14 @@ function Login() {
         }));
     };
 
-    const [formError, setFormError] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setFormError(null);
-        setIsLoading(true);
 
         const { identifier, password } = formData;
 
         if (!identifier.trim() || !password.trim()) {
-            setFormError('Заполните все поля');
-            setIsLoading(false);
+            openModal('Ошибка заполнения формы', 'Заполните все поля');
             return;
         }
 
@@ -47,7 +51,7 @@ function Login() {
                 localStorage.setItem('token', res.token);
                 navigate('/');
             } else {
-                setFormError('Сервер не вернул токен');
+                openModal('Ошибка входа', 'Сервер не вернул токен');
             }
         } catch (err: any) {
             let msg = 'Неизвестная ошибка';
@@ -66,9 +70,7 @@ function Login() {
                 msg = 'Нет соединения с сервером';
             }
 
-            setFormError(msg);
-        } finally {
-            setIsLoading(false);
+            openModal('Ошибка входа', msg);
         }
     };
 
@@ -101,6 +103,12 @@ function Login() {
                     </form>
                 </div>
             </div>
+            <Modal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                title={modalData.title}
+                text={modalData.text}
+            />
         </div>
     );
 }

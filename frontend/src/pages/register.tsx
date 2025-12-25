@@ -33,7 +33,6 @@ function Register() {
     const validate = (): boolean => {
         const { username, email, password, repeatPassword } = formData;
 
-        // Username
         if (!username.trim()) {
             openModal('Ошибка', 'Имя пользователя не может быть пустым.');
             return false;
@@ -47,7 +46,6 @@ function Register() {
             return false;
         }
 
-        // Email
         if (!email.trim()) {
             openModal('Ошибка', 'Email обязателен.');
             return false;
@@ -57,7 +55,7 @@ function Register() {
             return false;
         }
 
-        // Password
+        // Passwrd
         if (password.length < 8) {
             openModal('Ошибка', 'Пароль должен быть не короче 8 символов.');
             return false;
@@ -71,7 +69,6 @@ function Register() {
             return false;
         }
 
-        // Repeat password
         if (password !== repeatPassword) {
             openModal('Ошибка', 'Пароли не совпадают.');
             return false;
