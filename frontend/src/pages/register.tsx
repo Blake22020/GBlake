@@ -55,7 +55,6 @@ function Register() {
             return false;
         }
 
-        // Passwrd
         if (password.length < 8) {
             openModal('Ошибка', 'Пароль должен быть не короче 8 символов.');
             return false;
