@@ -73,9 +73,9 @@ router.delete("/:id", auth, async (req: Request, res: Response) => {
         }
 
 
-        if (req.user!.id !== post.author.id.toString() && req.user!.id !== post.author._id.toString()) {
+        if (req.user!.id !== post.author.toString()) {
             return res.status(400).json({
-                error: "Нельзя удалить чужой код"
+                error: "Нельзя удалить чужой пост"
             })
         }
 

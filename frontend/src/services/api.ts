@@ -95,3 +95,5 @@ export async function uploadAvatar(file: File, token: string) {
         throw e;
     }
 }
+
+export async function createPost(title: string, text: string, token: string) {}
