@@ -60,7 +60,7 @@ router.get("/:id", async (req: Request, res: Response) => {
         res.status(500).json({
             error: "Ошибка сервера",
         })
-    }
+    }   
 })
 
 router.delete("/:id", auth, async (req: Request, res: Response) => {

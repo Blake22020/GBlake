@@ -1,4 +1,4 @@
-import LoginNavbarHeader from "../layouts/mainNavbarHeader";
+import LoginNavbarHeader from "../layouts/loginNavbarHeader";
 
 function CreatePost() {
     

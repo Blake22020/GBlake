@@ -26,7 +26,7 @@ app.use("/api", authRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/feed", feedRoutes);
 app.use("/api/admin", adminRoutes)
-app.use("/api/search", searchRoutes)
+app.use("/api/search", searchRoutes);
 
 
 const clientPath = path.join(ROOT, 'frontend', 'build');

@@ -96,4 +96,20 @@ export async function uploadAvatar(file: File, token: string) {
     }
 }
 
-export async function createPost(title: string, text: string, token: string) {}
+export async function createPost(title: string, text: string, token: string) {
+    try {
+        const res = await axios.post("https://gblake.ru/api/posts", {
+            title,
+            text,
+        }, {
+            headers: { 
+                Authorization: `Bearer ${token}`,
+            }
+        })
+
+        return res.data;
+    } catch (e) {
+        console.error(e);
+        throw e;
+    }
+}

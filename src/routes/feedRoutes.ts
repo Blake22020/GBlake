@@ -7,8 +7,8 @@ const router = Router();
 
 router.get("/", optionalAuth, async (req: Request, res: Response) => {
     try {
-        const page = Number(req.params.page) || 1;
-        const limit = Number(req.params.limit) || 10;
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
         const skip = (page - 1) * limit;
 
 
