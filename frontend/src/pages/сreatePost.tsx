@@ -5,7 +5,11 @@ function CreatePost() {
     return (
         <div className="createPost">
             <LoginNavbarHeader />
-            
+            <div className="createPostMain">
+                <div className="createPostCard">
+                    
+                </div>
+            </div>
         </div>
     )
 }
