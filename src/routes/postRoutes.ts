@@ -29,7 +29,6 @@ router.post("/", auth, async (req: Request, res: Response) => {
             title,
             text,
             author: authorId,
-            createdAt: new Date(),
         })
 
 
@@ -89,6 +88,8 @@ router.delete("/:id", auth, async (req: Request, res: Response) => {
             }
         )
 
+        await Post.findByIdAndDelete(req.params.id);
+
         res.json({
             message: "Пост удален"
         })
@@ -118,7 +119,7 @@ router.get("/likes/:id", async(req: Request, res: Response) => {
         res.json(posts)
     } catch(err) {
         res.status(500).json({
-            error: "Ошибка севера",
+            error: "Ошибка сервера",
         })
     }
 })
