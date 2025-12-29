@@ -1,0 +1,50 @@
+.createPostMain {
+    width: 100dvw;
+    padding-top: 65px;
+    padding-left: 200px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 110px;
+    object-fit: cover;
+    min-height: 100dvh;
+}
+
+.createPostCard {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+.createPostCard .closeButton {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+}
+
+.createPostCard .closeButton svg {
+    width: 50px;
+    height: 50px;
+}
+
+
+@media (max-width: 900px) {
+    .createPostMainmain {
+        padding-top: 50px;
+        padding-left: 200px;
+    }
+}
+
+@media (max-width: 600px) {
+    .createPostMain {
+        padding-left: 0;
+    }
+}
