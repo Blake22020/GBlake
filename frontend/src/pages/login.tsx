@@ -79,7 +79,7 @@ function Login() {
         <div className="login-main-window">
             <div className="login-window">
                 <div className="login">
-                    <div className="login-header">
+                    <div className="loginPage-header">
                         <h1>Вход</h1>
                         <h1 onClick={() => {
                             navigate('/register');

@@ -1,3 +1,7 @@
+textarea {
+    resize: none;
+}
+
 .createPostMain {
     width: 100dvw;
     padding-top: 65px;
@@ -11,7 +15,7 @@
 
 .createPostCard {
     position: relative;
-
+    gap: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -35,6 +39,30 @@
     height: 50px;
 }
 
+.createPostCard .createPostForm {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.createPostCard .createPostForm .createPostInputs {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.createPostCard .createPostForm .createPostInputs input{
+    font-size: 3rem;
+}
+.createPostCard .createPostForm .createPostInputs textarea{
+    font-size: 1rem;
+    resize: none;
+    min-height: 300px;
+}
+
+.createPostCard h1 {
+    font-size: 3rem;
+}
 
 @media (max-width: 900px) {
     .createPostMainmain {
