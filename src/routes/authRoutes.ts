@@ -52,7 +52,7 @@ router.post('/register1',
             { expiresIn: "365d" }
         )
 
-        res.json( {user: formatUser(user), token } )
+        res.json( {user, token } )
     }
 )
 
