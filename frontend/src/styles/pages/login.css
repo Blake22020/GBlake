@@ -112,7 +112,7 @@
         width: 400px;
     }
 
-    .login-header h1{
+    .loginPage-header h1{
         font-size: 1.5rem;
     }
 
@@ -136,12 +136,12 @@
         border-radius: 35px;
     }
 
-    .login-header {
+    .loginPage-header {
         justify-content: space-between;
         padding: 10px;
     }
 
-    .login-header h1 {
+    .loginPage-header h1 {
         font-size: 1.3rem;
     }
 

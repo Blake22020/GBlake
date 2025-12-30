@@ -13,12 +13,15 @@ router.post('/register1',
     [
         body('email').isEmail(),
         body('password').isLength({ min: 6 }),
-        body('username').optional().isLength({ min: 1 , max: 20 }),
+        body('username').isLength({ min: 1 , max: 20 }),
     ],
     async (req :Request, res :Response) => {
         const errors = validationResult(req);
         if(!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            const errorMessages = errors.array().map(err => err.msg).join(', ')
+            return res.status(400).json({
+                message: `errorMessage`
+            });
         }
 
         const { email, password, username } = req.body;
