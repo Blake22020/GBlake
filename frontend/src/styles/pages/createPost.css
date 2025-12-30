@@ -43,6 +43,7 @@ textarea {
     display: flex;
     flex-direction: column;
     gap: 50px;
+    width: 30%;
 }
 
 .createPostCard .createPostForm .createPostInputs {
@@ -53,15 +54,55 @@ textarea {
 
 .createPostCard .createPostForm .createPostInputs input{
     font-size: 3rem;
+
 }
 .createPostCard .createPostForm .createPostInputs textarea{
-    font-size: 1rem;
+    font-size: 1.5rem;
     resize: none;
     min-height: 300px;
 }
 
+.createPostCard .createPostForm .createPostInputs input, .createPostCard .createPostForm .createPostInputs textarea {
+    background: rgba(255, 255, 255, 0.15);
+    outline: 0;
+    border: none;
+    padding: 20px 40px;
+    color: white;
+    border-radius: 35px;
+}
+
+.createPostCard .createPostForm .createPostInputs input::placeholder, .createPostCard .createPostForm .createPostInputs textarea::placeholder {
+    color: rgba(255, 255, 255, 0.35)
+}
+
+.createPostCard .createPostForm .createPostInputs input:hover, .createPostCard .createPostForm .createPostInputs textarea:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.createPostCard .createPostForm .createPostInputs input:focus, .createPostCard .createPostForm .createPostInputs textarea:focus {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+
 .createPostCard h1 {
     font-size: 3rem;
+    color: #6E5BFF;
+}
+
+.createPostForm button {
+    outline: 0;
+    border: 0;
+    padding: 25px 10px;
+    background: #6E5BFF;
+    border-radius: 35px;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.createPostForm button:hover {
+    background: #8A7EF5;
 }
 
 @media (max-width: 900px) {
