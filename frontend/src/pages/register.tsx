@@ -93,7 +93,7 @@ function Register() {
 
             if (data.token && data.user) {
                 localStorage.setItem('token', data.token);
-                localStorage.setItem('id', data.user.id.toString());
+                localStorage.setItem('id', String(data.user.id));
                 navigate('/register2');
             } else {
                 const msg = data.message || 'Неизвестная ошибка сервера';
