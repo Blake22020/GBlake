@@ -3,6 +3,7 @@ import { loginRequest } from '../services/api';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal';
+import { Helmet } from 'react-helmet-async';
 
 function Login() {
     const navigate = useNavigate();
@@ -77,6 +78,13 @@ function Login() {
 
     return (
         <div className="login-main-window">
+            <Helmet>
+                <title>Вход - GBlake ❄️</title>
+                <meta
+                name="description"
+                content="Платформа для коротких и длинных мыслей. Общайся, пиши, будь собой."
+            />
+            </Helmet>
             <div className="login-window">
                 <div className="login">
                     <div className="loginPage-header">

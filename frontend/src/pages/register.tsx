@@ -3,6 +3,7 @@ import { registerRequest1  } from '../services/api'
 import React, { useState  } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Modal from '../components/Modal';
+import { Helmet } from 'react-helmet-async';
 
 
 function Register() {
@@ -108,6 +109,13 @@ function Register() {
 
     return (
         <div className='register-main-window'>
+            <Helmet>
+                <title>Регистрация - GBlake ❄️</title>
+                <meta
+                name="description"
+                content="Платформа для коротких и длинных мыслей. Общайся, пиши, будь собой."
+            />
+            </Helmet>
             <div className='register-window'>
                 <div className='register'>
                     <div className='register-header'>

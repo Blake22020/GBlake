@@ -1,16 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import './styles/index.css'
-import Snowfall from 'react-snowfall'
-import { BrowserRouter } from 'react-router-dom'; 
+import './styles/index.css';
+import Snowfall from 'react-snowfall';
+import { BrowserRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async'; 
 
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
-	<BrowserRouter>
+  <React.StrictMode>
+	<HelmetProvider>
 		<Snowfall
 		color="#ffffff91"
 		style={{
@@ -24,7 +27,9 @@ root.render(
 		}}
 		speed={[0.5, 1]}
 		/>
+		<BrowserRouter>
 		<App />
-	</BrowserRouter>
+		</BrowserRouter>
+	</HelmetProvider>
+  </React.StrictMode>
 );
- 

@@ -4,6 +4,7 @@ import '../styles/pages/createPost.css'
 import { useNavigate } from 'react-router-dom'
 import Modal from '../components/Modal'
 import { createPost } from '../services/api'
+import { Helmet } from 'react-helmet-async';
 
 function CreatePost() {
 
@@ -109,6 +110,13 @@ function CreatePost() {
     
     return (
         <div className="createPost">
+            <Helmet>
+                <title>Создание поста - GBlake ❄️</title>
+                <meta
+                name="description"
+                content="Платформа для коротких и длинных мыслей. Общайся, пиши, будь собой."
+            />
+            </Helmet>
             <LoginNavbarHeader />
             <div className="createPostMain">
                 <div className="createPostCard">
