@@ -1,5 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { getUser } from '../services/api';
+import LoginNavbarHeader from '../layouts/mainNavbarHeader';
+import MainNavbarHeader from '../layouts/mainNavbarHeader';
 
 
 async function User() {
@@ -9,7 +11,11 @@ async function User() {
     }
     const user = await getUser(id);
 
-    return <div>user id: {id}</div>;    
+    return (
+        <div className='userPage'>
+            {localStorage.getItem("token") ? <LoginNavbarHeader /> : <MainNavbarHeader />}
+        </div>
+    );    
 }
 
 export default User;

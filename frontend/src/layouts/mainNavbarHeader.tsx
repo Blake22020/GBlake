@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import MainNavbar from "../components/navbars/mainNavbar";
 import MainHeader from "../components/headers/mainHeader";
 
-function LoginNavbarHeader() {
+function MainNavbarHeader() {
     const [navbarOpen, setNavbarOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
 
@@ -19,7 +19,7 @@ function LoginNavbarHeader() {
     }, []);
 
     return (
-        <div className='loginNavbarHeader'>
+        <div className='MainNavbarHeader'>
             <MainHeader openFunction={() => {
                 setNavbarOpen(prev => !prev);
             }} open={navbarOpen}/>
@@ -28,4 +28,4 @@ function LoginNavbarHeader() {
     )
 }
 
-export default LoginNavbarHeader;
+export default MainNavbarHeader;
