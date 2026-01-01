@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 // import { getUser } from '../services/api';
-import LoginNavbarHeader from '../layouts/mainNavbarHeader';
+import LoginNavbarHeader from '../layouts/loginNavbarHeader';
 import MainNavbarHeader from '../layouts/mainNavbarHeader';
 import Post from '../components/Post';
 // import { useEffect, useState } from 'react';
@@ -100,7 +100,7 @@ function User() {
     };
     return (
         <div className='userPage'>
-            {localStorage.getItem("token") ? <LoginNavbarHeader /> : <MainNavbarHeader />}
+            <MainNavbarHeader />
             <div className='userWindow'>
                 <div className='userCard'>
                     <div className='userInfo'>
