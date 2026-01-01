@@ -1,10 +1,36 @@
-import { useParams } from 'react-router-dom';
-// import { getUser } from '../services/api';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getUser } from '../services/api';
 import LoginNavbarHeader from '../layouts/loginNavbarHeader';
 import MainNavbarHeader from '../layouts/mainNavbarHeader';
 import Post from '../components/Post';
-// import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../styles/pages/user.css';
+import { followUser, checkFollowStatus } from '../services/api';
+
+interface User {
+    id: string;
+    username: string;
+    visualName: string;
+    bio: string;
+    followers: number;
+    followings: number;
+    avatar: string;
+    posts: PostInterface[];
+}
+
+interface PostInterface {
+    _id: string;
+    title: string;
+    text: string;
+    createdAt: Date;
+    likes: number;
+    liked: boolean;
+    author: {
+        _id: string;
+        name: string;
+        avatar: string;
+    };
+}
 
 
 function formatNumberWithSpaces(num: number): string {
@@ -20,94 +46,94 @@ function statCard(stat: number, info: string) {
     )
 }
 
-function User() {
-    // const [user, setUser] = useState<User | null>(null);
+function UserPage() {
+    const [isFollow, setIsFollow] = useState<boolean>(false);
+    const navigate = useNavigate()
+    const [user, setUser] = useState<User | null>(null);
 
     const { id } = useParams<{ id: string }>();
 
-    // useEffect(() => {
-    //     if (!id) {
-    //         return;
-    //     }
+    useEffect(() => {
+        const myId = localStorage.getItem('id');
+        const token = localStorage.getItem('token');
+        
+        if (!myId || !token || !id || myId === id) {
+            setIsFollow(false);
+            return;
+        }
 
-    //     const fetchUser = async () => {
-    //         try {
-    //             const userData = await getUser(id); // ← тут вызывается твой API
-    //             setUser(userData);
-    //         } catch (err) {
-    //             console.error('Failed to fetch user:', err);
-    //         } 
-    //     };
+        const checkFollow = async () => {
+            try {
+                const data = await checkFollowStatus(id, token);
+                setIsFollow(data.following);
+            } catch (error) {
+                console.error('Failed to check follow status:', error);
+                setIsFollow(false);
+            }
+        };
 
-    //     fetchUser();
-    // }, [id]); 
+        checkFollow();
+    }, [id])
+
+    useEffect(() => {
+        if (!id) {
+            return;
+        }
+
+        const fetchUser = async () => {
+            try {
+                const userData = await getUser(id);
+                setUser(userData);
+            } catch (err) {
+                console.error('Failed to fetch user:', err);
+            } 
+        };
+
+        fetchUser();
+    }, [id]); 
 
 
     if (!id) {
         return <div>Loading...</div>;
     }
 
+    if (!user) {
+        return <div>Loading user data...</div>;
+    }
 
-    const user = {
-        id: '12343',
-        username: 'Blake22020',
-        visualname: 'Blake',
-        bio: 'Full-stack developer',
-        followers: 4000000,
-        followings: 2,
-        avatar: 'https://cdn-icons-png.flaticon.com/512/149/149071.png', 
-        posts: [
-            {
-                _id: 'post001',
-                title: 'Запуск нового проекта',
-                text: 'Сегодня начал работать над новым open-source фреймворком для быстрой разработки React-приложений. Скоро расскажу подробнее!',
-                createdAt: new Date(Date.now() - 1000 * 60 * 45),
-                likes: 127,
-                liked: false,
-                author: {
-                    _id: '12343',
-                    name: 'Blake',
-                    avatar: '149071.png'
-                }
-            },
-            {
-                _id: 'post002',
-                title: 'TypeScript vs JavaScript',
-                text: 'После года разработки на TypeScript возвращаться на чистый JavaScript уже не хочется. Строгая типизация экономит кучу времени на отладку.',
-                createdAt: new Date(Date.now() - 1000 * 60 * 60 * 5), 
-                likes: 342,
-                liked: true,
-                author: {
-                    _id: '12343',
-                    name: 'Blake',
-                    avatar: '149071.png'
-                }
-            },
-            {
-                _id: 'post003',
-                title: 'Hyprland и fastfetch — идеальный дуэт',
-                text: 'Только что настроил кастомный Hyprland-конфиг с плавными анимациями и прозрачностью. Всё работает идеально — даже курсор больше не пропадает!',
-                createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2), 
-                likes: 89,
-                liked: false,
-                author: {
-                    _id: '12343',
-                    name: 'Blake',
-                    avatar: '149071.png'
-                }
+    const handleFollow = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login');
+            return;
+        }
+
+        try {
+            const data = await followUser(id, token);
+            setIsFollow(data.following);
+        } catch (error: any) {
+            let message = 'Не удалось выполнить действие';
+
+            if (error.response) {
+                message = error.response.data?.message || error.response.statusText || message;
+            } else if (error.request) {
+                message = 'Нет соединения с сервером';
             }
-        ]
+
+            alert(message);
+        }
     };
+
     return (
         <div className='userPage'>
-            <MainNavbarHeader />
+            {localStorage.getItem('token') ? <LoginNavbarHeader /> : <MainNavbarHeader /> } 
             <div className='userWindow'>
                 <div className='userCard'>
                     <div className='userInfo'>
                         <div className='userLine'>
                             <div className="userNameAvatar">
                                 <img src={user.avatar.trim()} alt='' className='userAvatar' />
-                                <h1>{user.visualname}</h1>
+                                <h1>{user.visualName}</h1>
                             </div>
                             {localStorage.getItem('id') === user.id ? <button className='editButton'>
                                 <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -121,7 +147,7 @@ function User() {
                                     </defs>
                                 </svg>
                                 Редактировать
-                            </button> : <button className='followButton'>Подписаться</button>}
+                            </button> : (isFollow ? <button className='unfollowButton' onClick={handleFollow}>Отписаться</button> : <button className='followButton' onClick={handleFollow}>Подписаться</button>)}
                         </div>
                         <p>{user.bio}</p>
                     </div>
@@ -131,9 +157,8 @@ function User() {
                     </div>
                 </div>
                 <div className='posts'>
-                    {user.posts.map(post => (
+                    {user.posts.map((post: PostInterface) => (
                         <Post
-                            key={post._id}
                             _id={post._id}
                             title={post.title}
                             text={post.text}
@@ -149,4 +174,4 @@ function User() {
     );    
 }
 
-export default User;
+export default UserPage;

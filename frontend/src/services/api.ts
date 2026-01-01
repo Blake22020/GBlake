@@ -10,9 +10,13 @@ export async function loadPosts(token: string, page = 1) {
         })
 
         return res.data
-    } catch (e) {
-        console.error(e)
-        throw e;
+    } catch(e) {
+        if (axios.isAxiosError(e) && e.response) {
+            const errorMessage = e.response.data?.message || 'Неизвестная ошибка';
+            throw new Error(errorMessage);
+        } else {
+            throw new Error('Ошибка сети');
+        }
     }
 }
 
@@ -25,9 +29,13 @@ export async function likePost(postId : string, token: string | null) {
         })
 
         return res.data;
-    } catch (e) {
-        console.error(e);
-        throw e;
+    } catch(e) {
+        if (axios.isAxiosError(e) && e.response) {
+            const errorMessage = e.response.data?.message || 'Неизвестная ошибка';
+            throw new Error(errorMessage);
+        } else {
+            throw new Error('Ошибка сети');
+        }
     }
 }
 
@@ -42,9 +50,13 @@ export async function registerRequest1({email, password, username} : {email: str
 
         return res.data
     } catch(e) {
-        console.error(e)
-        throw e;
-    } 
+        if (axios.isAxiosError(e) && e.response) {
+            const errorMessage = e.response.data?.message || 'Неизвестная ошибка';
+            throw new Error(errorMessage);
+        } else {
+            throw new Error('Ошибка сети');
+        }
+    }
 }
 
 export async function registerRequest2({visualName, bio} : {visualName: string, bio: string}, token : string | null) {
@@ -60,9 +72,13 @@ export async function registerRequest2({visualName, bio} : {visualName: string, 
 
         return res.data
     } catch(e) {
-        console.error(e)
-        throw e;
-    } 
+        if (axios.isAxiosError(e) && e.response) {
+            const errorMessage = e.response.data?.message || 'Неизвестная ошибка';
+            throw new Error(errorMessage);
+        } else {
+            throw new Error('Ошибка сети');
+        }
+    }
 }
 
 export async function loginRequest(
@@ -73,10 +89,14 @@ export async function loginRequest(
   try {
     const res = await axios.post('https://gblake.ru/api/login', credentials);
     return res.data;
-  } catch (e) {
-    console.error(e);
-    throw e;
-  }
+  } catch(e) {
+        if (axios.isAxiosError(e) && e.response) {
+            const errorMessage = e.response.data?.message || 'Неизвестная ошибка';
+            throw new Error(errorMessage);
+        } else {
+            throw new Error('Ошибка сети');
+        }
+    }
 }
 
 export async function uploadAvatar(file: File, token: string) {
@@ -92,9 +112,13 @@ export async function uploadAvatar(file: File, token: string) {
         });
 
         return res.data;
-    } catch (e) {
-        console.error(e);
-        throw e;
+    } catch(e) {
+        if (axios.isAxiosError(e) && e.response) {
+            const errorMessage = e.response.data?.message || 'Неизвестная ошибка';
+            throw new Error(errorMessage);
+        } else {
+            throw new Error('Ошибка сети');
+        }
     }
 }
 
@@ -110,9 +134,13 @@ export async function createPost(title: string, text: string, token: string) {
         })
 
         return res.data;
-    } catch (e) {
-        console.error(e);
-        throw e;
+    } catch(e) {
+        if (axios.isAxiosError(e) && e.response) {
+            const errorMessage = e.response.data?.message || 'Неизвестная ошибка';
+            throw new Error(errorMessage);
+        } else {
+            throw new Error('Ошибка сети');
+        }
     }
 }
 
@@ -121,8 +149,48 @@ export async function getUser(userId: string) {
         const res = await axios.get("https://gblake.ru/api/users/" + userId);
 
         return res.data;
-    } catch (e) {
-        console.error(e);
-        throw e;
+    } catch(e) {
+        if (axios.isAxiosError(e) && e.response) {
+            const errorMessage = e.response.data?.message || 'Неизвестная ошибка';
+            throw new Error(errorMessage);
+        } else {
+            throw new Error('Ошибка сети');
+        }
+    }
+}
+
+export async function followUser(userId: string, token: string) {
+    try {
+        const res = await axios.post("https://gblake.ru/api/users/" + userId + "/follow", {}, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+        return res.data;
+    } catch(e) {
+        if (axios.isAxiosError(e) && e.response) {
+            const errorMessage = e.response.data?.message || 'Неизвестная ошибка';
+            throw new Error(errorMessage);
+        } else {
+            throw new Error('Ошибка сети');
+        }
+    }
+}
+
+export async function checkFollowStatus(userId: string, token: string) {
+    try {
+        const res = await axios.get("https://gblake.ru/api/users/" + userId + "/follow", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+        return res.data;
+    } catch(e) {
+        if (axios.isAxiosError(e) && e.response) {
+            const errorMessage = e.response.data?.message || 'Неизвестная ошибка';
+            throw new Error(errorMessage);
+        } else {
+            throw new Error('Ошибка сети');
+        }
     }
 }

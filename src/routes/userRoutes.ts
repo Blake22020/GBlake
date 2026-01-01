@@ -14,12 +14,24 @@ const upload = multer({
 
 router.get("/:id", async (req :Request, res:Response) => {
     try {
-        const user = await User.findById(req.params.id).select("-password");
+        const user = await User.findById(req.params.id)
+            .select("-password")
+            .populate("posts", "_id title text createdAt likes liked author");
+            
         if (!user) {
             return res.status(404).send("User Not Found");
         }
 
-        res.json(formatUser(user));
+        res.json({
+            id: user._id,
+            username: user.username,
+            visualName: user.visualName,
+            bio: user.bio,
+            followers: user.followers.length,
+            followings: user.followings.length,
+            avatar: user.avatar,
+            posts: user.posts
+        });
     } catch {
         res.status(500).send("Server Error");
     }
@@ -51,20 +63,40 @@ router.patch("/me", auth, async (req :Request, res :Response) => {
     }
 })
 
+router.get("/:id/follow", auth, async (req :Request, res :Response) => {
+    try {
+        const meId = req.user!.id;
+        const targetId = req.params.id;
+
+        if(meId === targetId) {
+            return res.json({ following: false });
+        }
+
+        const me = await User.findById(meId);
+        if (!me) return res.status(404).json({ message: "Ваш аккаунт не найден" });
+
+        const isFollowing = me.followings.some(id => id.toString() === targetId);
+        
+        res.json({ following: isFollowing });
+    } catch {
+        res.status(500).json({ message: "Ошибка сервера" });
+    }
+});
+
 router.post("/:id/follow", auth, async (req :Request, res :Response) => {
     try {
         const meId = req.user!.id;
         const targetId = req.params.id;
 
         if(meId  === targetId) {
-            return res.status(404).send("Cannot follow yourself");
+            return res.status(404).json({ message: "Cannot follow yourself" });
         }
 
         const me = await User.findById(meId);
-        if (!me) return res.status(404).send("Ваш аккаунт не найден");
+        if (!me) return res.status(404).json({ message: "Ваш аккаунт не найден" });
 
         const target = await User.findById(targetId);
-        if(!target) return res.status(404).send("User Not Found");
+        if(!target) return res.status(404).json({ message: "Пользоватеь не найден" });
 
         const already = me!.followings.some(id => id.toString() === targetId);
         if(already) {
@@ -89,7 +121,7 @@ router.post("/:id/follow", auth, async (req :Request, res :Response) => {
             })
         }
     } catch {
-        res.status(500).json({ message: "Server Error" });
+        res.status(500).json({ message: "Ошибка сервера" });
     }
 });
 
