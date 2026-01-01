@@ -1,0 +1,282 @@
+.userPage {
+    width: 100dvw;
+    padding-top: 65px;
+    padding-left: 200px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 110px;
+    object-fit: cover;
+	overflow-y: hidden;
+}
+
+.userWindow .userCard {
+	display: flex;
+	flex-direction: column;
+	gap: 100px;
+	padding: 150px 0 100px 0;
+	width: 100%;
+	text-align: center;
+}
+
+.userWindow .userCard .userInfo {
+	display: flex;
+	flex-direction: column;
+	gap: 100px;
+	align-items: center;
+}
+
+.userWindow .userCard .userInfo .userLine {
+	display: flex;
+	justify-content: space-between;
+	width: 850px;
+	align-items: center;
+}
+
+.userWindow .userCard .userInfo .userLine .userNameAvatar {
+	display: flex;
+	align-items: center;
+	gap: 25px;
+}
+
+.userWindow .userCard .userInfo .userLine .userNameAvatar img{
+	aspect-ratio: 1 / 1;
+	height: 5rem;
+	object-fit: cover;
+	background: white;
+	border-radius: 50%;
+}
+
+.userWindow .userCard .userInfo .userLine .userNameAvatar h1{
+	color: white;
+	font-size: 5rem;
+}
+
+.userWindow .userCard .userInfo .userLine .followButton{
+	background: #6E5BFF;
+	padding: 15px 35px;
+	border-radius: 35px;
+	font-size: 2rem;
+	color: white;
+	outline: 0;
+	border: 0;
+	cursor: pointer;
+}
+
+.userWindow .userCard .userInfo .userLine .followButton:hover{
+	background: #8a7ef5;
+}
+
+.userWindow .userCard .userInfo p {
+	color: white;
+	font-size: 2rem;
+}
+
+.userWindow .userCard .userStats {
+	display: flex;
+	gap: 100px;
+	justify-content: center;
+	align-items: center;
+}
+
+.userWindow .userCard .userStats .userStatCard{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	color:white;
+	background: rgba(255, 255, 255, 0.1);
+	padding: 20px 30px;
+	border-radius: 50px;
+}
+
+.userWindow .userCard .userStats h1{
+	font-size: 2.5rem;
+}
+
+.userWindow .userCard .userStats h2{
+	font-size: 1.5rem;
+}
+
+
+@media (max-width: 1200px) {
+	.userWindow .userCard .userInfo .userLine {
+		width: 700px;
+	}
+
+	.userWindow .userCard .userInfo .userLine .userNameAvatar img{
+		height: 4rem;
+
+	}
+
+	.userWindow .userCard .userInfo .userLine .userNameAvatar h1{
+		font-size: 4rem;
+	}
+
+	.userWindow .userCard .userInfo .userLine .followButton{
+		font-size: 1.5rem;
+	}
+}
+
+@media (max-width: 1000px) {
+	.userWindow .userCard .userInfo {
+		gap: 50px;
+	}
+
+	.userWindow .userCard .userInfo .userLine {
+		width: 600px;
+	}
+
+	.userWindow .userCard .userInfo .userLine .userNameAvatar img{
+		height: 3rem;
+
+	}
+
+	.userWindow .userCard .userInfo .userLine .userNameAvatar h1{
+		font-size: 3rem;
+	}
+
+	.userWindow .userCard .userInfo .userLine .followButton{
+		padding: 10px 20px;
+	}
+}
+
+@media (max-width: 900px) {
+    .userPage {
+        padding-top: 50px;
+        padding-left: 200px;
+    }
+}
+
+@media (max-width: 850px) {
+	.userWindow .userCard .userInfo .userLine {
+		width: 500px;
+	}
+
+	.userWindow .userCard .userInfo .userLine .userNameAvatar img{
+		height: 3rem;
+
+	}
+
+	.userWindow .userCard .userInfo .userLine .userNameAvatar h1{
+		font-size: 3rem;
+	}
+
+	.userWindow .userCard .userInfo .userLine .followButton{
+		padding: 10px 20px;
+	}
+}
+
+@media (max-width: 800px) {
+	.userWindow .userCard .userStats {
+		gap: 50px;
+	}
+
+
+	.userWindow .userCard .userStats .userStatCard{
+		gap: 8px ;
+	}
+
+	.userWindow .userCard .userStats h1{
+		font-size: 1.8rem;
+	}
+
+	.userWindow .userCard .userStats h2{
+		font-size: 1rem;
+	}
+}
+
+@media (max-width: 600px) {
+    .userPage {
+        padding-left: 0;
+    }
+
+	.userWindow .userCard .userInfo .userLine {
+		width: 90%;
+	}
+
+	.userWindow .userCard .userInfo .userLine .userNameAvatar img{
+		height: 2rem;
+
+	}
+
+	.userWindow .userCard .userInfo .userLine .userNameAvatar h1{
+		font-size: 2rem;
+	}
+
+	.userWindow .userCard .userInfo .userLine .followButton{
+		padding: 10px 20px;
+		font-size: 1.8rem;
+	}
+}
+
+@media (max-width: 500px) {
+	.userWindow .userCard .userInfo .userLine .userNameAvatar {
+		gap: 8px;
+	}
+
+	.userWindow .userCard .userInfo .userLine .followButton{
+		padding: 5px 20px;
+		font-size: 1.4rem;
+	}
+
+	.userWindow .userCard .userStats {
+		gap: 20px;
+	}
+
+	.userWindow .userCard .userStats .userStatCard{
+		gap: 8px ;
+	}
+
+	.userWindow .userCard .userStats h1{
+		font-size: 1.4rem;
+	}
+
+	.userWindow .userCard .userStats h2{
+		font-size: 1rem;
+	}
+}
+
+@media (max-width: 400px) {
+	.userWindow .userCard .userInfo .userLine {
+		width: 90%;
+	}
+
+	.userWindow .userCard .userInfo .userLine .userNameAvatar img{
+		height: 1.5rem;
+
+	}
+
+	.userWindow .userCard .userInfo .userLine .userNameAvatar h1{
+		font-size: 1.5rem;
+	}
+
+	.userWindow .userCard .userInfo .userLine .followButton{
+		padding: 10px 20px;
+		font-size: 1rem;
+	}
+
+	.userWindow .userCard .userInfo p {
+		font-size: 1.2rem;
+	}
+
+	.userWindow .userCard {
+		padding: 75px 0 50px 0;
+		gap: 40px;
+	}
+
+	.userWindow .userCard .userStats {
+		gap: 20px;
+	}
+
+	.userWindow .userCard .userStats .userStatCard{
+		gap: 8px ;
+		padding: 10px 15px;
+	}
+
+	.userWindow .userCard .userStats h1{
+		font-size: 1.1rem;
+	}
+
+	.userWindow .userCard .userStats h2{
+		font-size: 0.9rem;
+	}
+}
