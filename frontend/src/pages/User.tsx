@@ -6,6 +6,7 @@ import Post from '../components/Post';
 import { useEffect, useState } from 'react';
 import '../styles/pages/user.css';
 import { followUser, checkFollowStatus } from '../services/api';
+import Modal from '../components/Modal';
 
 interface User {
     id: string;
@@ -47,10 +48,17 @@ function statCard(stat: number, info: string) {
 }
 
 function UserPage() {
-    const [isFollow, setIsFollow] = useState<boolean>(false);
     const navigate = useNavigate()
-    const [user, setUser] = useState<User | null>(null);
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalData, setModalData] = useState({ title: '', text: '' });
+    const openModal = (title: string, text: string) => {
+        setModalData({ title, text });
+        setIsModalOpen(true);
+    };
+
+    const [user, setUser] = useState<User | null>(null);
+    const [isFollow, setIsFollow] = useState<boolean>(false);
     const { id } = useParams<{ id: string }>();
 
     useEffect(() => {
@@ -120,8 +128,7 @@ function UserPage() {
             } else if (error.request) {
                 message = 'Нет соединения с сервером';
             }
-
-            alert(message);
+            openModal('Ошибка', message)
         }
     };
 
@@ -171,6 +178,12 @@ function UserPage() {
                     ))}
                 </div>
             </div>
+            <Modal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                title={modalData.title}
+                text={modalData.text}
+            />
         </div>
     );    
 }
