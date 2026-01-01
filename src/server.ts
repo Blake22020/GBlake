@@ -41,7 +41,14 @@ app.get('*', (req, res) => {
 
 const PORT = env.port || 3000;
 
-app.listen(PORT, async () => {
-    await connectDB();
+const startServer = async () => {
+  await connectDB();
+  app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
-})
+  });
+};
+
+startServer().catch(err => {
+  console.error('Failed to start server:', err);
+  process.exit(1);
+});
