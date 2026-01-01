@@ -86,11 +86,12 @@ function UserPage() {
                 setUser(userData);
             } catch (err) {
                 console.error('Failed to fetch user:', err);
+                navigate('/404');
             } 
         };
 
         fetchUser();
-    }, [id]); 
+    }, [id, navigate]); 
 
 
     if (!id) {

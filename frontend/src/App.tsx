@@ -5,6 +5,7 @@ import Login from './pages/login';
 import { Routes, Route } from "react-router-dom";
 import CreatePost from './pages/сreatePost';
 import User from './pages/User';
+import NotFound from './pages/NotFound';
 
 function App() {
 	return (
@@ -15,6 +16,9 @@ function App() {
 			<Route path="/register2" element={<Register2 />} />
 			<Route path="/create" element={<CreatePost />} />
 			<Route path="/user/:id" element={<User />} />
+
+			<Route path="*" element={<NotFound />} />
+
 		</Routes>
 	);
 }
