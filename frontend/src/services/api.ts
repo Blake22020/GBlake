@@ -115,3 +115,14 @@ export async function createPost(title: string, text: string, token: string) {
         throw e;
     }
 }
+
+export async function getUser(userId: string) {
+    try {
+        const res = await axios.get("https://gblake.ru/api/users/" + userId);
+
+        return res.data;
+    } catch (e) {
+        console.error(e);
+        throw e;
+    }
+}
