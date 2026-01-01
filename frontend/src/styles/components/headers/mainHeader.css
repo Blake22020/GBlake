@@ -127,7 +127,7 @@
     cursor: pointer;
 
     &:hover {
-        background: #8A7EF5;
+        background: lab(58.9% 33.57 -58.4);
     }
 }
 
