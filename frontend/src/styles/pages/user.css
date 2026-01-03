@@ -54,7 +54,6 @@
 .userWindow .userCard .userInfo .userLine .followButton,
 .userWindow .userCard .userInfo .userLine .editButton,
 .userWindow .userCard .userInfo .userLine .unfollowButton {
-	background: #6E5BFF;
 	padding: 15px 35px;
 	border-radius: 35px;
 	font-size: 2rem;
@@ -64,11 +63,24 @@
 	cursor: pointer;
 }
 
-
+.userWindow .userCard .userInfo .userLine .followButton {
+	background: #6E5BFF;
+}
 
 .userWindow .userCard .userInfo .userLine .followButton:hover{
 	background: #8a7ef5;
 }
+
+.userWindow .userCard .userInfo .userLine .editButton,
+.userWindow .userCard .userInfo .userLine .unfollowButton {
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.userWindow .userCard .userInfo .userLine .editButton:hover,
+.userWindow .userCard .userInfo .userLine .unfollowButton:hover {
+	background: rgba(255, 255, 255, 0.2);
+}
+
 
 .userWindow .userCard .userInfo p {
 	color: white;
