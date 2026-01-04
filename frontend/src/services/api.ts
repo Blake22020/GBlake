@@ -194,3 +194,22 @@ export async function checkFollowStatus(userId: string, token: string) {
         }
     }
 }
+
+export async function searchResponse(text: string) {
+    try {
+        const res = await axios.get("https://gblake.ru/api/search/", {
+            params: {
+                q: text,
+            }
+        })
+
+        return res.data;
+    } catch(e) {
+        if (axios.isAxiosError(e) && e.response) {
+            const errorMessage = e.response.data?.message || 'Неизвестная ошибка';
+            throw new Error(errorMessage);
+        } else {
+            throw new Error('Ошибка сети');
+        }
+    }
+}
