@@ -10,13 +10,13 @@ type Props = {
 
 function MainHeader({ openFunction, open } : Props,) {
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const [inputValue, setInputValue] = useState(searchParams.get('q') || '');
 
 
     const handleSearch = () => {
         if (inputValue.trim()) {
-            setSearchParams({ q: inputValue });
+            navigate(`/search?q=${inputValue}`)
         }
     };
     
@@ -44,7 +44,8 @@ function MainHeader({ openFunction, open } : Props,) {
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') {
-                        handleSearch();
+                            handleSearch();
+                            
                         }
                     }}
                 />

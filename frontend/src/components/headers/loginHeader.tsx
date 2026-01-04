@@ -9,13 +9,15 @@ type Props = {
 
 
 function LoginHeader({ openFunction, open } : Props) {
-    const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const [inputValue, setInputValue] = useState(searchParams.get('q') || '');
 
 
     const handleSearch = () => {
         if (inputValue.trim()) {
-            setSearchParams({ q: inputValue });
+            navigate(`/search?q=${inputValue}`)
+
         }
     };
     
