@@ -1,7 +1,7 @@
 .register-main-window {
     background: #191919;
     width: 100dvw;
-    height: 100dvh;
+    overflow-y: hidden;
 }
 
 .register-window {

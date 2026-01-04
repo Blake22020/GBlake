@@ -1,4 +1,6 @@
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import '../../styles/components/headers/loginHeader.css'
+import { useEffect, useState } from 'react';
 
 type Props = {
     openFunction: () => void;
@@ -6,7 +8,21 @@ type Props = {
 }
 
 
-function loginHeader({ openFunction, open } : Props) {
+function LoginHeader({ openFunction, open } : Props) {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [inputValue, setInputValue] = useState(searchParams.get('q') || '');
+
+
+    const handleSearch = () => {
+        if (inputValue.trim()) {
+            setSearchParams({ q: inputValue });
+        }
+    };
+    
+    useEffect(() => {
+        setInputValue(searchParams.get('q') || '');
+    }, [searchParams]);
+
     return (
         <header className='login-header'>
             <div className='title'>
@@ -19,7 +35,18 @@ function loginHeader({ openFunction, open } : Props) {
             </div>
             <div className="search-bar">
                 <svg className="search-icon" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g data-name="Layer 2"><g data-name="search"><rect width="24" height="24" opacity="0"/><path d="M20.71 19.29l-3.4-3.39A7.92 7.92 0 0 0 19 11a8 8 0 1 0-8 8 7.92 7.92 0 0 0 4.9-1.69l3.39 3.4a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 11a6 6 0 1 1 6 6 6 6 0 0 1-6-6z"/></g></g></svg>
-                <input className='search-input' type='text' placeholder='Поиск в GBlake' />
+                <input
+                    className='search-input'
+                    type='text'
+                    placeholder='Поиск в GBlake'
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                        handleSearch();
+                        }
+                    }}
+                />
             </div>
             <div className='mobileIcon'>
                 <svg  onClick={() => {
@@ -59,4 +86,4 @@ function loginHeader({ openFunction, open } : Props) {
     )
 }
 
-export default loginHeader;
+export default LoginHeader;

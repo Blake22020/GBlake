@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import CreatePost from './pages/сreatePost';
 import User from './pages/User';
 import NotFound from './pages/NotFound';
+import Search from './pages/Search';
 
 function App() {
 	return (
@@ -16,6 +17,8 @@ function App() {
 			<Route path="/register2" element={<Register2 />} />
 			<Route path="/create" element={<CreatePost />} />
 			<Route path="/user/:id" element={<User />} />
+			<Route path="/search" element={<Search />} />
+
 
 			<Route path="*" element={<NotFound />} />
 

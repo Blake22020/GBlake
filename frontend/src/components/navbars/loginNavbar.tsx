@@ -47,7 +47,7 @@ function LoginNavbar({ open } : any) {
                 <a className='contactButton' href='https://t.me/blake22020'>Telegram</a>
                 <a className='contactButton' href='mailto:mr.blake.hero@mail.ru'>Mail</a>
                 <a className='contactButton' href='https://github.com/blake22020'>Github</a>
-                <a className='contactButton'>Портфолио</a>
+                <a className='contactButton' href='https://gblake.ru'>Портфолио</a>
             </div>
         </div>
     )
