@@ -4,11 +4,35 @@ import MainNavbarHeader from "../layouts/mainNavbarHeader";
 import { useEffect, useState } from "react";
 import { searchResponse } from "../services/api";
 import Modal from "../components/Modal";
+import Post from "../components/Post";
+
+interface User {
+    _id: string;
+    visualName: string;
+    followers: number;
+    avatar: string;
+}
+
+interface PostInterface {
+    _id: string;
+    title: string;
+    text: string;
+    createdAt: Date;
+    likes: number;
+    author: {
+        _id: string;
+        name: string;
+        avatar: string;
+    };
+}
+
 
 function Search() {
 	const [searchParams] =useSearchParams();
 	const query = searchParams.get('q') || '';
 	const [isPosts, setIsPosts] = useState(true);
+	const [posts, setPosts] = useState<any[]>([]);
+	const [users, setUsers] = useState<any[]>([]);
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [modalData, setModalData] = useState({ title: '', text: '' });
@@ -18,16 +42,27 @@ function Search() {
 	};
 
 	useEffect(() => {
-		try {
-			searchResponse(query).then((res) => {
-				console.log(res);
-			})
-		} catch(error : any) {
-			const errMsg = error?.response?.data?.message || error.message || 'Неизвестная ошибка';
-			openModal('Ошибка', errMsg);
-		}
+			const performSearch = async () => {
+			try {
+				const results = await searchResponse(query);
+				if (results && results.posts) {
+					setPosts(results.posts);
+				}
+				if (results && results.users) {
+					setUsers(results.users);
+				}
+				console.log('Posts saved:', results.posts);
+				console.log('Users saved:', results.users);
+			} catch(error : any) {
+				const errMsg = error?.response?.data?.message || error.message || 'Неизвестная ошибка';
+				openModal('Ошибка', errMsg);
+			}
+		};
 
-	})
+		if (query) {
+			performSearch();
+		}
+	}, [query]);
 
 	return (
 		<div className="Search">
@@ -39,7 +74,17 @@ function Search() {
 				</div>
 
 				<div className={isPosts ? "posts" : 'posts hidden'}>
-
+					{posts.map((post: PostInterface) => (
+                        <Post
+                            _id={post._id}
+                            title={post.title}
+                            text={post.text}
+                            createdAt={post.createdAt}
+                            likes={post.likes}
+                            liked={false}
+                            author={post.author}
+                        />
+                    ))}
 				</div>
 
 				<div className={isPosts ? "users hidden" : "users"} id='users'>

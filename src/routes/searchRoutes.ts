@@ -30,13 +30,10 @@ router.get("/", async (req: Request, res: Response) => {
         }).select("_id name avatar posts").lean();
 
         const formatedUsers = users.map((user) => ({
-            type: "user",
-            _id: user._id,
+            _id: user._id.toString(),
             visualName: user.visualName,
-            bio: user.bio,
-            followers: user.followers,
+            followers: user.followers.length,
             avatar: user.avatar,
-            posts: user.posts ? user.posts.length : 0,
         }));
 
         const posts = await Post.find({
@@ -50,8 +47,7 @@ router.get("/", async (req: Request, res: Response) => {
             .lean();
 
         const formatedPosts = posts.map((post) => ({
-            type: "post",
-            _id: post._id,
+            _id: post._id.toString(),
             likes: post.likes,
             title: post.title,
             text: post.text,
@@ -60,7 +56,7 @@ router.get("/", async (req: Request, res: Response) => {
         }))
 
         formatedUsers.sort((a, b) => {
-            return (b.followers.length || 0) - (a.followers.length || 0);
+            return (b.followers || 0) - (a.followers || 0);
         })
 
         formatedPosts.sort((a, b) => {
