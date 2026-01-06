@@ -118,7 +118,7 @@ router.post('/login',
 
 function formatUser(u: any) {
     return {
-        id: u._id,
+        id: u._id.toString(),
         username: u.username,
         visualName: u.visualName,
         bio: u.bio,

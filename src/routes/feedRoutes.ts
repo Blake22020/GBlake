@@ -11,6 +11,15 @@ router.get("/", optionalAuth, async (req: Request, res: Response) => {
         const limit = Number(req.query.limit) || 10;
         const skip = (page - 1) * limit;
 
+        const normalizePost = (post: any) => ({
+            ...post,
+            _id: post._id.toString(),
+            author: post.author
+                ? {
+                    ...post.author,
+                    _id: post.author._id.toString(),
+                } : null,
+        })
 
         if(!req.user) {
             const posts = await Post.find({})
@@ -20,7 +29,9 @@ router.get("/", optionalAuth, async (req: Request, res: Response) => {
                 .limit(limit)
                 .lean();
 
-            return res.json(posts);
+
+
+            return res.json(posts.map(normalizePost));
         }
 
         const user = await User.findById(req.user.id)
@@ -55,7 +66,7 @@ router.get("/", optionalAuth, async (req: Request, res: Response) => {
                 .lean();
         }
 
-        res.json(posts);
+        res.json(posts.map(normalizePost));
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: "Ошибка сервера "})
