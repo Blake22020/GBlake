@@ -1,0 +1,229 @@
+.search {
+    width: 100dvw;
+    padding-top: 65px;
+    padding-left: 200px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 110px;
+    object-fit: cover;
+}
+
+.searchWindow {
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+	padding: 50px 0;
+}
+
+.searchWindow .buttons {
+	display: flex;
+	gap: 20px;
+	align-items: center;
+	justify-content: center;
+}
+
+.searchWindow .buttons .button {
+	color: white;
+	font-size: 2rem;
+	background: rgba(255, 255, 255, 0.1);
+	padding: 15px 35px;
+	border: 0;
+	border-radius: 35px;
+	cursor: pointer;
+	transition: all 0.1s ease-in-out;
+}
+
+.searchWindow .buttons .button.active {
+	background: rgba(255, 255, 255, 0.2);
+}
+
+.searchWindow .posts.hidden, .searchWindow .users.hidden {
+	display: none;
+}
+
+.searchWindow .posts {
+	display: flex;
+	flex-direction: column;
+	gap: 50px;
+}
+
+.searchWindow .users {
+	display: flex;
+	flex-direction: column;
+	gap: 100px;
+}
+
+.searchWindow .users .userCard{
+	display: flex;
+	justify-content: space-between;
+	background: rgba(255, 255, 255, 0.05);
+	border-radius: 65px;
+	padding: 20px;
+	align-items: center;
+	width: 700px;
+	gap: 30px;
+	color: white;
+	cursor: pointer;
+	margin: 0 auto;
+	transition: all 0.3s ease-in-out;
+}
+
+.searchWindow .users .userCard:hover {
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.searchWindow .users .userCard img {
+	width: 96px;
+	height: 96px;
+	border-radius: 50%;
+	object-fit: cover;
+	aspect-ratio: 1 / 1;
+	background: transparent;
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.searchWindow .users .userCard .text{
+	display: flex;
+	justify-content: space-between;
+}
+
+.searchWindow .users .userCard .text h1{
+	font-size: 2rem;
+}
+
+.searchWindow .users .userCard .followButton{
+	font-size: 1.3rem;
+	background: #6E5BFF;
+	padding: 15px 35px;
+	border-radius: 35px;
+	border: 0;
+	color: white;
+	cursor: pointer; 
+
+}
+
+.searchWindow .users .userCard .unfollowButton{
+	font-size: 1.3rem;
+	background: rgba(255, 255, 255, 0.2);
+	padding: 15px 35px;
+	border-radius: 35px;
+	border: 0;
+	cursor: pointer;
+	color: white;
+}
+
+.searchWindow .users .userCard .followButton:hover {
+	background: #7767f0;
+}
+.searchWindow .users .userCard .unfollowButton:hover {
+	background: rgba(255, 255, 255, 0.3)
+}
+
+@media (max-width: 1000px) {
+	.searchWindow .users .userCard {
+		width: 550px;
+	}
+
+	.searchWindow .users .userCard img {
+		width: 72px;
+		height: 72px;
+	}
+
+	.searchWindow .users .userCard .followButton, .searchWindow .users .userCard .unfollowButton{
+		font-size: 1.3rem;
+		padding: 10px 15px;
+	}
+
+	.searchWindow .users .userCard .text h1 {
+		font-size: 1.5rem;
+	}
+
+	.searchWindow .buttons .button {
+		font-size: 1.5rem;
+	}
+}
+
+@media (max-width: 900px) {
+    .search {
+        padding-top: 50px;
+        padding-left: 200px;
+    }
+
+	.searchWindow .buttons .button{
+		padding: 10px 15px;
+	}
+
+	.searchWindow {
+		padding: 25px 0;
+	}
+
+	.searchWindow .users {
+		gap: 25px;
+	}
+
+	.searchWindow .users .userCard {
+		width: 500px;
+	}
+
+	.searchWindow .users .userCard img {
+		width: 48px;
+		height: 48px;
+	}
+
+	.searchWindow .users .userCard .text h1 {
+		font-size: 1.3rem;
+	}
+}
+
+@media (max-width: 700px) {
+	.searchWindow .users .userCard {
+		width: 400px;
+	}
+
+	.searchWindow .users .userCard img {
+		width: 36px;
+		height: 36px;
+	}
+
+	.searchWindow .users .userCard .followButton, .searchWindow .users .userCard .unfollowButton{
+		padding: 5px 10px;
+		font-size: 1rem;
+	}
+
+	.searchWindow .users .userCard .text h1 {
+		font-size: 1rem;
+	}
+}
+
+@media (max-width: 600px) {
+    .search {
+        padding-left: 0;
+    }
+
+	.searchWindow .users .userCard {
+		width: 80%;
+	}
+}
+
+@media (max-width: 550px) {
+	.searchWindow .users .userCard {
+		width: 90%;
+	}
+}
+
+@media (max-width: 450px) {
+	.searchWindow  .users .userCard .text h1 {
+		font-size: 0.9rem;
+		font-weight: 800;
+	}
+	
+	.searchWindow .users .userCard {
+		gap: 10px;
+	}
+}
+
+@media (max-width: 400px) {
+
+}
