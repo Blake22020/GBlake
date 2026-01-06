@@ -19,7 +19,7 @@ router.get("/", optionalAuth, async (req: Request, res: Response) => {
                     ...post.author,
                     _id: post.author._id.toString(),
                 } : null,
-        })
+        });
 
         if(!req.user) {
             const posts = await Post.find({})

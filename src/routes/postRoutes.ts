@@ -3,7 +3,16 @@ import User from "../models/User";
 import { auth } from "../middleware/auth";
 import Post from "../models/Post";
 
-
+function normalizePost(post: any) {
+    return {...post,
+    _id: post._id.toString(),
+    author: post.author
+        ? {
+            ...post.author,
+            _id: post.author._id.toString(),
+        } : null,
+    };
+};
 
 const router = Router();
 
@@ -37,7 +46,7 @@ router.post("/", auth, async (req: Request, res: Response) => {
         author.posts.push(post._id);
         await author.save();
 
-        res.json(post)
+        res.json(normalizePost(post))
     } catch (err) {
         res.status(400).json({
             error: "Ошибка сервера"
@@ -54,7 +63,17 @@ router.get("/:id", async (req: Request, res: Response) => {
             })
         }
 
-        res.json(post)
+        const normalizePost = (post: any) => ({
+            ...post,
+            _id: post._id.toString(),
+            author: post.author
+                ? {
+                    ...post.author,
+                    _id: post.author._id.toString(),
+                } : null,
+        });
+
+        res.json(normalizePost(post))
     } catch (err) {
         res.status(500).json({
             error: "Ошибка сервера",
@@ -101,29 +120,6 @@ router.delete("/:id", auth, async (req: Request, res: Response) => {
 })
 
 
-router.get("/likes/:id", async(req: Request, res: Response) => {
-    try {
-        const user = await User.findById(req.params.id);
-        if(!user) {
-            return res.status(404).json({
-                error: "Не удалось найти пользователя"
-            })
-        }
-
-        const posts = await Post.find({
-            _id: {
-                $in: user.likes,
-            }
-        }).populate("author", "username avatar _id");
-
-        res.json(posts)
-    } catch(err) {
-        res.status(500).json({
-            error: "Ошибка сервера",
-        })
-    }
-})
-
 router.get("/likes", async (req: Request, res: Response) => {
     try {
         const userId = req.body.userId;
@@ -146,8 +142,10 @@ router.get("/likes", async (req: Request, res: Response) => {
             }
         }).populate("author", "username avatar _id");
 
-        res.json(posts);
-    } catch(err) {
+
+        res.json(posts.map(normalizePost))    
+    } 
+        catch(err) {
         res.status(500).json({
             error: "Ошибка сервера",
         })
@@ -176,7 +174,8 @@ router.get("/followings", async (req: Request, res: Response) => {
             }
         }).populate("author", "username avatar _id");
 
-        res.json(posts);
+
+        res.json(posts.map(normalizePost));
     } catch(err) {
         res.status(500).json({
             error: "Ошибка сервера",
