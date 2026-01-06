@@ -140,7 +140,7 @@ function UserPage() {
                     <div className='userInfo'>
                         <div className='userLine'>
                             <div className="userNameAvatar">
-                                <img src={user.avatar.trim()} alt='' className='userAvatar' />
+                                <img src={`https://gblake.ru/uploads/${user.avatar.trim()}`} alt='' className='userAvatar' />
                                 <h1>{user.visualName}</h1>
                             </div>
                             {
