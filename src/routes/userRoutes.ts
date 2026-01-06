@@ -23,7 +23,7 @@ router.get("/:id", async (req :Request, res:Response) => {
         }
 
         res.json({
-            id: user._id,
+            id: user._id.toString(),
             username: user.username,
             visualName: user.visualName,
             bio: user.bio,
@@ -171,7 +171,7 @@ router.post("/me/avatar", auth, upload.single("file"), async (req :Request, res 
 
 function formatUser(u: any) {
     return {
-        id: u._id,
+        id: u._id.toString(),
         username: u.username,
         visualName: u.visualName,
         bio: u.bio,
