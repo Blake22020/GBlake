@@ -91,7 +91,7 @@ function Post(post: PostInterface) {
             }
 
             if(!res.likes) {
-                openModal('Не удалось лайкнуть', 'Сервер не ответил')ж
+                openModal('Не удалось лайкнуть', 'Сервер не ответил');
                 return;
             }
         } catch (error: any) {
