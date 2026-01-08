@@ -213,3 +213,22 @@ export async function searchResponse(text: string) {
         }
     }
 }
+
+export async function likesPosts(token: string) {
+    try {
+        const res = await axios.get('https://gblake.ru/api/posts/likes', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+
+        return res;
+    } catch(e) {
+        if (axios.isAxiosError(e) && e.response) {
+            const errorMessage = e.response.data?.message || 'Неизвестная ошибка';
+            throw new Error(errorMessage);
+        } else {
+            throw new Error('Ошибка сети');
+        }
+    }
+}
