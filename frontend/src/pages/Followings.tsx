@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { likesPosts } from "../services/api";
 import Modal from "../components/Modal";
 import Post from "../components/Post";
-import '../styles/pages/likes.css';
 
 interface PostInterface {
     _id: string;
@@ -19,7 +18,7 @@ interface PostInterface {
     };
 }
 
-function Likes() {
+function Followings() {
     const navigate = useNavigate();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -49,9 +48,9 @@ function Likes() {
     }, [])
 
     return (
-        <div className="LikesPage">
+        <div className="FollowingsPage">
             <LoginNavbarHeader />
-            <div className="LikesWindow">
+            <div className="FollowingsWindow">
                 {posts.map((post: PostInterface) => (
                         <Post
                             _id={post._id}
@@ -74,4 +73,4 @@ function Likes() {
     )
 }
 
-export default Likes;
+export default Followings;

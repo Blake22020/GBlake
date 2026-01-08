@@ -1,4 +1,4 @@
-.LikesPage {
+.FollowingsPage {
     width: 100dvw;
     padding-top: 65px;
     padding-left: 200px;
@@ -8,7 +8,7 @@
     object-fit: cover;
 }
 
-.LikesWindow {
+.FollowingsWindow {
     width: 100%;
     padding: 150px 0 100px 0;
     display: flex;
@@ -16,14 +16,14 @@
 }
 
 @media (max-width: 900px) {
-    .LikesPage {
+    .FollowingsPage {
         padding-top: 50px;
         padding-left: 200px;
     }
 }
 
 @media (max-width: 600px) {
-    .LikesPage {
+    .FollowingsPage {
         padding-left: 0;
     }
 }
