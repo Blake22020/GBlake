@@ -214,7 +214,7 @@ export async function searchResponse(text: string) {
     }
 }
 
-export async function likesPosts(token: string) {
+export async function likesPosts(token: string | null) {
     try {
         const res = await axios.get('https://gblake.ru/api/posts/likes', {
             headers: {
@@ -222,7 +222,7 @@ export async function likesPosts(token: string) {
             }
         })
 
-        return res;
+        return res.data;
     } catch(e) {
         if (axios.isAxiosError(e) && e.response) {
             const errorMessage = e.response.data?.message || 'Неизвестная ошибка';

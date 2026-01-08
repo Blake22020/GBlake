@@ -12,7 +12,7 @@ interface PostInterface {
     likes: number;
     liked?: boolean;
     author: {
-        name: string;
+        username: string;
         avatar: string;
         _id: string;
     }
@@ -105,7 +105,7 @@ function Post(post: PostInterface) {
             <div className="post__header">
                 <div className="post__header__title">
                     <a href={'https://gblake.ru/users/' + post.author._id}> <img src={"https://gblake.ru/uploads/" + post.author.avatar} className="post__header__avatar" alt=""/> </a>
-                    <h1 className="post__header__title">{post.author.name}</h1>
+                    <h1 className="post__header__title">{post.author.username}</h1>
                 </div>
                 <p className="post__header__date">{timeAgo(post.createdAt)}</p>
             </div>
