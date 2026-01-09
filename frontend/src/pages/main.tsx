@@ -47,7 +47,9 @@ function MainPage() {
                 openModal('Ошибка', errMsg);
             }
         }
-    }, [])     
+
+        request();
+    }, [navigate])     
 
     return (
         <div className="main">
