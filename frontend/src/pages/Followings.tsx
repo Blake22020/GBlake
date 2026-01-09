@@ -45,6 +45,8 @@ function Followings() {
 				openModal('Ошибка', errMsg);
 			}
         }
+
+        request();
     }, [])
 
     return (
