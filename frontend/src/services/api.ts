@@ -251,3 +251,22 @@ export async function followingsPosts(token: string | null) {
         }
     }
 }
+
+export async function feedRequest(token: string | null) {
+    try {
+        const res = await axios.get('htps://gblake.ru/api/feed/', token ? {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        } : {});
+
+        return res.data;
+    } catch(e) {
+        if (axios.isAxiosError(e) && e.response) {
+            const errorMessage = e.response.data?.message || 'Неизвестная ошибка';
+            throw new Error(errorMessage);
+        } else {
+            throw new Error('Ошибка сети');
+        }
+    }
+}

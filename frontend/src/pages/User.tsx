@@ -27,9 +27,9 @@ interface PostInterface {
     likes: number;
     liked: boolean;
     author: {
-        _id: string;
-        name: string;
+        username: string;
         avatar: string;
+        _id: string;
     };
 }
 
