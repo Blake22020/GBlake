@@ -7,6 +7,19 @@ import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { feedRequest } from "../services/api";
 
+interface PostInterface {
+    _id: string;
+    title: string;
+    text: string;
+    createdAt: Date;
+    likes: number;
+    author: {
+        _id: string;
+        username: string;
+        avatar: string;
+    };
+}
+
 function MainPage() {
     const navigate = useNavigate();
 
@@ -34,7 +47,7 @@ function MainPage() {
                 openModal('Ошибка', errMsg);
             }
         }
-    }, [])
+    }, [])     
 
     return (
         <div className="main">
@@ -44,10 +57,20 @@ function MainPage() {
                 name="description"
                 content="Платформа для коротких и длинных мыслей. Общайся, пиши, будь собой."
             />
-            </Helmet>
+            </Helmet>        
             <MainNavbarHeader />
             <main>
-                
+                {posts.map((post : PostInterface) => 
+                    <Post
+                        _id={post._id}
+                        title={post.title}
+                        text={post.text}
+                        createdAt={post.createdAt}
+                        likes={post.likes}
+                        liked={false}
+                        author={post.author}
+                    />
+                )}
             </main>
 
             <Modal
