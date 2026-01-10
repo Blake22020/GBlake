@@ -270,3 +270,50 @@ export async function feedRequest(token: string | null) {
         }
     }
 }
+
+export async function getUserData(token: string) {
+    try {
+        const userId = localStorage.getItem('id');
+        if (!userId) {
+            throw new Error('User ID not found');
+        }
+
+        const res = await axios.get(`https://gblake.ru/api/users/${userId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
+
+        return res.data;
+    } catch(e) {
+        if (axios.isAxiosError(e) && e.response) {
+            const errorMessage = e.response.data?.message || 'Неизвестная ошибка';
+            throw new Error(errorMessage);
+        } else {
+            throw new Error('Ошибка сети');
+        }
+    }
+}
+
+export async function updateUserProfile({ visualName, bio, username }: { visualName?: string, bio?: string, username?: string }, token: string) {
+    try {
+        const res = await axios.patch("https://gblake.ru/api/users/me", {
+            visualName,
+            bio,
+            username,
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
+
+        return res.data;
+    } catch(e) {
+        if (axios.isAxiosError(e) && e.response) {
+            const errorMessage = e.response.data?.message || 'Неизвестная ошибка';
+            throw new Error(errorMessage);
+        } else {
+            throw new Error('Ошибка сети');
+        }
+    }
+}
