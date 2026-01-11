@@ -26,13 +26,13 @@
 
 }
 
-.addForm {
+.register-main-window .addForm {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.addForm .addInputs{
+.register-main-window .addForm .addInputs{
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -40,7 +40,7 @@
 
 
 
-.addForm input, .addForm textarea {
+.register-main-window .addForm input, .register-main-window .addForm textarea {
     padding: 15px 25px;
     background: rgba(255, 255, 255, 0.1);
     outline: none;
@@ -54,15 +54,15 @@
     width: 100%;
 }
 
-.addForm input:hover, .addForm textarea:hover {
+.register-main-window.addForm input:hover, .addForm textarea:hover {
     background: rgba(255, 255, 255, 0.15);
 }
 
-.addForm input:focus, .addForm textarea:focus {
+.register-main-window .addForm input:focus, .addForm textarea:focus {
     background: rgba(255, 255, 255, 0.2);
 }
 
-.addForm button {
+.register-main-window .addForm button {
     background: rgb(110, 91, 255);
     outline: none;
     border: 0;
@@ -74,11 +74,11 @@
     font-size: 2rem;
 }
 
-.addForm button:hover {
+.register-main-window .addForm button:hover {
     background: rgba(110, 91, 255, 0.75);
 }
 
-.addCard {
+.register-main-window .addCard {
     width: 40%;
     text-align: center;
     display: flex;
@@ -91,17 +91,17 @@
     cursor: pointer;
 }
 
-.addCard:hover {
+.register-main-window .addCard:hover {
     background: rgba(255, 255, 255, 0.1);
 }
 
-.addCard .addIcon{
+.register-main-window .addCard .addIcon{
     background: rgba(255, 255, 255, 0.05);
     border-radius: 25px;
     padding: 15px;
 }
 
-.addCard .addIcon img {
+.register-main-window .addCard .addIcon img {
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover   ;
@@ -122,11 +122,11 @@
         width: 678px;
     }
 
-    .addInputs input, .addInputs textarea, .addForm button {
-        font-size: 1.5rem;
+    .register-main-window.addInputs input, .register-main-window .addInputs textarea, .addForm button {
+        font-size: 1.5rem; 
     }
 
-    .addCard {
+    .register-main-window .addCard {
         font-size: 1.3rem;
     }
 }
@@ -137,30 +137,30 @@
         gap: 22px;
     }
 
-    .addCard {
+    .register-main-window .addCard {
         padding: 5px;
         gap: 5px;
         border-radius: 35px;
     }
 
-    .addCard .addIcon{
+    .register-main-window .addCard .addIcon{
         padding: 5px;
         border-radius: 30px;
     }
 
-    .addCard .addIcon img {
+    .register-main-window .addCard .addIcon img {
         border-radius: 25px;
     }
 
-    .addForm button {
+    .register-main-window .addForm button {
         padding: 15px;
     }
 
-    .addForm .addInputs {
+    .register-main-window .addForm .addInputs {
         gap: 10px;
     }
 
-    .addForm input, .addForm textarea {
+    .register-main-window .addForm input, .addForm textarea {
         font-size: 1.2rem;
         padding: 15px;
         border-radius: 25px;

@@ -8,6 +8,7 @@ import User from './pages/User';
 import NotFound from './pages/NotFound';
 import Search from './pages/Search';
 import Likes from './pages/Likes';
+import Edit from './pages/Edit';
 
 function App() {
 	return (
@@ -20,6 +21,8 @@ function App() {
 			<Route path="/user/:id" element={<User />} />
 			<Route path="/search" element={<Search />} />
 			<Route path="/likes" element={<Likes />} />
+			<Route path="/edit" element={<Edit />} />
+
 
 
 			<Route path="*" element={<NotFound />} />

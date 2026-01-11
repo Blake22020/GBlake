@@ -1,0 +1,22 @@
+.editPage {
+    width: 100dvw;
+    padding-top: 65px;
+    padding-left: 200px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 110px;
+    object-fit: cover;
+}
+
+@media (max-width: 900px) {
+    .editPage {
+        padding-top: 50px;
+        padding-left: 200px;
+    }
+}
+
+@media (max-width: 600px) {
+    .editPage {
+        padding-left: 0;
+    }
+}
