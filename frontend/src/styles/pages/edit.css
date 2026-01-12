@@ -8,6 +8,31 @@
     object-fit: cover;
 }
 
+.editWindow {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.editWindow .closeButton {
+    position: absolute;
+    top: 100px;
+    right: 100px;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.editWindow .closeButton svg {
+    width: 100%;
+    height: 100%;
+}
+
 @media (max-width: 900px) {
     .editPage {
         padding-top: 50px;
