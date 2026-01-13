@@ -6,6 +6,7 @@
     flex-direction: column;
     padding-bottom: 110px;
     object-fit: cover;
+    height: 100dvh;
 }
 
 .editWindow {
@@ -14,6 +15,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    display: flex;
+    flex-direction: column; 
+    gap: 75px;         
 }
 
 .editWindow .closeButton {
@@ -26,6 +30,14 @@
     background: none;
     border: none;
     cursor: pointer;
+}
+
+.editWindow .addCard {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.editWindow .addCard:hover {
+    background: rgba(255, 255, 255, 0.25);
 }
 
 .editWindow .closeButton svg {
