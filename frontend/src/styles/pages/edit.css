@@ -20,6 +20,18 @@
     gap: 75px;         
 }
 
+.editWindow .editForm {
+    display: flex;
+    flex-direction: column; 
+    gap: 75px;    
+}
+
+.editWindow .inputs {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+}
+
 .editWindow .closeButton {
     position: absolute;
     top: 100px;
@@ -34,10 +46,29 @@
 
 .editWindow .addCard {
     background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 33px;
+    padding: 30px;
+    border-radius: 35px;
 }
 
 .editWindow .addCard:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+}
+
+.editWindow .addCard  img{
+    background: rgba(255, 255, 255, 0.15);
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    box-sizing: border-box;
+    object-fit: cover;
+}
+
+.editWindow .addCard h2 {
+    font-size: 2rem;
 }
 
 .editWindow .closeButton svg {

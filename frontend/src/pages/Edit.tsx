@@ -103,7 +103,7 @@ function Edit() {
                 <button className="closeButton" /* onClick={() => {navigate("/")}} */><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" ><g data-name="Layer 2"><g data-name="close"><rect width="50" height="50" transform="rotate(180 12 12)" opacity="0"/><path d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"/></g></g></svg></button>
                 <form className="editForm" /* onSubmit={handleSubmit} */ >
                     <div className="inputs">
-                        <div className="addCard">
+                        <div className="addCard" onClick={() => document.getElementById('avatar-upload')?.click()}>
                             <img 
                                 // src={avatarFile ? URL.createObjectURL(avatarFile) : `https://gblake.ru/uploads/${userData.avatar}`}
                                 alt=''
@@ -116,9 +116,6 @@ function Edit() {
                                 style={{ display: 'none' }}
                                 id="avatar-upload"
                             />
-                            <label htmlFor="avatar-upload" style={{ cursor: 'pointer' }}>
-                                Выбрать файл
-                            </label>
                         </div>
                         <div className="textInputs">
                             <input 
