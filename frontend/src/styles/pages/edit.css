@@ -51,6 +51,8 @@
     gap: 33px;
     padding: 30px;
     border-radius: 35px;
+    color: white;
+    transition: all 0.3s ease-in;
 }
 
 .editWindow .addCard:hover {
@@ -74,6 +76,38 @@
 .editWindow .closeButton svg {
     width: 100%;
     height: 100%;
+}
+
+.editWindow .textInputs {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    gap: 20px;
+    height: 100%;
+}
+
+.editWindow .textInputs input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    padding: 20px 35px;
+    border: 0;
+    border-radius: 35px;
+    font-size: 2rem;
+    outline: 0;
+}
+
+.editWindow .textInputs textarea {
+    height:  100%;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    padding: 20px 35px;
+    border: 0;
+    border-radius: 35px;
+    font-size: 2rem;
+    outline: 0;
+    font-weight: 400;
 }
 
 @media (max-width: 900px) {
