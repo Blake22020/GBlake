@@ -107,7 +107,25 @@
     border-radius: 35px;
     font-size: 2rem;
     outline: 0;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 400;
+}
+
+.editWindow .editForm button {
+    font-size: 2.25rem;
+    background: #6E5BFF;
+    color: white;
+    font-weight: 700;
+    outline: 0;
+    border: 0;
+    border-radius: 35px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+}
+
+.editWindow .editForm button:hover {
+    background: #5543E9;
 }
 
 @media (max-width: 900px) {
