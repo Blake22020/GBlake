@@ -17,7 +17,8 @@
     justify-content: center;
     display: flex;
     flex-direction: column; 
-    gap: 75px;         
+    gap: 75px;        
+    position: relative; 
 }
 
 .editWindow .editForm {
@@ -34,8 +35,8 @@
 
 .editWindow .closeButton {
     position: absolute;
-    top: 100px;
-    right: 100px;
+    top: 40px;
+    right: 40px;
     width: 50px;
     height: 50px;
     padding: 0;
@@ -128,6 +129,7 @@
     background: #5543E9;
 }
 
+
 @media (max-width: 900px) {
     .editPage {
         padding-top: 50px;
@@ -140,3 +142,4 @@
         padding-left: 0;
     }
 }
+
