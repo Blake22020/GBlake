@@ -112,6 +112,16 @@
     font-weight: 400;
 }
 
+.editWindow .textInputs textarea:hover,
+.editWindow .textInputs input:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.editWindow .textInputs textarea:focus,
+.editWindow .textInputs input:focus {
+    background: rgba(255, 255, 255, 0.25);
+}
+ 
 .editWindow .editForm button {
     font-size: 2.25rem;
     background: #6E5BFF;
@@ -128,6 +138,7 @@
 .editWindow .editForm button:hover {
     background: #5543E9;
 }
+
 
 
 @media (max-width: 900px) {
