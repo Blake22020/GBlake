@@ -96,6 +96,7 @@
     border-radius: 35px;
     font-size: 2rem;
     outline: 0;
+    transition: all 0.3s ease-out ;
 }
 
 .editWindow .textInputs textarea {
@@ -110,6 +111,7 @@
     outline: 0;
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
+    transition: all 0.3s ease-out;
 }
 
 .editWindow .textInputs textarea:hover,
@@ -139,7 +141,28 @@
     background: #5543E9;
 }
 
+@media (max-width: 1300px) {
+    .editWindow .inputs {
+        gap: 20px;
+    }
 
+    .editWindow .editForm {
+        gap: 50px;
+    }
+
+    .editWindow .editForm button {
+        font-size: 1.8rem;
+    }
+
+    .editWindow .addCard h2 {
+        font-size: 1.5rem;
+    }
+
+    .editWindow .textInputs input,
+    .editWindow .textInputs textarea {
+        font-size: 1.5rem;
+    }
+}
 
 @media (max-width: 900px) {
     .editPage {
