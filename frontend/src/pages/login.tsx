@@ -1,9 +1,9 @@
 import '../styles/pages/login.css';
 import { loginRequest } from '../services/api';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal';
-import { Helmet } from 'react-helmet-async';
+import { setMeta } from '../services/description';
 
 function Login() {
     const navigate = useNavigate();
@@ -13,6 +13,10 @@ function Login() {
         password: '',
     });
 
+    useEffect(() => {
+        document.title = "Вход | GBlake";
+        setMeta("description", "Вход");
+    }, []);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalData, setModalData] = useState({ title: '', text: '' });
@@ -78,13 +82,6 @@ function Login() {
 
     return (
         <div className="login-main-window">
-            <Helmet>
-                <title>Вход - GBlake ❄️</title>
-                <meta
-                name="description"
-                content="Платформа для коротких и длинных мыслей. Общайся, пиши, будь собой."
-            />
-            </Helmet>
             <div className="login-window">
                 <div className="login">
                     <div className="loginPage-header">

@@ -2,9 +2,17 @@ import { useNavigate } from "react-router-dom";
 import LoginNavbarHeader from "../layouts/loginNavbarHeader";
 import MainNavbarHeader from "../layouts/mainNavbarHeader";
 import '../styles/pages/notFound.css'
+import { setMeta } from "../services/description";
+import { useEffect } from "react";
 
 function NotFound() {
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		document.title = "404 | GBlake";
+		setMeta("description", "Страница не найдена");
+	}, []);
+
 
 	return (
 		<div className="notFoundPage">

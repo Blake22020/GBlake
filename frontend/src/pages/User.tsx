@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import '../styles/pages/user.css';
 import { followUser, checkFollowStatus } from '../services/api';
 import Modal from '../components/Modal';
+import { setMeta } from '../services/description';
 
 interface User {
     id: string;
@@ -50,6 +51,11 @@ function statCard(stat: number, info: string) {
 function UserPage() {
     const navigate = useNavigate()
 
+    useEffect(() => {
+
+    }, []);
+
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalData, setModalData] = useState({ title: '', text: '' });
     const openModal = (title: string, text: string) => {
@@ -92,6 +98,8 @@ function UserPage() {
             try {
                 const userData = await getUser(id);
                 setUser(userData);
+                document.title = user?.visualName + ' | GBlake' || "GBlake";
+                setMeta("description", user?.visualName || 'Не найдено');
             } catch (err) {
                 console.error('Failed to fetch user:', err);
                 navigate('/404');

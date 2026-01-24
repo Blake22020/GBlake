@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { likesPosts } from "../services/api";
 import Modal from "../components/Modal";
 import Post from "../components/Post";
+import { setMeta } from "../services/description";
 
 interface PostInterface {
     _id: string;
@@ -19,6 +20,12 @@ interface PostInterface {
 }
 
 function Followings() {
+
+    useEffect(() => {
+        document.title = "Подписки | GBlake";
+        setMeta("description", "Подписки");
+    }, []);
+
     const navigate = useNavigate();
 
     const [isModalOpen, setIsModalOpen] = useState(false);

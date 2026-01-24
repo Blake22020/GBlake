@@ -3,12 +3,18 @@ import React, { useState, useRef, useEffect  } from 'react'
 import '../styles/pages/register2.css'
 import { useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal';
-import { Helmet } from 'react-helmet-async';
+import { setMeta } from '../services/description';
 
   
 
 function Register2() {
     const nvaigate = useNavigate();
+
+    useEffect(() => {
+        document.title = "Продолжение регистрации | GBlake";
+        setMeta("description", "Регистрация");
+    }, []);
+
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalData, setModalData] = useState({ title: '', text: '' });
@@ -85,13 +91,6 @@ function Register2() {
 
     return (
         <div className='register-main-window'>
-            <Helmet>
-                <title>Регистрация - GBlake ❄️</title>
-                <meta
-                name="description"
-                content="Платформа для коротких и длинных мыслей. Общайся, пиши, будь собой."
-            />
-            </Helmet>
             <div className='register-window'>
                 <div className='register2'>
                     <input

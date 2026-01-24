@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { searchResponse, followUser, checkFollowStatus } from "../services/api";
 import Modal from "../components/Modal";
 import Post from "../components/Post";
+import { setMeta } from "../services/description";
 
 interface UserInterface {
     _id: string;
@@ -35,6 +36,12 @@ function Search() {
 	const [posts, setPosts] = useState<any[]>([]);
 	const [users, setUsers] = useState<any[]>([]);
 	const [followStatus, setFollowStatus] = useState<{[key: string]: boolean}>({});
+
+	useEffect(() => {
+		document.title = query + " | Поиск в GBlake";
+		setMeta("description", "GBlake");
+	}, []);
+
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [modalData, setModalData] = useState({ title: '', text: '' });

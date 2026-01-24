@@ -4,17 +4,22 @@ import '../styles/pages/createPost.css'
 import { useNavigate } from 'react-router-dom'
 import Modal from '../components/Modal'
 import { createPost } from '../services/api'
-import { Helmet } from 'react-helmet-async';
+import { setMeta } from '../services/description';
 
 function CreatePost() {
-
-    
     const navigate = useNavigate();
+
     useEffect(() => {
         if(!localStorage.getItem('token')) {
             navigate('/login');
         }
     }, [navigate])
+
+    useEffect(() => {
+        document.title = "Создание поста | GBlake";
+        setMeta("description", "Создание поста в GBlake");
+    }, []);
+
     const [title, setTitle] = useState('')
     const [text, setText] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -110,13 +115,6 @@ function CreatePost() {
     
     return (
         <div className="createPost">
-            <Helmet>
-                <title>Создание поста - GBlake ❄️</title>
-                <meta
-                name="description"
-                content="Платформа для коротких и длинных мыслей. Общайся, пиши, будь собой."
-            />
-            </Helmet>
             <LoginNavbarHeader />
             <div className="createPostMain">
                 <div className="createPostCard">

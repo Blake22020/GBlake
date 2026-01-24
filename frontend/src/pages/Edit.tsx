@@ -1,6 +1,7 @@
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import LoginNavbarHeader from "../layouts/loginNavbarHeader";
 import "../styles/pages/edit.css";
+import { setMeta } from "../services/description";
 // import { useNavigate } from "react-router-dom";
 // import { getUserData, updateUserProfile, uploadAvatar } from "../services/api";
 
@@ -13,6 +14,12 @@ import "../styles/pages/edit.css";
 // }
 
 function Edit() {
+
+    useEffect(() => {
+        document.title = "Редактирование профиля | GBlake";
+        setMeta("description", "Редактирование профиля");
+    }, []);
+
     // const navigate = useNavigate();
     // const [userData, setUserData] = useState<UserData | null>(null);
     // const [formData, setFormData] = useState({

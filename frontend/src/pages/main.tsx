@@ -3,9 +3,9 @@ import Post from "../components/Post";
 import '../styles/pages/main.css'
 import Modal from "../components/Modal";
 import { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { feedRequest } from "../services/api";
+import { setMeta } from "../services/description";
 
 interface PostInterface {
     _id: string;
@@ -22,6 +22,12 @@ interface PostInterface {
 
 function MainPage() {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        document.title = "GBlake";
+        setMeta("description", "Gblake");
+    }, []);
+
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalData, setModalData] = useState({ title: '', text: '' });
@@ -53,13 +59,6 @@ function MainPage() {
 
     return (
         <div className="main">
-            <Helmet>
-                <title>GBlake ❄️</title>
-                <meta
-                name="description"
-                content="Платформа для коротких и длинных мыслей. Общайся, пиши, будь собой."
-            />
-            </Helmet>        
             <MainNavbarHeader />
             <main>
                 {posts.map((post : PostInterface) => 
