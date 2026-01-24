@@ -254,7 +254,7 @@ export async function followingsPosts(token: string | null) {
 
 export async function feedRequest(token: string | null) {
     try {
-        const res = await axios.get('htps://gblake.ru/api/feed/', token ? {
+        const res = await axios.get('https://gblake.ru/api/feed/', token ? {
             headers: {
                 Authorization: `Bearer ${token}`,
             }
