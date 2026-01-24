@@ -153,7 +153,7 @@ function UserPage() {
                             </div>
                             {
                             localStorage.getItem('id') === user.id
-                             ? <button className='editButton'>Редактировать</button>
+                             ? <button className='editButton' onClick={() => {navigate('/edit')}}>Редактировать</button>
                              : 
                             (isFollow 
                              ? <button className='unfollowButton' onClick={handleFollow}>Отписаться</button>
