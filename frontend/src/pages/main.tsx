@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { feedRequest } from "../services/api";
 import { setMeta } from "../services/description";
+import LoginNavbarHeader from "../layouts/loginNavbarHeader";
 
 interface PostInterface {
     _id: string;
@@ -59,7 +60,7 @@ function MainPage() {
 
     return (
         <div className="main">
-            <MainNavbarHeader />
+            { localStorage.getItem('token') ? <LoginNavbarHeader /> : <MainNavbarHeader />}
             <main>
                 {posts.map((post : PostInterface) => 
                     <Post
