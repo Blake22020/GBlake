@@ -30,7 +30,8 @@ router.get("/:id", async (req :Request, res:Response) => {
             followers: user.followers.length,
             followings: user.followings.length,
             avatar: user.avatar,
-            posts: user.posts
+            posts: user.posts,
+            role: user.role
         });
     } catch {
         res.status(500).send("Server Error");
