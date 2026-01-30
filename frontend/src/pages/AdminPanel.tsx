@@ -26,13 +26,13 @@ function AdminPanel() {
             }
         }
         checkRole();
-    }, [navigate])
+    }, [navigate]);
 
     return (
         <div className="adminPage">
             <LoginNavbarHeader />
             <div className="adminWindow">
-
+                
             </div>
         </div>
     )

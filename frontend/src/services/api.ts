@@ -317,3 +317,23 @@ export async function updateUserProfile({ visualName, bio, username }: { visualN
         }
     }
 }
+
+export async function setRole(role: number, token: string | null, id: string) {
+    try {
+        const res = await axios.post('https://gblake.ru/api/admin/promote' + id, {
+            role,
+        }, {
+            headers: {
+                Authorization: token ? `Bearer ${token}` : ''
+            }
+        })
+        return res.data;
+    } catch(e) {
+        if (axios.isAxiosError(e) && e.response) {
+            const errorMessage = e.response.data?.message || 'Неизвестная ошибка';
+            throw new Error(errorMessage);
+        } else {
+            throw new Error('Ошибка сети');
+        }
+    }
+}
