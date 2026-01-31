@@ -36,6 +36,7 @@ export async function likePost(postId : string, token: string | null) {
         } else {
             throw new Error('Ошибка сети');
         }
+        
     }
 }
 
@@ -107,7 +108,7 @@ export async function uploadAvatar(file: File, token: string) {
         const res = await axios.post("https://gblake.ru/api/users/me/avatar", formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                Authorization: `Bearer ${token}`,
+                Authorization:  token ? `Bearer ${token}` : '',
             }
         });
 
@@ -129,7 +130,7 @@ export async function createPost(title: string, text: string, token: string) {
             text,
         }, {
             headers: { 
-                Authorization: `Bearer ${token}`,
+                Authorization:  token ? `Bearer ${token}` : '',
             }
         })
 
@@ -163,7 +164,7 @@ export async function followUser(userId: string, token: string) {
     try {
         const res = await axios.post("https://gblake.ru/api/users/" + userId + "/follow", {}, {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization:  token ? `Bearer ${token}` : '',
             }
         })
         return res.data;
@@ -181,7 +182,7 @@ export async function checkFollowStatus(userId: string, token: string) {
     try {
         const res = await axios.get("https://gblake.ru/api/users/" + userId + "/follow", {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization:  token ? `Bearer ${token}` : '',
             }
         })
         return res.data;
@@ -218,7 +219,7 @@ export async function likesPosts(token: string | null) {
     try {
         const res = await axios.get('https://gblake.ru/api/posts/likes', {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization:  token ? `Bearer ${token}` : '',
             }
         })
 
@@ -237,7 +238,7 @@ export async function followingsPosts(token: string | null) {
     try {
         const res = await axios.get('https://gblake.ru/api/posts/followings', {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization:  token ? `Bearer ${token}` : '',
             }
         })
 
@@ -256,7 +257,7 @@ export async function feedRequest(token: string | null) {
     try {
         const res = await axios.get('https://gblake.ru/api/feed/', token ? {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization:  token ? `Bearer ${token}` : '',
             }
         } : {});
 
@@ -280,7 +281,7 @@ export async function getUserData(token: string) {
 
         const res = await axios.get(`https://gblake.ru/api/users/${userId}`, {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization:  token ? `Bearer ${token}` : '',
             }
         });
 
@@ -303,7 +304,7 @@ export async function updateUserProfile({ visualName, bio, username }: { visualN
             username,
         }, {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization:  token ? `Bearer ${token}` : '',
             }
         });
 
