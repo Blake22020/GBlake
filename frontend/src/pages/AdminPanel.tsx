@@ -31,7 +31,18 @@ function AdminPanel() {
     return (
         <div className="adminPage">
             <LoginNavbarHeader />
-            <div className="adminWindow"></div>
+            <div className="adminWindow">
+                <div className="adminPanel">
+                    <form>
+                        <h1>Админ панель</h1>
+                        <div className="inputs">
+                            <input placeholder="id пользователя"/>
+                            <input placeholder="Роль (-1, 0, 1, 2)" />
+                        </div>
+                        <button type="submit">Изменить роль</button>
+                    </form>
+                </div>
+            </div>
         </div>
     );
 }
