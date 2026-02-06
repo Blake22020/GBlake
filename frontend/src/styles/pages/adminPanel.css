@@ -6,6 +6,67 @@
     flex-direction: column;
     padding-bottom: 110px;
     object-fit: cover;
+    height: 100vh;
+}
+
+.adminWindow {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.adminPanel {
+    height: 60%;
+    box-shadow: 0 0 100px 0 #6e5bff;
+    padding: 45px;
+    border-radius: 45px;
+    width: 50%;
+}
+
+.adminPanel form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.adminPanel form h1 {
+    font-size: 2rem;
+    color: white;
+    text-align: center;
+}
+
+.adminPanel form .inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.adminPanel form .inputs input {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 0;
+    padding: 20px 0 20px 30px;
+    border-radius: 35px;
+    font-size: 2rem;
+    font-family: "Montserrat", sans-serif;
+    outline: 0;
+}
+
+.adminPanel form button {
+    background: linear-gradient(135deg, #6e5bff, #a08eff);
+    color: white;
+    padding: 15px;
+    border-radius: 35px;
+    outline: 0;
+    border: 0;
+    font-size: 3rem;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    cursor: pointer;
 }
 
 @media (max-width: 900px) {

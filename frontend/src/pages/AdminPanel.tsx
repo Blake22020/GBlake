@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import LoginNavbarHeader from "../layouts/loginNavbarHeader";
 import { getUser } from "../services/api";
 import { useNavigate } from "react-router-dom";
+import "../styles/pages/adminPanel.css";
 
 function AdminPanel() {
     // const navigate = useNavigate();
