@@ -77,6 +77,10 @@
     cursor: pointer;
 }
 
+.adminPanel form button:hover {
+    transform: translateY(-20px);
+}
+
 @media (max-width: 900px) {
     .adminPage {
         padding-top: 50px;
