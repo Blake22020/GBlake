@@ -1,6 +1,6 @@
 import MainNavbarHeader from "../layouts/mainNavbarHeader";
 import Post from "../components/Post";
-import '../styles/pages/main.css'
+import "../styles/pages/main.css";
 import Modal from "../components/Modal";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -29,40 +29,43 @@ function MainPage() {
         setMeta("description", "Gblake");
     }, []);
 
-
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalData, setModalData] = useState({ title: '', text: '' });
+    const [modalData, setModalData] = useState({ title: "", text: "" });
     const openModal = (title: string, text: string) => {
         setModalData({ title, text });
         setIsModalOpen(true);
     };
 
-    const [posts, setPosts] = useState<any[]>([])
+    const [posts, setPosts] = useState<any[]>([]);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            navigate('/login');
-        }
+        const token = localStorage.getItem("token");
 
         const request = async () => {
             try {
                 const res = await feedRequest(token);
-                setPosts(res)
-            } catch(error : any) {
-                const errMsg = error?.response?.data?.message || error.message || 'Неизвестная ошибка';
-                openModal('Ошибка', errMsg);
+                setPosts(res);
+            } catch (error: any) {
+                const errMsg =
+                    error?.response?.data?.message ||
+                    error.message ||
+                    "Неизвестная ошибка";
+                openModal("Ошибка", errMsg);
             }
-        }
+        };
 
         request();
-    }, [navigate])     
+    }, [navigate]);
 
     return (
         <div className="main">
-            { localStorage.getItem('token') ? <LoginNavbarHeader /> : <MainNavbarHeader />}
+            {localStorage.getItem("token") ? (
+                <LoginNavbarHeader />
+            ) : (
+                <MainNavbarHeader />
+            )}
             <main>
-                {posts.map((post : PostInterface) => 
+                {posts.map((post: PostInterface) => (
                     <Post
                         _id={post._id}
                         title={post.title}
@@ -72,7 +75,7 @@ function MainPage() {
                         liked={false}
                         author={post.author}
                     />
-                )}
+                ))}
             </main>
 
             <Modal
@@ -82,7 +85,7 @@ function MainPage() {
                 text={modalData.text}
             />
         </div>
-    )
+    );
 }
 
 export default MainPage;
