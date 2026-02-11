@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');body {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap");
+body {
     margin: 0;
     padding: 0;
     background: #111318;
@@ -12,23 +17,23 @@
     box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
     padding: 0;
     margin: 0;
 }
 
 #root {
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     background: #111318;
     padding: 0;
     margin: 0;
     z-index: 0;
-    height: 100dvh; 
+    height: 100dvh;
     position: relative;
-
-
 }
 
-a, button {
+a,
+button {
     -webkit-tap-highlight-color: transparent;
 }
