@@ -6,6 +6,7 @@ module.exports = {
                 bg: {
                     primary: "#111318",
                     elevated: "#0B0C10",
+                    card: "rgba(255, 255, 255, 0.2)",
                 },
                 text: {
                     primary: "#FFFFFF",
@@ -13,6 +14,7 @@ module.exports = {
                 },
                 primary: {
                     400: "#A08EFF",
+                    500: "#8a7ef5",
                     600: "#6E5BFF",
                 },
                 border: {

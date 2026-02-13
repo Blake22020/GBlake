@@ -41,9 +41,9 @@ function MainHeader({ openFunction, open }: Props) {
                 </div>
                 <h1 className="text-[2rem]">GBlake</h1>
             </div>
-            <div className="search-bar">
+            <div className="flex items-center gap-[4px] bg-white/20 autofill:shadow-[inset_0_0_0_1000px_#0b0c10] focus:shadow-none autofill:[-webkit-text-fill-color:white] p-[5px] rounded-[25px] focus:outline-none focus:ring-0 w-[500px] h-fit search-bar">
                 <svg
-                    className="search-icon"
+                    className="fill-white search-icon"
                     width="24"
                     height="24"
                     xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +57,7 @@ function MainHeader({ openFunction, open }: Props) {
                     </g>
                 </svg>
                 <input
-                    className="search-input"
+                    className="bg-transparent border-0 outline-none w-full h-fit text-[1rem] text-white search-input placeholder-white/50"
                     type="text"
                     placeholder="Поиск в GBlake"
                     value={inputValue}
@@ -69,7 +69,7 @@ function MainHeader({ openFunction, open }: Props) {
                     }}
                 />
             </div>
-            <div className="mobileIcon">
+            <div className="flex items-center gap-[14px] mobileIcon">
                 <svg
                     onClick={() => {
                         const title = document.querySelector(
@@ -91,7 +91,7 @@ function MainHeader({ openFunction, open }: Props) {
                         mobileIcon.style.display = "none";
                         closeIcon.style.display = "block";
                     }}
-                    className="search-icon"
+                    className="hidden cursor-pointer search-icon"
                     width="24"
                     height="24"
                     xmlns="http://www.w3.org/2000/svg"
@@ -105,7 +105,7 @@ function MainHeader({ openFunction, open }: Props) {
                     </g>
                 </svg>
                 <button
-                    className="loginButton"
+                    className="bg-primary-600 hover:bg-primary-500 px-[35px] py-[5px] border-0 rounded-[35px] text-[1rem] text-white transition-all duration-200 ease-out cursor-pointer loginButton"
                     type="button"
                     onClick={() => {
                         navigate("/login");
@@ -135,7 +135,7 @@ function MainHeader({ openFunction, open }: Props) {
                     mobileIcon.style.display = "flex";
                     closeIcon.style.display = "none";
                 }}
-                className="closeIcon"
+                className="hidden cursor-pointer closeIcon"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
             >
