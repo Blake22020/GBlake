@@ -1,39 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap");
-
-.main-header .title {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-}
-
-.main-header .title .burger {
-    display: none;
-    flex-direction: column;
-    height: 100%;
-    gap: 5px;
-    cursor: pointer;
-}
-
-.main-header .title .burger .line {
-    background: white;
-    height: 5px;
-    width: 30px;
-    border-radius: 10px;
-    transition: 0.2s ease-in-out;
-}
-
-.main-header .title .burger .line.middle.open {
-    display: none;
-}
-
-.main-header .title .burger .line.bottom.open {
-    transform: translateY(-5px) rotate(45deg);
-}
-
-.main-header .title .burger .line.top.open {
-    transform: translateY(5px) rotate(135deg);
-}
-
 .main-header .search-bar {
     display: flex;
     height: fit-content;

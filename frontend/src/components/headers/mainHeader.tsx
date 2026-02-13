@@ -23,23 +23,20 @@ function MainHeader({ openFunction, open }: Props) {
     }, [searchParams]);
 
     return (
-        <header
-            className="main-header 
-                fixed top-0 left-0 right-0 z-[99] 
-                flex items-center justify-between 
-                px-[30px] py-[10px] 
-                bg-[#0B0C10] text-white 
-                border-b-2 border-white/25 
-                font-['Montserrat']"
-        >
-            <div className="title flex">
-                <div className="burger" onClick={() => openFunction()}>
-                    <div className={open ? "line top open" : "line top"}></div>
+        <header className="top-0 right-0 left-0 z-[99] fixed flex justify-between items-center bg-bg-elevated px-[30px] py-[10px] border-white/25 border-b-2 font-['Montserrat'] text-white main-header">
+            <div className="flex items-center gap-[20px] cursor-pointer title">
+                <div
+                    className="hidden flex-col gap-[5px] h-full burger"
+                    onClick={() => openFunction()}
+                >
                     <div
-                        className={open ? "line middle open" : "line middle"}
+                        className={`bg-white h-[5px] w-[30px] rounded-[10px] transition-all duration-200 ease-in-out ${open ? "translate-y-[10px] rotate-[135deg]" : ""}`}
                     ></div>
                     <div
-                        className={open ? "line bottom open" : "line bottom"}
+                        className={`bg-white h-[5px] w-[30px] rounded-[10px] transition-all duration-200 ease-in-out ${open ? "opacity-0" : ""}`}
+                    ></div>
+                    <div
+                        className={`bg-white h-[5px] w-[30px] rounded-[10px] transition-all duration-200 ease-in-out ${open ? "-translate-y-[10px] rotate-45" : ""}`}
                     ></div>
                 </div>
                 <h1 className="text-[2rem]">GBlake</h1>
