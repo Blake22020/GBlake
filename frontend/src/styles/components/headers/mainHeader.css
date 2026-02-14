@@ -1,21 +1,4 @@
 @media (max-width: 900px) {
-    .main-header {
-        padding: 10px 20px;
-    }
-
-    .main-header h1 {
-        font-size: 1.7rem;
-    }
-
-    .main-header .search-bar {
-        width: 300px;
-    }
-
-    .main-header .search-input {
-        width: 250px;
-        font-size: 0.9rem;
-    }
-
     .main-header .loginButton {
         padding: 5px 25px;
         font-size: 1rem;

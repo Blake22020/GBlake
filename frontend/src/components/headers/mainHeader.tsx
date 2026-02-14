@@ -23,7 +23,7 @@ function MainHeader({ openFunction, open }: Props) {
     }, [searchParams]);
 
     return (
-        <header className="top-0 right-0 left-0 z-[99] fixed flex justify-between items-center bg-bg-elevated px-[30px] py-[10px] border-white/25 border-b-2 font-['Montserrat'] text-white main-header">
+        <header className="top-0 right-0 left-0 z-[99] fixed flex justify-between items-center bg-bg-elevated px-[30px] max-[900px]:min-[600px]:px-[20px] py-[10px] border-white/25 border-b-2 font-['Montserrat'] text-white main-header">
             <div className="flex items-center gap-[20px] cursor-pointer title">
                 <div
                     className="hidden flex-col gap-[5px] h-full burger"
@@ -39,9 +39,11 @@ function MainHeader({ openFunction, open }: Props) {
                         className={`bg-white h-[5px] w-[30px] rounded-[10px] transition-all duration-200 ease-in-out ${open ? "-translate-y-[10px] rotate-45" : ""}`}
                     ></div>
                 </div>
-                <h1 className="text-[2rem]">GBlake</h1>
+                <h1 className="text-[2rem] max-[900px]:min-[600px]:text-[1.7rem]">
+                    GBlake
+                </h1>
             </div>
-            <div className="flex items-center gap-[4px] bg-white/20 autofill:shadow-[inset_0_0_0_1000px_#0b0c10] focus:shadow-none autofill:[-webkit-text-fill-color:white] p-[5px] rounded-[25px] focus:outline-none focus:ring-0 w-[500px] h-fit search-bar">
+            <div className="flex items-center gap-[4px] bg-white/20 autofill:shadow-[inset_0_0_0_1000px_#0b0c10] focus:shadow-none autofill:[-webkit-text-fill-color:white] p-[5px] rounded-[25px] focus:outline-none focus:ring-0 w-[500px] max-[900px]:min-[600px]:w-[300px] h-fit search-bar">
                 <svg
                     className="fill-white search-icon"
                     width="24"
@@ -57,7 +59,7 @@ function MainHeader({ openFunction, open }: Props) {
                     </g>
                 </svg>
                 <input
-                    className="bg-transparent border-0 outline-none w-full h-fit text-[1rem] text-white search-input placeholder-white/50"
+                    className="bg-transparent border-0 outline-none w-full max-[900px]:min-[600px]:w-250px h-fit text-[1rem] text-white max-[900px]:min-600px[]:text-[0.9rem] search-input placeholder-white/50"
                     type="text"
                     placeholder="Поиск в GBlake"
                     value={inputValue}
@@ -105,7 +107,7 @@ function MainHeader({ openFunction, open }: Props) {
                     </g>
                 </svg>
                 <button
-                    className="bg-primary-600 hover:bg-primary-500 px-[35px] py-[5px] border-0 rounded-[35px] text-[1rem] text-white transition-all duration-200 ease-out cursor-pointer loginButton"
+                    className="bg-primary-600 hover:bg-primary-500 px-[35px] max-[900px]:min-[600px]:px-[25px] py-[5px] border-0 rounded-[35px] text-[1rem] text-white transition-all duration-200 ease-out cursor-pointer loginButton"
                     type="button"
                     onClick={() => {
                         navigate("/login");
