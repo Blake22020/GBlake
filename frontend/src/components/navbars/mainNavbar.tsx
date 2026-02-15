@@ -14,7 +14,7 @@ function MainNavbar({ open }: any) {
             }
         >
             <button
-                className="createButton"
+                className="flex justify-center items-center gap-[10px] bg-primary-600 hover:bg-primary-500 hover:shadow-[0_0_100px_rgba(110,91,255,0.25)] p-[10px] border-0 rounded-[25px] w-full h-fit font-[500] text-[1.3rem] text-white transition-all hover:translate-y-[-5px] duration-200 cursor-pointer createButton"
                 onClick={() => {
                     navigate("/login");
                 }}

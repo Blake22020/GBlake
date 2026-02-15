@@ -1,29 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap");
 
-.mainNavbar .createButton {
-    border: none;
-    background: #6e5bff;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: center;
-    width: 100%;
-    color: #fff;
-    font-size: 1.3rem;
-    font-weight: 300;
-    border-radius: 25px;
-    height: fit-content;
-    padding: 10px;
-    cursor: pointer;
-    transition: 0.2s;
-
-    &:hover {
-        background: #8a7ef5;
-        transform: translateY(-5px);
-        box-shadow: 0 0 100px rgba(110, 91, 255, 0.25);
-    }
-}
-
 svg {
     fill: white;
     width: 24px;
