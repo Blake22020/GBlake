@@ -1,46 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap");
 
-svg {
-    fill: white;
-    width: 24px;
-    height: 24px;
-}
-
-.mainNavbar h1 {
-    font-size: 1.6rem;
-    color: #fff;
-}
-
-.mainNavbar .contacts {
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-    font-weight: 300;
-    border-radius: 25px;
-    height: fit-content;
-    padding: 0;
-    cursor: pointer;
-    width: 100%;
-}
-
-.mainNavbar .contacts .contactButton {
-    color: white;
-    text-decoration: none;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 10px 0;
-    width: 100%;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: 0.2s;
-    font-size: 1.3rem;
-
-    &:hover {
-        background: rgba(255, 255, 255, 0.15);
-        transform: translateY(-5px);
-    }
-}
-
 @media (max-width: 900px) {
     .mainNavbar {
         width: 200px;

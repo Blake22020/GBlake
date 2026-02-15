@@ -23,6 +23,7 @@ function MainNavbar({ open }: any) {
                     width="24"
                     height="24"
                     viewBox="0 0 24 24"
+                    className="fill-white w-[24px] h-[24px]"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                 >
@@ -40,24 +41,29 @@ function MainNavbar({ open }: any) {
                 </svg>
                 Создать
             </button>
-            <h1>Контакты</h1>
-            <div className="contacts">
-                <a className="contactButton" href="https://t.me/blake22020">
+            <h1 className="text-[1.6rem] text-white">Контакты</h1>
+            <div className="flex flex-col gap-[28px] p-0 w-full h-fit font-[300] contacts">
+                <a
+                    className="items-center bg-bg-contactButton hover:bg-bg-contactButtonHover py-[10px] rounded-[25px] w-full text-[1.3rem] text-white text-center no-underline hover:translate-y-[-5px] duration-200 cursor-pointer contactButton txt-white"
+                    href="https://t.me/blake22020"
+                >
                     Telegram
                 </a>
                 <a
-                    className="contactButton"
+                    className="items-center bg-bg-contactButton hover:bg-bg-contactButtonHover py-[10px] rounded-[25px] w-full text-[1.3rem] text-white text-center no-underline hover:translate-y-[-5px] duration-200 cursor-pointer contactButton txt-white"
                     href="mailto:mr.blake.hero@mail.ru"
                 >
                     Mail
                 </a>
                 <a
-                    className="contactButton"
+                    className="items-center bg-bg-contactButton hover:bg-bg-contactButtonHover py-[10px] rounded-[25px] w-full text-[1.3rem] text-white text-center no-underline hover:translate-y-[-5px] duration-200 cursor-pointer contactButton txt-white"
                     href="https://github.com/blake22020"
                 >
                     Github
                 </a>
-                <a className="contactButton">Портфолио</a>
+                <a className="items-center bg-bg-contactButton opacity-50 py-[10px] rounded-[25px] w-full text-[1.3rem] text-white text-center no-underline duration-200 cursor-not-allowed contactButton txt-white">
+                    Портфолио
+                </a>
             </div>
         </div>
     );

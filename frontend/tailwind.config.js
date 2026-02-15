@@ -7,6 +7,8 @@ module.exports = {
                     primary: "#111318",
                     elevated: "#0B0C10",
                     card: "rgba(255, 255, 255, 0.2)",
+                    contactButton: "rgba(255, 255, 255, 0.1)",
+                    contactButtonHover: "rgba(255, 255, 255, 0.15)",
                 },
                 text: {
                     primary: "#FFFFFF",
