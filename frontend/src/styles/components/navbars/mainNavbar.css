@@ -1,31 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap');
-
-.mainNavbar {
-    position: fixed;
-    z-index: 90;
-    padding: 20px;
-    padding-top: 110px;
-    background: #0B0C10;
-    display: flex;
-    flex-direction: column;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 200px;
-    border-right: 2px solid rgba(255, 255, 255, 0.25);
-    gap: 28px;
-    transform: translateX(-100%);
-    transition: transform 0.5s;
-
-}
-
-.mainNavbar.open {
-    transform: translateX(0);
-}
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap");
 
 .mainNavbar .createButton {
     border: none;
-    background: #6E5BFF;
+    background: #6e5bff;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -40,9 +17,8 @@
     cursor: pointer;
     transition: 0.2s;
 
-
     &:hover {
-        background: #8A7EF5;
+        background: #8a7ef5;
         transform: translateY(-5px);
         box-shadow: 0 0 100px rgba(110, 91, 255, 0.25);
     }
@@ -51,7 +27,7 @@
 svg {
     fill: white;
     width: 24px;
-    height: 24px
+    height: 24px;
 }
 
 .mainNavbar h1 {
@@ -87,7 +63,6 @@ svg {
         background: rgba(255, 255, 255, 0.15);
         transform: translateY(-5px);
     }
-
 }
 
 @media (max-width: 900px) {
