@@ -1,5 +1,3 @@
-import React from "react";
-import "../../styles/components/navbars/loginNavbar.css";
 import { useNavigate } from "react-router-dom";
 
 function LoginNavbar({ open }: any) {
