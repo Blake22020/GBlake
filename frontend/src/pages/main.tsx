@@ -59,11 +59,12 @@ function MainPage() {
 
     return (
         <div className="main">
-            {localStorage.getItem("token") ? (
+            {/* {localStorage.getItem("token") ? (
                 <LoginNavbarHeader />
             ) : (
                 <MainNavbarHeader />
-            )}
+            )} */}
+            <LoginNavbarHeader />
             <main>
                 {posts.map((post: PostInterface) => (
                     <Post

@@ -60,7 +60,7 @@ function MainNavbar({ open }: any) {
                     Github
                 </a>
                 <a className="items-center bg-bg-contactButton opacity-50 py-[10px] rounded-[25px] w-full text-[1.3rem] text-white max-[900px]:min-[600px]:text-[1rem] text-center no-underline duration-200 cursor-not-allowed contactButton txt-white">
-                    Портфолио
+                    Скоро
                 </a>
             </div>
         </div>

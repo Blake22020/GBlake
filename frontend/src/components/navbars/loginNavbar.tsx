@@ -1,56 +1,116 @@
-import React from 'react';
-import '../../styles/components/navbars/loginNavbar.css'
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import "../../styles/components/navbars/loginNavbar.css";
+import { useNavigate } from "react-router-dom";
 
-
-function LoginNavbar({ open } : any) {
+function LoginNavbar({ open }: any) {
     const navigate = useNavigate();
 
     return (
-        <div className={open ? 'loginNavbar open' : 'loginNavbar'}>
-            <button className='createButton' onClick={() => {navigate("/create")}}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div
+            className={
+                open
+                    ? "loginNavbar open fixed z-99 p-[20px] pt-[110px] bg-bg-elevated flex flex-col top-0 left-0 bottom-0 w-[200px] border-r-2 border-solid border-r-white/25 gap-[28px] translate-x-0 max-[900px]:min-[600px]:w-[200px] max-[900px]:p-[10px] max-[900px]:min-[600px]:pt-[110px] transition-transform duration-300 ease-out max-[600px]:pt-[90px] max-[600px]:w-[150px]"
+                    : "loginNavbar open fixed z-99 p-[20px] pt-[110px] bg-bg-elevated flex flex-col top-0 left-0 bottom-0 w-[200px] border-r-2 border-solid border-r-white/25 gap-[28px] translate-x-[-100%] max-[900px]:min-[600px]:w-[200px]  max-[900px]:min-[600px]:p-[10px] max-[900px]:min-[600px]:pt-[110px] transition-transform duration-300 ease-out"
+            }
+        >
+            <button
+                className="flex justify-center items-center gap-[10px] bg-primary-600 hover:bg-primary-500 hover:shadow-[0_0_100px_rgba(110,91,255,0.25)] p-[10px] border-0 rounded-[25px] w-full h-fit font-[500] text-[1.3rem] text-white max-[900px]:min-[600px]:text-[1rem] transition-all hover:translate-y-[-5px] duration-200 cursor-pointer createButton"
+                onClick={() => {
+                    navigate("/create");
+                }}
+            >
+                <svg
+                    width="24"
+                    height="24"
+                    className="max-[600px]:hidden fill-white w-[24px] h-[24px]"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
                     <g clip-path="url(#clip0_7_6)">
-                        <path d="M19 11H13V5C13 4.73478 12.8946 4.48043 12.7071 4.29289C12.5196 4.10536 12.2652 4 12 4C11.7348 4 11.4804 4.10536 11.2929 4.29289C11.1054 4.48043 11 4.73478 11 5V11H5C4.73478 11 4.48043 11.1054 4.29289 11.2929C4.10536 11.4804 4 11.7348 4 12C4 12.2652 4.10536 12.5196 4.29289 12.7071C4.48043 12.8946 4.73478 13 5 13H11V19C11 19.2652 11.1054 19.5196 11.2929 19.7071C11.4804 19.8946 11.7348 20 12 20C12.2652 20 12.5196 19.8946 12.7071 19.7071C12.8946 19.5196 13 19.2652 13 19V13H19C19.2652 13 19.5196 12.8946 19.7071 12.7071C19.8946 12.5196 20 12.2652 20 12C20 11.7348 19.8946 11.4804 19.7071 11.2929C19.5196 11.1054 19.2652 11 19 11Z" fill="white"/>
+                        <path
+                            d="M19 11H13V5C13 4.73478 12.8946 4.48043 12.7071 4.29289C12.5196 4.10536 12.2652 4 12 4C11.7348 4 11.4804 4.10536 11.2929 4.29289C11.1054 4.48043 11 4.73478 11 5V11H5C4.73478 11 4.48043 11.1054 4.29289 11.2929C4.10536 11.4804 4 11.7348 4 12C4 12.2652 4.10536 12.5196 4.29289 12.7071C4.48043 12.8946 4.73478 13 5 13H11V19C11 19.2652 11.1054 19.5196 11.2929 19.7071C11.4804 19.8946 11.7348 20 12 20C12.2652 20 12.5196 19.8946 12.7071 19.7071C12.8946 19.5196 13 19.2652 13 19V13H19C19.2652 13 19.5196 12.8946 19.7071 12.7071C19.8946 12.5196 20 12.2652 20 12C20 11.7348 19.8946 11.4804 19.7071 11.2929C19.5196 11.1054 19.2652 11 19 11Z"
+                            fill="white"
+                        />
                     </g>
                     <defs>
                         <clipPath id="clip0_7_6">
-                            <rect width="24" height="24" fill="white"/>
+                            <rect width="24" height="24" fill="white" />
                         </clipPath>
                     </defs>
                 </svg>
                 Создать
             </button>
-            <div className='buttons'>
-                <button>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div className="flex flex-col gap-[16px] buttons">
+                <button className="flex justify-center items-center gap-[8px] bg-bg-contactButton hover:bg-bg-contactButtonHover px-0 py-[10px] border-0 rounded-[25px] w-full text-[1.3rem] text-white max-[900px]:text-[1rem] text-center no-underline hover:translate-y-[-5px] duration-200 cursor-pointer">
+                    <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        className="max-[600px]:hidden fill-white w-[24px] h-[24px]"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
                         <g clip-path="url(#clip0_12_74)">
-                            <path d="M9 11C9.79113 11 10.5645 10.7654 11.2223 10.3259C11.8801 9.88635 12.3928 9.26164 12.6955 8.53074C12.9983 7.79983 13.0775 6.99556 12.9231 6.21964C12.7688 5.44372 12.3878 4.73098 11.8284 4.17157C11.269 3.61216 10.5563 3.2312 9.78036 3.07686C9.00444 2.92252 8.20017 3.00173 7.46927 3.30448C6.73836 3.60723 6.11365 4.11992 5.67412 4.77772C5.2346 5.43552 5 6.20888 5 7C5 8.06087 5.42143 9.07828 6.17157 9.82843C6.92172 10.5786 7.93913 11 9 11ZM9 5C9.39556 5 9.78224 5.1173 10.1111 5.33706C10.44 5.55683 10.6964 5.86918 10.8478 6.23463C10.9991 6.60009 11.0387 7.00222 10.9616 7.39018C10.8844 7.77814 10.6939 8.13451 10.4142 8.41422C10.1345 8.69392 9.77814 8.8844 9.39018 8.96157C9.00222 9.03874 8.60009 8.99914 8.23463 8.84776C7.86918 8.69639 7.55682 8.44004 7.33706 8.11114C7.1173 7.78224 7 7.39556 7 7C7 6.46957 7.21071 5.96086 7.58579 5.58579C7.96086 5.21072 8.46957 5 9 5Z" fill="white"/>
-                            <path d="M17 13C17.5933 13 18.1734 12.8241 18.6667 12.4944C19.1601 12.1648 19.5446 11.6962 19.7716 11.1481C19.9987 10.5999 20.0581 9.99667 19.9424 9.41473C19.8266 8.83279 19.5409 8.29824 19.1213 7.87868C18.7018 7.45912 18.1672 7.1734 17.5853 7.05765C17.0033 6.94189 16.4001 7.0013 15.8519 7.22836C15.3038 7.45543 14.8352 7.83994 14.5056 8.33329C14.1759 8.82664 14 9.40666 14 10C14 10.7957 14.3161 11.5587 14.8787 12.1213C15.4413 12.6839 16.2044 13 17 13ZM17 9C17.1978 9 17.3911 9.05865 17.5556 9.16853C17.72 9.27841 17.8482 9.43459 17.9239 9.61732C17.9996 9.80004 18.0194 10.0011 17.9808 10.1951C17.9422 10.3891 17.847 10.5673 17.7071 10.7071C17.5673 10.847 17.3891 10.9422 17.1951 10.9808C17.0011 11.0194 16.8 10.9996 16.6173 10.9239C16.4346 10.8482 16.2784 10.72 16.1685 10.5556C16.0586 10.3911 16 10.1978 16 10C16 9.73478 16.1054 9.48043 16.2929 9.29289C16.4804 9.10536 16.7348 9 17 9Z" fill="white"/>
-                            <path d="M17 14C15.8918 14.0012 14.8155 14.3706 13.94 15.05C12.9605 14.0744 11.7141 13.4106 10.3578 13.1424C9.00159 12.8743 7.59632 13.0137 6.31923 13.5431C5.04213 14.0726 3.95041 14.9683 3.18174 16.1174C2.41307 17.2665 2.00187 18.6175 2 20C2 20.2652 2.10536 20.5196 2.29289 20.7071C2.48043 20.8946 2.73478 21 3 21C3.26522 21 3.51957 20.8946 3.70711 20.7071C3.89464 20.5196 4 20.2652 4 20C4 18.6739 4.52678 17.4022 5.46447 16.4645C6.40215 15.5268 7.67392 15 9 15C10.3261 15 11.5979 15.5268 12.5355 16.4645C13.4732 17.4022 14 18.6739 14 20C14 20.2652 14.1054 20.5196 14.2929 20.7071C14.4804 20.8946 14.7348 21 15 21C15.2652 21 15.5196 20.8946 15.7071 20.7071C15.8946 20.5196 16 20.2652 16 20C16.0024 18.8284 15.7064 17.6755 15.14 16.65C15.5819 16.3008 16.1132 16.083 16.6731 16.0217C17.233 15.9603 17.7989 16.0578 18.306 16.303C18.813 16.5482 19.2408 16.9312 19.5404 17.4081C19.84 17.8851 19.9993 18.4368 20 19C20 19.2652 20.1054 19.5196 20.2929 19.7071C20.4804 19.8946 20.7348 20 21 20C21.2652 20 21.5196 19.8946 21.7071 19.7071C21.8946 19.5196 22 19.2652 22 19C22 17.6739 21.4732 16.4022 20.5355 15.4645C19.5979 14.5268 18.3261 14 17 14Z" fill="white"/>
+                            <path
+                                d="M9 11C9.79113 11 10.5645 10.7654 11.2223 10.3259C11.8801 9.88635 12.3928 9.26164 12.6955 8.53074C12.9983 7.79983 13.0775 6.99556 12.9231 6.21964C12.7688 5.44372 12.3878 4.73098 11.8284 4.17157C11.269 3.61216 10.5563 3.2312 9.78036 3.07686C9.00444 2.92252 8.20017 3.00173 7.46927 3.30448C6.73836 3.60723 6.11365 4.11992 5.67412 4.77772C5.2346 5.43552 5 6.20888 5 7C5 8.06087 5.42143 9.07828 6.17157 9.82843C6.92172 10.5786 7.93913 11 9 11ZM9 5C9.39556 5 9.78224 5.1173 10.1111 5.33706C10.44 5.55683 10.6964 5.86918 10.8478 6.23463C10.9991 6.60009 11.0387 7.00222 10.9616 7.39018C10.8844 7.77814 10.6939 8.13451 10.4142 8.41422C10.1345 8.69392 9.77814 8.8844 9.39018 8.96157C9.00222 9.03874 8.60009 8.99914 8.23463 8.84776C7.86918 8.69639 7.55682 8.44004 7.33706 8.11114C7.1173 7.78224 7 7.39556 7 7C7 6.46957 7.21071 5.96086 7.58579 5.58579C7.96086 5.21072 8.46957 5 9 5Z"
+                                fill="white"
+                            />
+                            <path
+                                d="M17 13C17.5933 13 18.1734 12.8241 18.6667 12.4944C19.1601 12.1648 19.5446 11.6962 19.7716 11.1481C19.9987 10.5999 20.0581 9.99667 19.9424 9.41473C19.8266 8.83279 19.5409 8.29824 19.1213 7.87868C18.7018 7.45912 18.1672 7.1734 17.5853 7.05765C17.0033 6.94189 16.4001 7.0013 15.8519 7.22836C15.3038 7.45543 14.8352 7.83994 14.5056 8.33329C14.1759 8.82664 14 9.40666 14 10C14 10.7957 14.3161 11.5587 14.8787 12.1213C15.4413 12.6839 16.2044 13 17 13ZM17 9C17.1978 9 17.3911 9.05865 17.5556 9.16853C17.72 9.27841 17.8482 9.43459 17.9239 9.61732C17.9996 9.80004 18.0194 10.0011 17.9808 10.1951C17.9422 10.3891 17.847 10.5673 17.7071 10.7071C17.5673 10.847 17.3891 10.9422 17.1951 10.9808C17.0011 11.0194 16.8 10.9996 16.6173 10.9239C16.4346 10.8482 16.2784 10.72 16.1685 10.5556C16.0586 10.3911 16 10.1978 16 10C16 9.73478 16.1054 9.48043 16.2929 9.29289C16.4804 9.10536 16.7348 9 17 9Z"
+                                fill="white"
+                            />
+                            <path
+                                d="M17 14C15.8918 14.0012 14.8155 14.3706 13.94 15.05C12.9605 14.0744 11.7141 13.4106 10.3578 13.1424C9.00159 12.8743 7.59632 13.0137 6.31923 13.5431C5.04213 14.0726 3.95041 14.9683 3.18174 16.1174C2.41307 17.2665 2.00187 18.6175 2 20C2 20.2652 2.10536 20.5196 2.29289 20.7071C2.48043 20.8946 2.73478 21 3 21C3.26522 21 3.51957 20.8946 3.70711 20.7071C3.89464 20.5196 4 20.2652 4 20C4 18.6739 4.52678 17.4022 5.46447 16.4645C6.40215 15.5268 7.67392 15 9 15C10.3261 15 11.5979 15.5268 12.5355 16.4645C13.4732 17.4022 14 18.6739 14 20C14 20.2652 14.1054 20.5196 14.2929 20.7071C14.4804 20.8946 14.7348 21 15 21C15.2652 21 15.5196 20.8946 15.7071 20.7071C15.8946 20.5196 16 20.2652 16 20C16.0024 18.8284 15.7064 17.6755 15.14 16.65C15.5819 16.3008 16.1132 16.083 16.6731 16.0217C17.233 15.9603 17.7989 16.0578 18.306 16.303C18.813 16.5482 19.2408 16.9312 19.5404 17.4081C19.84 17.8851 19.9993 18.4368 20 19C20 19.2652 20.1054 19.5196 20.2929 19.7071C20.4804 19.8946 20.7348 20 21 20C21.2652 20 21.5196 19.8946 21.7071 19.7071C21.8946 19.5196 22 19.2652 22 19C22 17.6739 21.4732 16.4022 20.5355 15.4645C19.5979 14.5268 18.3261 14 17 14Z"
+                                fill="white"
+                            />
                         </g>
                         <defs>
                             <clipPath id="clip0_12_74">
-                                <rect width="24" height="24" fill="white"/>
+                                <rect width="24" height="24" fill="white" />
                             </clipPath>
                         </defs>
                     </svg>
                     Подписки
                 </button>
-                <button onClick={() => {navigate('/likes')}}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g data-name="Layer 2"><g data-name="search"><rect width="24" height="24" opacity="0"/><path d="M20.71 19.29l-3.4-3.39A7.92 7.92 0 0 0 19 11a8 8 0 1 0-8 8 7.92 7.92 0 0 0 4.9-1.69l3.39 3.4a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 11a6 6 0 1 1 6 6 6 6 0 0 1-6-6z"/></g></g></svg>
+                <button
+                    onClick={() => {
+                        navigate("/likes");
+                    }}
+                    className="flex justify-center items-center gap-[8px] bg-bg-contactButton hover:bg-bg-contactButtonHover px-0 py-[10px] border-0 rounded-[25px] w-full text-[1.3rem] text-white max-[900px]:text-[1rem] text-center no-underline hover:translate-y-[-5px] duration-200 cursor-pointer"
+                >
                     Лайки
                 </button>
             </div>
-            <h1>Контакты</h1>
-            <div className='contacts'>
-                <a className='contactButton' href='https://t.me/blake22020'>Telegram</a>
-                <a className='contactButton' href='mailto:mr.blake.hero@mail.ru'>Mail</a>
-                <a className='contactButton' href='https://github.com/blake22020'>Github</a>
-                <a className='contactButton' href='https://gblake.ru'>Портфолио</a>
+            <h1 className="text-[1.6rem] text-white">Контакты</h1>
+            <div className="flex flex-col gap-[28px] p-0 w-full h-fit font-[300] contacts">
+                <a
+                    className="items-center bg-bg-contactButton hover:bg-bg-contactButtonHover py-[10px] rounded-[25px] w-full text-[1.3rem] text-white max-[900px]:min-[600px]:text-[1rem] text-center no-underline hover:translate-y-[-5px] duration-200 cursor-pointer contactButton txt-white"
+                    href="https://t.me/blake22020"
+                >
+                    Telegram
+                </a>
+                <a
+                    className="items-center bg-bg-contactButton hover:bg-bg-contactButtonHover py-[10px] rounded-[25px] w-full text-[1.3rem] text-white max-[900px]:min-[600px]:text-[1rem] text-center no-underline hover:translate-y-[-5px] duration-200 cursor-pointer contactButton txt-white"
+                    href="mailto:mr.blake.hero@mail.ru"
+                >
+                    Mail
+                </a>
+                <a
+                    className="items-center bg-bg-contactButton hover:bg-bg-contactButtonHover py-[10px] rounded-[25px] w-full text-[1.3rem] text-white max-[900px]:min-[600px]:text-[1rem] text-center no-underline hover:translate-y-[-5px] duration-200 cursor-pointer contactButton txt-white"
+                    href="https://github.com/blake22020"
+                >
+                    Github
+                </a>
+                <a
+                    className="items-center bg-bg-contactButton opacity-50 py-[10px] rounded-[25px] w-full text-[1.3rem] text-white max-[900px]:min-[600px]:text-[1rem] text-center no-underline duration-200 cursor-not-allowed contactButton txt-white"
+                    href="https://gblake.ru"
+                >
+                    Скоро
+                </a>
             </div>
         </div>
-    )
+    );
 }
 
 export default LoginNavbar;
