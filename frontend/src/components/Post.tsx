@@ -105,7 +105,7 @@ function Post(post: PostInterface) {
   };
 
   return (
-    <article className="post mx-auto my-[25px] bg-bg-contactButton text-white rounded-[35px] p-[20px] w-[700px] flex flex-col gap-[30px]">
+    <article className="post mx-auto my-[25px] bg-bg-contactButton text-white rounded-[35px] p-[20px] w-[700px] max-[1050px]:min-[900px]:w-550px max-[900px]:min-[750px]:w-450px max-[750px]:min-[600px]:w-350px max-[600px]:min-[500px]:w-[400px] max-[500px]:w-[90%] flex flex-col gap-[30px]">
       <div className="post__header flex justify-between items-center">
         <div className="post__header__title flex gap-[15px] items-start h-fit">
           <a
@@ -125,9 +125,13 @@ function Post(post: PostInterface) {
           {timeAgo(post.createdAt)}
         </p>
       </div>
-      <div className="post__body flex flex-col gap-[10px]">
-        <h1 className="text-[2rem] font-bold">{post.title}</h1>
-        <p className="text-[1.4rem]">{post.text}</p>
+      <div className="post__body flex flex-col gap-[10px] max-[1050px]:min-[750px]:gap-[40px] max-[750px]:gap-[10px]">
+        <h1 className="text-[2rem] font-bold max-[900px]:min-[750px]:text-[1.7rem] max-[750px]:text-[1.5rem]">
+          {post.title}
+        </h1>
+        <p className="text-[1.4rem] max-[1050px]:min-[750px]:text-[1.3rem] max-[750px]:min-[500px]:text-[1.2rem] max-[500px]:text-[1.1rem]">
+          {post.text}
+        </p>
       </div>
       <div className="post__footer">
         <div className="post__footer__buttons flex gap-[15px]">
@@ -151,4 +155,3 @@ function Post(post: PostInterface) {
 }
 
 export default Post;
-
