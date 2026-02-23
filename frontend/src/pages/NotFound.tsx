@@ -14,7 +14,7 @@ function NotFound() {
     }, []);
 
     return (
-        <div className="box-border flex pt-[65px] pl-[200px] w-[100dvh] h-[100dvh] object-cover overflow-y-hidden notFoundPage">
+        <div className="box-border flex pt-[65px] pl-[200px] w-[100dvw] h-[100dvh] object-cover overflow-y-hidden notFoundPage">
             {localStorage.getItem("token") ? (
                 <LoginNavbarHeader />
             ) : (
@@ -22,15 +22,15 @@ function NotFound() {
             )}
             <div className="flex flex-col flex-1 justify-center items-center gap-[100px] overflow-y-hidden notFoundWindow">
                 <div className="flex flex-col gap-[35px] text-center notFoundText">
-                    <h1 className="drop-shadow-[0_0_200px_rgba(110,91,255,0.45)] text-[20rem] text-primary-600">
+                    <h1 className="drop-shadow-[0_0_200px_rgba(110,91,255,0.45)] font-[700] text-[20rem] text-primary-600 max-[1500px]:min-[500px]:text-[10rem]">
                         404
                     </h1>
-                    <p className="text-[3rem] text-500 text-white">
+                    <p className="text-[3rem] text-500 text-white max-[1500px]:min-[500px]:text-[2rem]">
                         Такой страницы нет
                     </p>
                 </div>
                 <button
-                    className="bg-primary-600 hover:shadow-[0_0_100px_rgba(110,91,255,0.25)] active:shadow-none px-[30px] py-[20px] border-0 rounded-[55px] text-[2rem] text-500 text-white active:scale-95 transition-all duration-300 ease-in-out cursor-pointer toMainButton"
+                    className="bg-primary-600 hover:shadow-[0_0_100px_rgba(110,91,255,0.25)] active:shadow-none px-[30px] py-[20px] border-0 rounded-[55px] text-[2rem] text-500 text-white max-[1500px]:min-[500px]:text-[1.8rem] active:scale-95 transition-all duration-300 ease-in-out cursor-pointer toMainButton"
                     onClick={() => {
                         navigate("/");
                     }}

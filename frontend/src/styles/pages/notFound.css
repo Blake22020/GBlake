@@ -1,16 +1,3 @@
-@media (max-width: 1500px) {
-    .notFoundPage .notFoundText h1 {
-        font-size: 10rem;
-    }
-
-    .notFoundPage .notFoundText p {
-        font-size: 2rem;
-    }
-    .notFoundPage .toMainButton {
-        font-size: 1.8rem;
-    }
-}
-
 @media (max-width: 900px) {
     .notFoundPage {
         padding-top: 50px;
