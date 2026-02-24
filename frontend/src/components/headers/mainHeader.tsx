@@ -44,11 +44,12 @@ function MainHeader({ openFunction, open }: Props) {
             </div>
             <div className="max-[600px]:hidden flex items-center gap-[4px] bg-white/20 autofill:shadow-[inset_0_0_0_1000px_#0b0c10] focus:shadow-none autofill:[-webkit-text-fill-color:white] p-[5px] rounded-[25px] focus:outline-none focus:ring-0 w-[500px] max-[900px]:min-[600px]:w-[300px] h-fit search-bar">
                 <svg
-                    className="fill-white search-icon"
+                    className="fill-white w-[24px] h-[24px]"
                     width="24"
                     height="24"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
+                    fill="currentColor"
                 >
                     <g data-name="Layer 2">
                         <g data-name="search">
@@ -92,7 +93,7 @@ function MainHeader({ openFunction, open }: Props) {
                         mobileIcon.style.display = "none";
                         closeIcon.style.display = "block";
                     }}
-                    className="hidden max-[600px]:block cursor-pointer search-icon"
+                    className="hidden max-[600px]:block fill-white w-[24px] h-[24px] cursor-pointer search-icon"
                     width="24"
                     height="24"
                     xmlns="http://www.w3.org/2000/svg"
@@ -136,7 +137,7 @@ function MainHeader({ openFunction, open }: Props) {
                     mobileIcon.style.display = "flex";
                     closeIcon.style.display = "none";
                 }}
-                className="hidden cursor-pointer closeIcon"
+                className="hidden fill-white w-[24px] h-[24px] cursor-pointer closeIcon"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
             >

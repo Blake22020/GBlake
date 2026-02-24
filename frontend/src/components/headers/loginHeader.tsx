@@ -85,18 +85,14 @@ function LoginHeader({ openFunction, open }: Props) {
                         const searchBar = document.querySelector(
                             ".login-header .search-bar",
                         ) as HTMLElement;
-                        const searchInput = document.querySelector(
-                            ".login-header .search-bar input",
-                        ) as HTMLElement;
 
                         searchBar.style.display = "flex";
                         searchBar.style.width = "95%";
-                        searchInput.style.width = "100%";
                         title.style.display = "none";
                         mobileIcon.style.display = "none";
                         closeIcon.style.display = "block";
                     }}
-                    className="hidden max-[600px]:block cursor-pointer search-icon"
+                    className="hidden max-[600px]:block fill-white w-[24px] h-[24px] cursor-pointer search-icon"
                     width="24"
                     height="24"
                     xmlns="http://www.w3.org/2000/svg"
@@ -146,12 +142,12 @@ function LoginHeader({ openFunction, open }: Props) {
                     ) as HTMLElement;
 
                     searchBar.style.display = "none";
-                    searchBar.style.width = "300px";
                     title.style.display = "flex";
+                    searchBar.style.width = "300px";
                     mobileIcon.style.display = "flex";
                     closeIcon.style.display = "none";
                 }}
-                className="hidden cursor-pointer closeIcon"
+                className="hidden fill-white w-[24px] h-[24px] cursor-pointer closeIcon"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
             >

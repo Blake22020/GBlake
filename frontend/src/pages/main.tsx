@@ -59,13 +59,12 @@ function MainPage() {
 
     return (
         <div className="main">
-            {/* {localStorage.getItem("token") ? (
+            {localStorage.getItem("token") ? (
                 <LoginNavbarHeader />
             ) : (
                 <MainNavbarHeader />
-            )} */}
-            <LoginNavbarHeader />
-            <main>
+            )}
+            <main className="flex flex-col pt-[65px] max-[900px]:pt-[50px] pb-[110px] pl-[200px] max-[600px]:pl-0 max-[900px]:min-[600px]:pl-[200px] w-[100dvw] object-cover">
                 {posts.map((post: PostInterface) => (
                     <Post
                         _id={post._id}
