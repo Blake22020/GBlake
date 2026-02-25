@@ -137,19 +137,19 @@ function Search() {
     }, [query]);
 
     return (
-        <div className="search">
+        <div className="flex flex-col pt-[65px] pb-[110px] pl-[200px] w-dvw object-cover search">
             {localStorage.getItem("token") ? (
                 <LoginNavbarHeader />
             ) : (
                 <MainNavbarHeader />
             )}
-            <div className="searchWindow">
-                <div className="buttons">
+            <div className="flex gap-[30px] py-[50px] searchWindow flex=col">
+                <div className="flex justify-center items-center gap-[20px] buttons">
                     <button
                         onClick={() => {
                             setIsPosts(true);
                         }}
-                        className={isPosts ? "active" : ""}
+                        className={`text-white text-[2rem] px-[35px] py-[15px] border-0 reounded-[35px] cursor-pointer transition-all duration-100 ease-in-out ${isPosts ? "bg-white/20" : "bg-white/10"}`}
                     >
                         Посты
                     </button>
@@ -157,13 +157,15 @@ function Search() {
                         onClick={() => {
                             setIsPosts(false);
                         }}
-                        className={isPosts ? "" : "active"}
+                        className={`text-white text-[2rem] px-[35px] py-[15px] border-0 reounded-[35px] cursor-pointer transition-all duration-100 ease-in-out ${isPosts ? "bg-white/10" : "bg-white/20"}`}
                     >
                         Пользователи
                     </button>
                 </div>
 
-                <div className={isPosts ? "posts" : "posts hidden"}>
+                <div
+                    className={`flex flex-col gap-[50px] ${isPosts ? "" : "hidden"}`}
+                >
                     {posts.map((post: PostInterface) => (
                         <Post
                             _id={post._id}
@@ -177,13 +179,15 @@ function Search() {
                     ))}
                 </div>
 
-                <div className={isPosts ? "users hidden" : "users"} id="users">
+                <div
+                    className={`flex flex-col gap-[100px] ${isPosts ? "hidden" : ""}`}
+                >
                     {users.map(function (user: UserInterface) {
                         const isFollowing = followStatus[user._id] || false;
                         const isLoggedIn = !!localStorage.getItem("token");
 
                         return (
-                            <div className="userCard">
+                            <div className="flex justify-between items-center gap-[30px] bg-white/5 hover:bg-white/10 mx-auto p-[20px] rounded-[65px] w-[700px] text-white transition-all duration-300 ease-in-out cursor-pointer userCard">
                                 <img
                                     src={`https://gblake.ru/uploads/${user.avatar}`}
                                     alt="avatar"
