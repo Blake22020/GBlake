@@ -191,16 +191,19 @@ function Search() {
                                 <img
                                     src={`https://gblake.ru/uploads/${user.avatar}`}
                                     alt="avatar"
+                                    className="bg-transparent m-0 p-0 border-0 rounded-[50%] w-[96px] h-[96px] object-cover aspect-square"
                                 />
-                                <div className="text">
-                                    <h1>{user.visualName}</h1>
+                                <div className="flex justify-between text">
+                                    <h1 className="text-[2rem]">
+                                        {user.visualName}
+                                    </h1>
                                 </div>
                                 {isLoggedIn && (
                                     <button
                                         className={
                                             isFollowing
-                                                ? "unfollowButton"
-                                                : "followButton"
+                                                ? "unfollowButton text-[1.3rem] bg-white/20 px-[35px] py-[15px]  rounded-[35px] border-0 text-white cursor-pointer hover:bg-white/30"
+                                                : "followButton text-[1.3rem] bg-primary-600 px-[35px] py-[15px] rounded-[35px] border-0 text-white cursor-pointer hover:bg-primary-500"
                                         }
                                         onClick={() =>
                                             handleFollowClick(user._id)
