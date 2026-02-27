@@ -1,28 +1,3 @@
-@media (max-width: 1000px) {
-    .searchWindow .users .userCard {
-        width: 550px;
-    }
-
-    .searchWindow .users .userCard img {
-        width: 72px;
-        height: 72px;
-    }
-
-    .searchWindow .users .userCard .followButton,
-    .searchWindow .users .userCard .unfollowButton {
-        font-size: 1.3rem;
-        padding: 10px 15px;
-    }
-
-    .searchWindow .users .userCard .text h1 {
-        font-size: 1.5rem;
-    }
-
-    .searchWindow .buttons .button {
-        font-size: 1.5rem;
-    }
-}
-
 @media (max-width: 900px) {
     .search {
         padding-top: 50px;

@@ -149,7 +149,7 @@ function Search() {
                         onClick={() => {
                             setIsPosts(true);
                         }}
-                        className={`text-white text-[2rem] px-[35px] py-[15px] border-0 reounded-[35px] cursor-pointer transition-all duration-100 ease-in-out ${isPosts ? "bg-white/20" : "bg-white/10"}`}
+                        className={`text-white text-[2rem] px-[35px] py-[15px] border-0 reounded-[35px] cursor-pointer transition-all duration-100 ease-in-out max-[1000px]:text-[1.5rem] ${isPosts ? "bg-white/20" : "bg-white/10"}`}
                     >
                         Посты
                     </button>
@@ -157,7 +157,7 @@ function Search() {
                         onClick={() => {
                             setIsPosts(false);
                         }}
-                        className={`text-white text-[2rem] px-[35px] py-[15px] border-0 reounded-[35px] cursor-pointer transition-all duration-100 ease-in-out ${isPosts ? "bg-white/10" : "bg-white/20"}`}
+                        className={`text-white text-[2rem] max-[1000px]:text-[1.5rem] px-[35px] py-[15px] border-0 reounded-[35px] cursor-pointer transition-all duration-100 ease-in-out ${isPosts ? "bg-white/10" : "bg-white/20"}`}
                     >
                         Пользователи
                     </button>
@@ -187,14 +187,14 @@ function Search() {
                         const isLoggedIn = !!localStorage.getItem("token");
 
                         return (
-                            <div className="flex justify-between items-center gap-[30px] bg-white/5 hover:bg-white/10 mx-auto p-[20px] rounded-[65px] w-[700px] text-white transition-all duration-300 ease-in-out cursor-pointer userCard">
+                            <div className="flex justify-between items-center gap-[30px] bg-white/5 hover:bg-white/10 mx-auto p-[20px] rounded-[65px] w-[700px] max-[1000px]:w-[550px] text-white transition-all duration-300 ease-in-out cursor-pointer userCard">
                                 <img
                                     src={`https://gblake.ru/uploads/${user.avatar}`}
                                     alt="avatar"
-                                    className="bg-transparent m-0 p-0 border-0 rounded-[50%] w-[96px] h-[96px] object-cover aspect-square"
+                                    className="bg-transparent m-0 p-0 border-0 rounded-[50%] w-[96px] max[1000px]:w-[72px] h-[96px] max-[1000px]:h-[72px] object-cover aspect-square"
                                 />
                                 <div className="flex justify-between text">
-                                    <h1 className="text-[2rem]">
+                                    <h1 className="text-[2rem] max-[1000px]:text-[1.5rem]">
                                         {user.visualName}
                                     </h1>
                                 </div>
@@ -202,8 +202,8 @@ function Search() {
                                     <button
                                         className={
                                             isFollowing
-                                                ? "unfollowButton text-[1.3rem] bg-white/20 px-[35px] py-[15px]  rounded-[35px] border-0 text-white cursor-pointer hover:bg-white/30"
-                                                : "followButton text-[1.3rem] bg-primary-600 px-[35px] py-[15px] rounded-[35px] border-0 text-white cursor-pointer hover:bg-primary-500"
+                                                ? "unfollowButton text-[1.3rem] bg-white/20 px-[35px] py-[15px]  rounded-[35px] border-0 text-white cursor-pointer hover:bg-white/30 max-[1000px]:px-[15px] max-[1000px]:py-[10px] max-[1000px]:text-[1.3rem]"
+                                                : "followButton text-[1.3rem] bg-primary-600 px-[35px] py-[15px] rounded-[35px] border-0 text-white cursor-pointer hover:bg-primary-500 max-[1000px]:px-[15px] max-[1000px]:py-[10px] max-[1000px]:text-[1.3rem]"
                                         }
                                         onClick={() =>
                                             handleFollowClick(user._id)
