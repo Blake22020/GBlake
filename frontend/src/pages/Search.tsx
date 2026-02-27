@@ -137,19 +137,19 @@ function Search() {
     }, [query]);
 
     return (
-        <div className="flex flex-col pt-[65px] pb-[110px] pl-[200px] w-dvw object-cover search">
+        <div className="flex flex-col pt-[65px] max-[900px]:pt-[50px] pb-[110px] pl-[200px] max-[600px]:pl-0 max-[900px]:pl-[200px] w-dvw object-cover search">
             {localStorage.getItem("token") ? (
                 <LoginNavbarHeader />
             ) : (
                 <MainNavbarHeader />
             )}
-            <div className="flex gap-[30px] py-[50px] searchWindow flex=col">
+            <div className="flex gap-[30px] py-[50px] max-[900px]:py-[25px] searchWindow flex=col">
                 <div className="flex justify-center items-center gap-[20px] buttons">
                     <button
                         onClick={() => {
                             setIsPosts(true);
                         }}
-                        className={`text-white text-[2rem] px-[35px] py-[15px] border-0 reounded-[35px] cursor-pointer transition-all duration-100 ease-in-out max-[1000px]:text-[1.5rem] ${isPosts ? "bg-white/20" : "bg-white/10"}`}
+                        className={`text-white text-[2rem] px-[35px] py-[15px] border-0 reounded-[35px] cursor-pointer transition-all duration-100 ease-in-out max-[1000px]:text-[1.5rem] max-[900px]:px-[15px] max-[900px]:py-[10px] ${isPosts ? "bg-white/20" : "bg-white/10"}`}
                     >
                         Посты
                     </button>
@@ -157,7 +157,7 @@ function Search() {
                         onClick={() => {
                             setIsPosts(false);
                         }}
-                        className={`text-white text-[2rem] max-[1000px]:text-[1.5rem] px-[35px] py-[15px] border-0 reounded-[35px] cursor-pointer transition-all duration-100 ease-in-out ${isPosts ? "bg-white/10" : "bg-white/20"}`}
+                        className={`text-white text-[2rem] max-[1000px]:text-[1.5rem] px-[35px] py-[15px] border-0 reounded-[35px] cursor-pointer transition-all duration-100 ease-in-out max-[900px]:px-[15px] max-[900px]:py-[10px] ${isPosts ? "bg-white/10" : "bg-white/20"}`}
                     >
                         Пользователи
                     </button>
@@ -180,30 +180,31 @@ function Search() {
                 </div>
 
                 <div
-                    className={`flex flex-col gap-[100px] ${isPosts ? "hidden" : ""}`}
+                    className={`flex flex-col gap-[100px] max-[900px]:gap-[25px] ${isPosts ? "hidden" : ""}`}
                 >
                     {users.map(function (user: UserInterface) {
                         const isFollowing = followStatus[user._id] || false;
                         const isLoggedIn = !!localStorage.getItem("token");
 
                         return (
-                            <div className="flex justify-between items-center gap-[30px] bg-white/5 hover:bg-white/10 mx-auto p-[20px] rounded-[65px] w-[700px] max-[1000px]:w-[550px] text-white transition-all duration-300 ease-in-out cursor-pointer userCard">
+                            <div className="flex justify-between items-center gap-[30px] max-[450px]:gap-[10px] bg-white/5 hover:bg-white/10 mx-auto p-[20px] rounded-[65px] w-[700px] max-[1000px]:w-[550px] max-[550px]:w-[90%] max-[600px]:w-[80%] max-[700px]:w-[400px] max-[900px]:w-[500px] text-white transition-all duration-300 ease-in-out cursor-pointer userCard">
                                 <img
                                     src={`https://gblake.ru/uploads/${user.avatar}`}
                                     alt="avatar"
-                                    className="bg-transparent m-0 p-0 border-0 rounded-[50%] w-[96px] max[1000px]:w-[72px] h-[96px] max-[1000px]:h-[72px] object-cover aspect-square"
+                                    className="bg-transparent m-0 p-0 border-0 rounded-[50%] w-[96px] max-[700px]:w-[36px] max-[900px]:w-[48px] max[1000px]:w-[72px] h-[96px] max-[1000px]:h-[72px] max-[700px]:h-[36px] max-[900px]:h-[48px] object-cover aspect-square"
                                 />
                                 <div className="flex justify-between text">
-                                    <h1 className="text-[2rem] max-[1000px]:text-[1.5rem]">
+                                    <h1 className="max-[450px]:font-800 text-[2rem] max-[1000px]:text-[1.5rem] max-[450px]:text-[0.9rem] max-[700px]:text-[1rem] max-[900px]:text-[1.3rem]">
                                         {user.visualName}
-                                    </h1>
+                                    </h1>{" "}
+                                    n
                                 </div>
                                 {isLoggedIn && (
                                     <button
                                         className={
                                             isFollowing
-                                                ? "unfollowButton text-[1.3rem] bg-white/20 px-[35px] py-[15px]  rounded-[35px] border-0 text-white cursor-pointer hover:bg-white/30 max-[1000px]:px-[15px] max-[1000px]:py-[10px] max-[1000px]:text-[1.3rem]"
-                                                : "followButton text-[1.3rem] bg-primary-600 px-[35px] py-[15px] rounded-[35px] border-0 text-white cursor-pointer hover:bg-primary-500 max-[1000px]:px-[15px] max-[1000px]:py-[10px] max-[1000px]:text-[1.3rem]"
+                                                ? "unfollowButton text-[1.3rem] bg-white/20 px-[35px] py-[15px]  rounded-[35px] border-0 text-white cursor-pointer hover:bg-white/30 max-[1000px]:px-[15px] max-[1000px]:py-[10px] max-[1000px]:text-[1.3rem] max-[700px]:px-[10px] max-[700px]:py-[5px] max-[700px]:text-[1rem]"
+                                                : "followButton text-[1.3rem] bg-primary-600 px-[35px] py-[15px] rounded-[35px] border-0 text-white cursor-pointer hover:bg-primary-500 max-[1000px]:px-[15px] max-[1000px]:py-[10px] max-[1000px]:text-[1.3rem]  max-[700px]:px-[10px] max-[700px]:py-[5px] max-[700px]:text-[1rem]"
                                         }
                                         onClick={() =>
                                             handleFollowClick(user._id)
