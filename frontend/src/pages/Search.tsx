@@ -6,7 +6,6 @@ import { searchResponse, followUser, checkFollowStatus } from "../services/api";
 import Modal from "../components/Modal";
 import Post from "../components/Post";
 import { setMeta } from "../services/description";
-import "../styles/pages/search.css";
 
 interface UserInterface {
     _id: string;
