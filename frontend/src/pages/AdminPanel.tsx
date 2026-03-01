@@ -15,27 +15,27 @@ function AdminPanel() {
         setIsModalOpen(true);
     };
 
-    // useEffect(() => {
-    //     const checkRole = async () => {
-    //         try {
-    //             const id = localStorage.getItem("id");
-    //             if (!id) {
-    //                 navigate("/404");
-    //                 return;
-    //             }
-    //             const user = await getUser(id);
-    //             const role = user.role;
-    //             if (role < 2) {
-    //                 navigate("/404");
-    //                 return;
-    //             }
-    //         } catch (err) {
-    //             console.error("/404");
-    //             return;
-    //         }
-    //     };
-    //     checkRole();
-    // }, [navigate]);
+    useEffect(() => {
+        const checkRole = async () => {
+            try {
+                const id = localStorage.getItem("id");
+                if (!id) {
+                    navigate("/404");
+                    return;
+                }
+                const user = await getUser(id);
+                const role = user.role;
+                if (role < 2) {
+                    navigate("/404");
+                    return;
+                }
+            } catch (err) {
+                console.error("/404");
+                return;
+            }
+        };
+        checkRole();
+    }, [navigate]);
 
     return (
         <div className="flex flex-col pt-[65px] max-[900px]:pt-[50px] pb-[110px] pl-[200px] max-[600px]:pl-0 max-[900px]:pl-[200px] w-screen h-screen object-cover adminPage">
