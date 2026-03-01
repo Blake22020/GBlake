@@ -38,7 +38,7 @@ function AdminPanel() {
     // }, [navigate]);
 
     return (
-        <div className="flex flex-col pt-[65px] pb-[110px] pl-[200px] w-screen h-screen object-cover adminPage">
+        <div className="flex flex-col pt-[65px] max-[900px]:pt-[50px] pb-[110px] pl-[200px] max-[600px]:pl-0 max-[900px]:pl-[200px] w-screen h-screen object-cover adminPage">
             <LoginNavbarHeader />
             <div className="flex flex-col justify-center items-center w-full h-full adminWindow">
                 <div className="shadow-[0_0_100px_0_#6e5bff] p-[45px] rounded-[45px] w-[50%] h-[60%] adminPanel">
