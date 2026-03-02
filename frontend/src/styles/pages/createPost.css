@@ -1,111 +1,3 @@
-textarea {
-    resize: none;
-}
-
-.createPostMain {
-    width: 100dvw;
-    padding-top: 65px;
-    padding-left: 200px;
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 110px;
-    object-fit: cover;
-    min-height: 100dvh;
-}
-
-.createPostCard {
-    position: relative;
-    gap: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-}
-
-.createPostCard .closeButton {
-    position: absolute;
-    top: 50px;
-    right: 50px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    width: 50px;
-    height: 50px;
-}
-
-.createPostCard .closeButton svg {
-    width: 50px;
-    height: 50px;
-}
-
-.createPostCard .createPostForm {
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
-    width: 30%;
-    max-width: 600px;
-}
-
-.createPostCard .createPostForm .createPostInputs {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-}
-
-.createPostCard .createPostForm .createPostInputs input{
-    font-size: 3rem;
-
-}
-.createPostCard .createPostForm .createPostInputs textarea{
-    font-size: 1.5rem;
-    resize: none;
-    min-height: 300px;
-}
-
-.createPostCard .createPostForm .createPostInputs input, .createPostCard .createPostForm .createPostInputs textarea {
-    background: rgba(255, 255, 255, 0.15);
-    outline: 0;
-    border: none;
-    padding: 20px 40px;
-    color: white;
-    border-radius: 35px;
-}
-
-.createPostCard .createPostForm .createPostInputs input::placeholder, .createPostCard .createPostForm .createPostInputs textarea::placeholder {
-    color: rgba(255, 255, 255, 0.35)
-}
-
-.createPostCard .createPostForm .createPostInputs input:hover, .createPostCard .createPostForm .createPostInputs textarea:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.createPostCard .createPostForm .createPostInputs input:focus, .createPostCard .createPostForm .createPostInputs textarea:focus {
-    background: rgba(255, 255, 255, 0.25);
-}
-
-
-.createPostCard h1 {
-    font-size: 3rem;
-    color: #6E5BFF;
-}
-
-.createPostForm button {
-    outline: 0;
-    border: 0;
-    padding: 25px 10px;
-    background: #6E5BFF;
-    border-radius: 35px;
-    color: white;
-    font-size: 2rem;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-}
-
-.createPostForm button:hover {
-    background: #8A7EF5;
-}
-
 @media (max-width: 1200px) {
     .createPostCard .createPostForm {
         width: 40%;
@@ -117,41 +9,41 @@ textarea {
         padding-top: 50px;
         padding-left: 200px;
     }
-    
+
     .createPostCard .createPostForm {
         width: 90%;
         gap: 40px;
     }
-    
+
     .createPostCard .createPostForm .createPostInputs {
         gap: 30px;
     }
-    
+
     .createPostCard .createPostForm .createPostInputs input {
         font-size: 2.5rem;
     }
-    
+
     .createPostCard .createPostForm .createPostInputs textarea {
         font-size: 1.2rem;
         min-height: 250px;
     }
-    
+
     .createPostCard h1 {
         font-size: 2.5rem;
     }
-    
+
     .createPostForm button {
         font-size: 1.8rem;
         padding: 20px 8px;
     }
-    
+
     .createPostCard .closeButton {
         top: 30px;
         right: 30px;
         width: 40px;
         height: 40px;
     }
-    
+
     .createPostCard .closeButton svg {
         width: 40px;
         height: 40px;
@@ -162,16 +54,16 @@ textarea {
     .createPostCard .createPostForm .createPostInputs input {
         font-size: 2rem;
     }
-    
+
     .createPostCard .createPostForm .createPostInputs textarea {
         font-size: 1rem;
         min-height: 200px;
     }
-    
+
     .createPostCard h1 {
         font-size: 2rem;
     }
-    
+
     .createPostForm button {
         font-size: 1.5rem;
         padding: 18px 6px;
@@ -183,51 +75,51 @@ textarea {
         padding-left: 0;
         padding-top: 50px;
     }
-    
+
     .createPostCard {
         gap: 30px;
     }
-    
+
     .createPostCard .createPostForm {
         gap: 30px;
     }
-    
+
     .createPostCard .createPostForm .createPostInputs {
         gap: 25px;
     }
-    
+
     .createPostCard .createPostForm .createPostInputs input,
     .createPostCard .createPostForm .createPostInputs textarea {
         padding: 15px 30px;
         border-radius: 25px;
     }
-    
+
     .createPostCard .createPostForm .createPostInputs input {
         font-size: 1.8rem;
     }
-    
+
     .createPostCard .createPostForm .createPostInputs textarea {
         font-size: 1rem;
         min-height: 180px;
     }
-    
+
     .createPostCard h1 {
         font-size: 1.8rem;
     }
-    
+
     .createPostForm button {
         font-size: 1.3rem;
         padding: 15px 5px;
         border-radius: 25px;
     }
-    
+
     .createPostCard .closeButton {
         top: 20px;
         right: 20px;
         width: 35px;
         height: 35px;
     }
-    
+
     .createPostCard .closeButton svg {
         width: 35px;
         height: 35px;
@@ -238,29 +130,29 @@ textarea {
     .createPostCard .createPostForm {
         gap: 25px;
     }
-    
+
     .createPostCard .createPostForm .createPostInputs {
         gap: 20px;
     }
-    
+
     .createPostCard .createPostForm .createPostInputs input,
     .createPostCard .createPostForm .createPostInputs textarea {
         padding: 12px 25px;
         border-radius: 20px;
     }
-    
+
     .createPostCard .createPostForm .createPostInputs input {
         font-size: 1.5rem;
     }
-    
+
     .createPostCard .createPostForm .createPostInputs textarea {
         min-height: 150px;
     }
-    
+
     .createPostCard h1 {
         font-size: 1.5rem;
     }
-    
+
     .createPostForm button {
         font-size: 1.1rem;
         padding: 12px 4px;
@@ -272,32 +164,32 @@ textarea {
     .createPostCard .createPostForm {
         width: 95%;
     }
-    
+
     .createPostCard .createPostForm .createPostInputs input,
     .createPostCard .createPostForm .createPostInputs textarea {
         padding: 10px 20px;
     }
-    
+
     .createPostCard .createPostForm .createPostInputs input {
         font-size: 1.3rem;
     }
-    
+
     .createPostCard h1 {
         font-size: 1.3rem;
     }
-    
+
     .createPostForm button {
         font-size: 1rem;
         padding: 10px 3px;
     }
-    
+
     .createPostCard .closeButton {
         top: 15px;
         right: 15px;
         width: 30px;
         height: 30px;
     }
-    
+
     .createPostCard .closeButton svg {
         width: 30px;
         height: 30px;
