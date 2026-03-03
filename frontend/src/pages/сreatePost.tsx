@@ -126,16 +126,16 @@ function CreatePost() {
     return (
         <div className="createPost">
             <LoginNavbarHeader />
-            <div className="flex flex-col pt-[65px] pb-[110px] pl-[200px] w-screen min-h-screen object-cover createPostMain">
+            <div className="flex flex-col pt-[65px] max-[900px]:pt-[50px] pb-[110px] pl-[200px] max-[900px]:pl-[200px] w-screen min-h-screen object-cover createPostMain">
                 <div className="relative flex flex-col flex-1 justify-center items-center gap-[50px] createPostCard">
                     <button
-                        className="top-[50px] right-[50px] absolute bg-none border-none w-[50px] h-[50px] cursor-pointer closeButton"
+                        className="top-[50px] max-[900px]:top-[30px] right-[50px] max-[900px]:right-[30px] absolute bg-none border-none w-[50px] max-[900px]:w-[40px] h-[50px] ma-[900px]:h-[40px] cursor-pointer closeButton"
                         onClick={() => {
                             navigate("/");
                         }}
                     >
                         <svg
-                            className="w-[50px] h-[50px]"
+                            className="w-[50px] max-[900px]:w-[40px] h-[50px] max-[900px]:h-[40px]"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             width="50"
@@ -154,21 +154,21 @@ function CreatePost() {
                             </g>
                         </svg>
                     </button>
-                    <h1 className="text-[3rem] text-primary-600">
+                    <h1 className="text-[3rem] text-primary-600 max-[900px]:text-[2.5rem]">
                         Создание поста
                     </h1>
                     <form
-                        className="flex flex-col gap-[50px] w-[30%] max-w-[600px] createPostForm"
+                        className="flex flex-col gap-[50px] max-[900px]:gap-[40px] w-[30%] max-[1200px]:w-[40%] max-[900px]:w-[90%] max-w-[600px] createPostForm"
                         onSubmit={handleSubmit}
                     >
-                        <div className="flex flex-col gap-[40px] createPostInputs">
+                        <div className="flex flex-col gap-[40px] max-[900px]:gap-[30px] createPostInputs">
                             <input
                                 placeholder="Заголовок"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                                 disabled={isLoading}
                                 maxLength={100}
-                                className="bg-white/15 px-[40p] py-[20px] border-0 rounded-[35px] outline-none text-[3rem] text-[white] hover:text-white/20 focus:text-white/25 placeholder:text-white/35"
+                                className="bg-white/15 px-[40p] py-[20px] border-0 rounded-[35px] outline-none text-[3rem] text-[white] hover:text-white/20 focus:text-white/25 max-[900px]:text-[2.5rem] placeholder:text-white/35"
                             />
                             <textarea
                                 placeholder="Текст"
@@ -177,13 +177,13 @@ function CreatePost() {
                                 disabled={isLoading}
                                 maxLength={5000}
                                 rows={6}
-                                className="bg-white/15 px-[40p] py-[20px] border-0 rounded-[35px] outline-none min-h-[300px] text-[1.5rem] text-[white] hover:text-white/20 focus:text-white/25 placeholder:text-white/35 resize-none"
+                                className="bg-white/15 px-[40p] py-[20px] border-0 rounded-[35px] outline-none min-h-[300px] max-[900px]:min-h-[250px] text-[1.5rem] text-[white] hover:text-white/20 focus:text-white/25 max-[900px]:text-[1.2rem] placeholder:text-white/35 resize-none"
                             />
                         </div>
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="bg-primary-600 hover:bg-primary-400 px-[10px] py-[25px] border-0 rounded-[35px] outline-0 text-[2rem] text-white transition-all duration-300 ease-in-out cursor-pointer"
+                            className="bg-primary-600 hover:bg-primary-400 px-[10px] max-[900px]:px-[8px] py-[25px] max-[900px]:py-[20px] border-0 rounded-[35px] outline-0 text-[2rem] text-white max-[900px]:text-[1.8rem] transition-all duration-300 ease-in-out cursor-pointer"
                         >
                             {isLoading ? "Создание поста..." : "Выложить пост"}
                         </button>
