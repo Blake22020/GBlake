@@ -129,7 +129,7 @@ function CreatePost() {
             <div className="flex flex-col pt-[65px] max-[900px]:pt-[50px] pb-[110px] pl-[200px] max-[900px]:pl-[200px] w-screen min-h-screen object-cover createPostMain">
                 <div className="relative flex flex-col flex-1 justify-center items-center gap-[50px] createPostCard">
                     <button
-                        className="top-[50px] max-[900px]:top-[30px] right-[50px] max-[900px]:right-[30px] absolute bg-none border-none w-[50px] max-[900px]:w-[40px] h-[50px] ma-[900px]:h-[40px] cursor-pointer closeButton"
+                        className="top-[50px] max-[900px]:top-[30px] right-[50px] max-[900px]:right-[30px] absolute bg-none max-[768px]:px-[6px] max-[768px]:py-[18px] border-none w-[50px] max-[900px]:w-[40px] h-[50px] ma-[900px]:h-[40px] max-[768px]:text-[1.5rem] cursor-pointer closeButton"
                         onClick={() => {
                             navigate("/");
                         }}
@@ -154,7 +154,7 @@ function CreatePost() {
                             </g>
                         </svg>
                     </button>
-                    <h1 className="text-[3rem] text-primary-600 max-[900px]:text-[2.5rem]">
+                    <h1 className="text-[3rem] text-primary-600 max-[768px]:text-[2rem] max-[900px]:text-[2.5rem]">
                         Создание поста
                     </h1>
                     <form
@@ -168,7 +168,7 @@ function CreatePost() {
                                 onChange={(e) => setTitle(e.target.value)}
                                 disabled={isLoading}
                                 maxLength={100}
-                                className="bg-white/15 px-[40p] py-[20px] border-0 rounded-[35px] outline-none text-[3rem] text-[white] hover:text-white/20 focus:text-white/25 max-[900px]:text-[2.5rem] placeholder:text-white/35"
+                                className="bg-white/15 px-[40p] py-[20px] border-0 rounded-[35px] outline-none text-[3rem] text-[white] hover:text-white/20 focus:text-white/25 max-[768px]:text-[2rem] max-[900px]:text-[2.5rem] placeholder:text-white/35"
                             />
                             <textarea
                                 placeholder="Текст"
@@ -177,7 +177,7 @@ function CreatePost() {
                                 disabled={isLoading}
                                 maxLength={5000}
                                 rows={6}
-                                className="bg-white/15 px-[40p] py-[20px] border-0 rounded-[35px] outline-none min-h-[300px] max-[900px]:min-h-[250px] text-[1.5rem] text-[white] hover:text-white/20 focus:text-white/25 max-[900px]:text-[1.2rem] placeholder:text-white/35 resize-none"
+                                className="bg-white/15 px-[40p] py-[20px] border-0 rounded-[35px] outline-none min-h-[300px] max-[768px]:min-h-[200px] max-[900px]:min-h-[250px] text-[1.5rem] text-[white] hover:text-white/20 focus:text-white/25 max-[768px]:text-[1rem] max-[900px]:text-[1.2rem] placeholder:text-white/35 resize-none"
                             />
                         </div>
                         <button
