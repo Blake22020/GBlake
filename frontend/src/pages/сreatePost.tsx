@@ -129,13 +129,13 @@ function CreatePost() {
             <div className="flex flex-col pt-[65px] max-[600px]:pt-[50px] max-[900px]:pt-[50px] pb-[110px] pl-[200px] max-[600px]:pl-0 max-[900px]:pl-[200px] w-screen min-h-screen object-cover createPostMain">
                 <div className="relative flex flex-col flex-1 justify-center items-center gap-[50px] max-[600px]:gap-[30px] createPostCard">
                     <button
-                        className="top-[50px] ma-[600px]:top-[20px] max-[900px]:top-[30px] right-[50px] max-[600px]:right-[20px] max-[900px]:right-[30px] absolute bg-none max-[768px]:px-[6px] max-[768px]:py-[18px] border-none w-[50px] max-[600px]:w-[35px] max-[900px]:w-[40px] h-[50px] max-[600px]:h-[35px] max-[900px]:h-[40px] max-[768px]:text-[1.5rem] cursor-pointer closeButton"
+                        className="top-[50px] ma-[600px]:top-[20px] max-[360px]:top-[15px] max-[900px]:top-[30px] right-[50px] max-[360px]:right-[15px] max-[600px]:right-[20px] max-[900px]:right-[30px] absolute bg-none max-[768px]:px-[6px] max-[768px]:py-[18px] border-none w-[50px] max-[360px]:w-[30px] max-[600px]:w-[35px] max-[900px]:w-[40px] h-[50px] max-[360px]:h-[30px] max-[600px]:h-[35px] max-[900px]:h-[40px] max-[768px]:text-[1.5rem] cursor-pointer closeButton"
                         onClick={() => {
                             navigate("/");
                         }}
                     >
                         <svg
-                            className="w-[50px] max-[600px]:w-[35px] max-[900px]:w-[40px] h-[50px] max-[600px]:h-[35px] max-[900px]:h-[40px]"
+                            className="w-[50px] max-[360px]:w-[30px] max-[600px]:w-[35px] max-[900px]:w-[40px] h-[50px] max-[360px]:h-[30px] max-[600px]:h-[35px] max-[900px]:h-[40px]"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             width="50"
@@ -149,16 +149,17 @@ function CreatePost() {
                                         transform="rotate(180 12 12)"
                                         opacity="0"
                                     />
+                                    Z
                                     <path d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
                                 </g>
                             </g>
                         </svg>
                     </button>
-                    <h1 className="text-[3rem] text-primary-600 max-[480px]:text-[1.5rem] max-[600px]:text-[1.8rem] max-[768px]:text-[2rem] max-[900px]:text-[2.5rem]">
+                    <h1 className="text-[3rem] text-primary-600 max-[360px]:text-[1.3rem] max-[480px]:text-[1.5rem] max-[600px]:text-[1.8rem] max-[768px]:text-[2rem] max-[900px]:text-[2.5rem]">
                         Создание поста
                     </h1>
                     <form
-                        className="flex flex-col gap-[50px] max-[480px]:gap-[25px] max-[600px]:gap-[30px] max-[900px]:gap-[40px] w-[30%] max-[1200px]:w-[40%] max-[900px]:w-[90%] max-w-[600px] createPostForm"
+                        className="flex flex-col gap-[50px] max-[480px]:gap-[25px] max-[600px]:gap-[30px] max-[900px]:gap-[40px] w-[30%] max-[1200px]:w-[40%] max-[360px]:w-[95%] max-[900px]:w-[90%] max-w-[600px] createPostForm"
                         onSubmit={handleSubmit}
                     >
                         <div className="flex flex-col gap-[40px] max-[480px]:gap-[20px] max-[600px]:gap-[25px] max-[900px]:gap-[30px] createPostInputs">
@@ -168,7 +169,7 @@ function CreatePost() {
                                 onChange={(e) => setTitle(e.target.value)}
                                 disabled={isLoading}
                                 maxLength={100}
-                                className="bg-white/15 px-[40p] max-[480px]:px-[25px] max-[600px]:px-[30px] py-[20px] max-[480px]:py-[12px] max-[600px]:py-[15px] border-0 rounded-[35px] max-[480px]:rounded-[20px] max-[600px]:rounded-[25px] outline-none text-[3rem] text-[white] hover:text-white/20 focus:text-white/25 max-[480px]:text-[1.5rem] max-[600px]:text-[1.8rem] max-[768px]:text-[2rem] max-[900px]:text-[2.5rem] placeholder:text-white/35"
+                                className="bg-white/15 px-[40p] max-[360px]:px-[20px] max-[480px]:px-[25px] max-[600px]:px-[30px] py-[20px] max-[360px]:py-[10px] max-[480px]:py-[12px] max-[600px]:py-[15px] border-0 rounded-[35px] max-[480px]:rounded-[20px] max-[600px]:rounded-[25px] outline-none text-[3rem] text-[white] hover:text-white/20 focus:text-white/25 max-[360px]:text-[1.3rem] max-[480px]:text-[1.5rem] max-[600px]:text-[1.8rem] max-[768px]:text-[2rem] max-[900px]:text-[2.5rem] placeholder:text-white/35"
                             />
                             <textarea
                                 placeholder="Текст"
@@ -177,13 +178,13 @@ function CreatePost() {
                                 disabled={isLoading}
                                 maxLength={5000}
                                 rows={6}
-                                className="bg-white/15 px-[40p] max-[480px]:px-[25px] max-[600px]:px-[30px] py-[20px] max-[480px]:py-[12px] max-[600px]:py-[15px] border-0 rounded-[35px] max-[480px]:rounded-[20px] max-[600px]:rounded-[25px] outline-none min-h-[300px] max-[480px]:min-h-[150px] max-[600px]:min-h-[180px] max-[768px]:min-h-[200px] max-[900px]:min-h-[250px] text-[1.5rem] text-[white] hover:text-white/20 focus:text-white/25 max-[600p]:text-[1rem] max-[768px]:text-[1rem] max-[900px]:text-[1.2rem] placeholder:text-white/35 resize-none"
+                                className="bg-white/15 px-[40p] max-[360px]:px-[20px] max-[480px]:px-[25px] max-[600px]:px-[30px] py-[20px] max-[360px]:py-[10px] max-[480px]:py-[12px] max-[600px]:py-[15px] border-0 rounded-[35px] max-[480px]:rounded-[20px] max-[600px]:rounded-[25px] outline-none min-h-[300px] max-[480px]:min-h-[150px] max-[600px]:min-h-[180px] max-[768px]:min-h-[200px] max-[900px]:min-h-[250px] text-[1.5rem] text-[white] hover:text-white/20 focus:text-white/25 max-[600p]:text-[1rem] max-[768px]:text-[1rem] max-[900px]:text-[1.2rem] placeholder:text-white/35 resize-none"
                             />
                         </div>
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="bg-primary-600 hover:bg-primary-400 px-[10px] max-[480px]:px-[4px] max-[600px]:px-[5px] max-[900px]:px-[8px] py-[25px] max-[480px]:py-[12px] max-[600px]:py-[15px] max-[900px]:py-[20px] border-0 rounded-[35px] max-[480px]:rounded-[20px] max-[600px]:rounded-[25px] outline-0 text-[2rem] text-white max-[480px]:text-[1.1rem] max-[600px]:text-[1.3rem] max-[900px]:text-[1.8rem] transition-all duration-300 ease-in-out cursor-pointer"
+                            className="bg-primary-600 hover:bg-primary-400 px-[10px] max-[360px]:px-[30px] max-[480px]:px-[4px] max-[600px]:px-[5px] max-[900px]:px-[8px] py-[25px] max-[360px]:py-[10px] max-[480px]:py-[12px] max-[600px]:py-[15px] max-[900px]:py-[20px] border-0 rounded-[35px] max-[480px]:rounded-[20px] max-[600px]:rounded-[25px] outline-0 text-[2rem] text-white max-[360px]:text-[1rem] max-[480px]:text-[1.1rem] max-[600px]:text-[1.3rem] max-[900px]:text-[1.8rem] transition-all duration-300 ease-in-out cursor-pointer"
                         >
                             {isLoading ? "Создание поста..." : "Выложить пост"}
                         </button>
