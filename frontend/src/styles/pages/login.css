@@ -1,31 +1,3 @@
-.login-main-window {
-    background: #191919;
-    width: 100dvw;
-    height: 100dvh;
-}
-
-.login-window {
-    width: 100dvw;
-    height: 100dvh;
-    background: #6E5BFF;
-    background: linear-gradient(180deg, rgba(110, 91, 255, 0.35) 0%, rgba(11, 12, 16, 1) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.login {
-    width: 678px;
-    display: flex;
-    flex-direction: column;
-    gap: 66px;
-    padding: 25px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 55px;
-    color: white;
-    border: 1.5px solid rgba(255, 255, 255, 0.3);
-}
-
 .loginPage-header {
     display: flex;
     justify-content: space-between;
@@ -39,18 +11,18 @@
 }
 
 .loginPage-header h1:nth-child(1) {
-    color: #6E5BFF;
+    color: #6e5bff;
     display: flex;
     flex-direction: column;
 }
 
 .loginPage-header h1:nth-child(1)::after {
-    content: '';
+    content: "";
     width: 100%;
     height: 6px;
-    background: #6E5BFF;
+    background: #6e5bff;
     margin-top: 8px;
-    border-radius: 35px;   
+    border-radius: 35px;
 }
 
 .login-form {
@@ -112,7 +84,7 @@
         width: 400px;
     }
 
-    .loginPage-header h1{
+    .loginPage-header h1 {
         font-size: 1.5rem;
     }
 

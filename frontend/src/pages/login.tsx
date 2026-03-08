@@ -1,16 +1,16 @@
-import '../styles/pages/login.css';
-import { loginRequest } from '../services/api';
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Modal from '../components/Modal';
-import { setMeta } from '../services/description';
+import "../styles/pages/login.css";
+import { loginRequest } from "../services/api";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Modal from "../components/Modal";
+import { setMeta } from "../services/description";
 
 function Login() {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
-        identifier: '', 
-        password: '',
+        identifier: "",
+        password: "",
     });
 
     useEffect(() => {
@@ -19,12 +19,12 @@ function Login() {
     }, []);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalData, setModalData] = useState({ title: '', text: '' });
+    const [modalData, setModalData] = useState({ title: "", text: "" });
     const openModal = (title: string, text: string) => {
         setModalData({ title, text });
         setIsModalOpen(true);
     };
-    
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
@@ -33,14 +33,13 @@ function Login() {
         }));
     };
 
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const { identifier, password } = formData;
 
         if (!identifier.trim() || !password.trim()) {
-            openModal('Ошибка заполнения формы', 'Заполните все поля');
+            openModal("Ошибка заполнения формы", "Заполните все поля");
             return;
         }
 
@@ -53,42 +52,45 @@ function Login() {
             const res = await loginRequest(payload);
 
             if (res?.token) {
-                localStorage.setItem('token', res.token);
-                navigate('/');
+                localStorage.setItem("token", res.token);
+                navigate("/");
             } else {
-                openModal('Ошибка входа', 'Сервер не вернул токен');
+                openModal("Ошибка входа", "Сервер не вернул токен");
             }
         } catch (err: any) {
-            let msg = 'Неизвестная ошибка';
+            let msg = "Неизвестная ошибка";
 
             if (err.response) {
                 const { status, data } = err.response;
 
                 if (status === 400 || status === 404) {
-                    msg = data?.message || 'Неверные данные для входа';
+                    msg = data?.message || "Неверные данные для входа";
                 } else if (status >= 500) {
-                    msg = 'Сервер временно недоступен';
+                    msg = "Сервер временно недоступен";
                 } else {
-                    msg = data?.message || 'Ошибка входа';
+                    msg = data?.message || "Ошибка входа";
                 }
             } else if (err.request) {
-                msg = 'Нет соединения с сервером';
+                msg = "Нет соединения с сервером";
             }
 
-            openModal('Ошибка входа', msg);
+            openModal("Ошибка входа", msg);
         }
     };
 
-
     return (
-        <div className="login-main-window">
-            <div className="login-window">
-                <div className="login">
+        <div className="bg-bg-elevated w-screen h-screen login-main-window">
+            <div className="flex justify-center items-center bg-gradient-to-b from-[rgba(110,91,255,0.35)] to-[rgba(11,12,16,1)] w-screen h-screen login-window">
+                <div className="flex flex-col gap-[66px] bg-white/10 p-[25px] border-[1.5px] border-white/30 border-solid rounded-[55px] w-[678px text-white login">
                     <div className="loginPage-header">
                         <h1>Вход</h1>
-                        <h1 onClick={() => {
-                            navigate('/register');
-                        }} >Регистрация</h1>
+                        <h1
+                            onClick={() => {
+                                navigate("/register");
+                            }}
+                        >
+                            Регистрация
+                        </h1>
                     </div>
                     <form className="login-form" onSubmit={handleSubmit}>
                         <input
