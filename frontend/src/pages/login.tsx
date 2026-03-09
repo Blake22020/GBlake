@@ -81,23 +81,30 @@ function Login() {
     return (
         <div className="bg-bg-elevated w-screen h-screen login-main-window">
             <div className="flex justify-center items-center bg-gradient-to-b from-[rgba(110,91,255,0.35)] to-[rgba(11,12,16,1)] w-screen h-screen login-window">
-                <div className="flex flex-col gap-[66px] bg-white/10 p-[25px] border-[1.5px] border-white/30 border-solid rounded-[55px] w-[678px text-white login">
-                    <div className="loginPage-header">
-                        <h1>Вход</h1>
+                <div className="flex flex-col gap-[66px] bg-white/10 p-[25px] border-[1.5px] border-white/30 border-solid rounded-[55px] w-[678px] text-white login">
+                    <div className="flex justify-between px-[25px] loginPage-header">
+                        <h1 className="flex flex-col after:bg-primary-600 after:mt-[8px] after:rounded-[35px] after:w-full after:h-[6px] font-[700] text-[2rem] text-primary-600 after:content-[''] cursor-pointer">
+                            Вход
+                        </h1>
                         <h1
                             onClick={() => {
                                 navigate("/register");
                             }}
+                            className="font-[700] text-[2rem] cursor-pointer"
                         >
                             Регистрация
                         </h1>
                     </div>
-                    <form className="login-form" onSubmit={handleSubmit}>
+                    <form
+                        className="flex flex-col gap-[40px] login-form"
+                        onSubmit={handleSubmit}
+                    >
                         <input
                             placeholder="Почта или юзернейм"
                             name="identifier"
                             value={formData.identifier}
                             onChange={handleChange}
+                            className="bg-white/10 px-[25px] py-[15px] border-0 rounded-[35px] outline-none font-[500] text-[2rem] text-white"
                         />
                         <input
                             placeholder="Пароль"
@@ -105,8 +112,14 @@ function Login() {
                             type="password"
                             value={formData.password}
                             onChange={handleChange}
+                            className="bg-white/10 px-[25px] py-[15px] border-0 rounded-[35px] outline-none font-[500] text-[2rem] text-white"
                         />
-                        <button type="submit">Войти</button>
+                        <button
+                            type="submit"
+                            className="bg-primary-600 hover:bg-primary-600/75 p-[20px] border-0 rounded-[35px] outline-none text-[2rem] text-white text-center cursor-pointer"
+                        >
+                            Войти
+                        </button>
                     </form>
                 </div>
             </div>
