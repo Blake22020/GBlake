@@ -1,24 +1,3 @@
-@media (max-width: 900px) {
-    .login {
-        width: 500px;
-        gap: 30px;
-    }
-
-    .login-form input {
-        padding: 10px 20px;
-        font-size: 1.5rem;
-    }
-
-    .login-form {
-        gap: 30px;
-    }
-
-    .login-form button {
-        padding: 15px;
-        font-size: 1.5rem;
-    }
-}
-
 @media (max-width: 600px) {
     .login {
         width: 400px;
