@@ -1,10 +1,9 @@
-import '../styles/pages/register.css'
-import { registerRequest1  } from '../services/api'
-import React, { useEffect, useState  } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Modal from '../components/Modal';
-import { setMeta } from '../services/description';
-
+import "../styles/pages/register.css";
+import { registerRequest1 } from "../services/api";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Modal from "../components/Modal";
+import { setMeta } from "../services/description";
 
 function Register() {
     const navigate = useNavigate();
@@ -14,26 +13,25 @@ function Register() {
         setMeta("description", "Регистрация");
     }, []);
 
-
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalData, setModalData] = useState({ title: '', text: '' });
+    const [modalData, setModalData] = useState({ title: "", text: "" });
     const openModal = (title: string, text: string) => {
         setModalData({ title, text });
         setIsModalOpen(true);
     };
 
     const [formData, setFormData] = useState({
-        username: '',
-        email: '',
-        password: '',
-        repeatPassword: '',
-    })
+        username: "",
+        email: "",
+        password: "",
+        repeatPassword: "",
+    });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
         setFormData((prev) => ({
             ...prev,
-            [id.replace('-input', '')]: value,
+            [id.replace("-input", "")]: value,
         }));
     };
 
@@ -41,42 +39,45 @@ function Register() {
         const { username, email, password, repeatPassword } = formData;
 
         if (!username.trim()) {
-            openModal('Ошибка', 'Имя пользователя не может быть пустым.');
+            openModal("Ошибка", "Имя пользователя не может быть пустым.");
             return false;
         }
         if (username.length < 3 || username.length > 30) {
-            openModal('Ошибка', 'Имя должно быть от 3 до 30 символов.');
+            openModal("Ошибка", "Имя должно быть от 3 до 30 символов.");
             return false;
         }
         if (!/^[a-zA-Z0-9_]+$/.test(username)) {
-            openModal('Ошибка', 'Имя может содержать только буквы, цифры и _');
+            openModal("Ошибка", "Имя может содержать только буквы, цифры и _");
             return false;
         }
 
         if (!email.trim()) {
-            openModal('Ошибка', 'Email обязателен.');
+            openModal("Ошибка", "Email обязателен.");
             return false;
         }
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            openModal('Ошибка', 'Неверный формат email.');
+            openModal("Ошибка", "Неверный формат email.");
             return false;
         }
 
         if (password.length < 8) {
-            openModal('Ошибка', 'Пароль должен быть не короче 8 символов.');
+            openModal("Ошибка", "Пароль должен быть не короче 8 символов.");
             return false;
         }
         if (!/[A-Z]/.test(password)) {
-            openModal('Ошибка', 'Пароль должен содержать хотя бы одну заглавную букву.');
+            openModal(
+                "Ошибка",
+                "Пароль должен содержать хотя бы одну заглавную букву.",
+            );
             return false;
         }
         if (!/\d/.test(password)) {
-            openModal('Ошибка', 'Пароль должен содержать хотя бы одну цифру.');
+            openModal("Ошибка", "Пароль должен содержать хотя бы одну цифру.");
             return false;
         }
 
         if (password !== repeatPassword) {
-            openModal('Ошибка', 'Пароли не совпадают.');
+            openModal("Ошибка", "Пароли не совпадают.");
             return false;
         }
 
@@ -93,44 +94,76 @@ function Register() {
         try {
             const data = await registerRequest1(dataToSend);
             if (!data) {
-                openModal('Ошибка регистрации', 'Сервер не ответил или вернул ошибку.');
+                openModal(
+                    "Ошибка регистрации",
+                    "Сервер не ответил или вернул ошибку.",
+                );
                 return;
             }
 
             if (data.token && data.user) {
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('id', String(data.user.id));
-                navigate('/register2');
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("id", String(data.user.id));
+                navigate("/register2");
             } else {
-                const msg = data.message || 'Неизвестная ошибка сервера';
-                openModal('Ошибка регистрации', msg);
+                const msg = data.message || "Неизвестная ошибка сервера";
+                openModal("Ошибка регистрации", msg);
             }
         } catch (error: any) {
-            const errMsg = error?.response?.data?.message || error.message || 'Неизвестная ошибка';
-            openModal('Ошибка регистрации', errMsg);
+            const errMsg =
+                error?.response?.data?.message ||
+                error.message ||
+                "Неизвестная ошибка";
+            openModal("Ошибка регистрации", errMsg);
         }
     };
- 
-
 
     return (
-        <div className='register-main-window'>
-            <div className='register-window'>
-                <div className='register'>
-                    <div className='register-header'>
-                        <h1 onClick={() => {
-                            navigate("/login")
-                        }}>Вход</h1>
-                        <h1>Регистрация</h1>
-                    </div>
-                    <form className='register-form' onSubmit={handleSubmit}     >
-                        <input placeholder='Уникальное имя' id='username-input' type='text' onChange={handleChange} />
-                        <input placeholder='Почта' id='email-input' type='email'  onChange={handleChange} />
-                        <input placeholder='Пароль' id='password-input' type='password'  onChange={handleChange} />
-                        <input placeholder='Повторите пароль' id='repeatPassword-input' type='password' onChange={handleChange} />
-                        <button type='submit'>
+        <div className="bg-bg-elevated w-screen overflow-y-hidden register-main-window">
+            <div className="flex justify-center items-center bg-gradient-to-b from-[rgba(110,91,255,0.35)] to-[rgba(11,12,16,1)] w-screen h-screen register-window">
+                <div className="flex flex-col gap-[66px] bg-white/10 p-[25px] border-[1.5px] border-white/30 border-solid rounded-[55px] w-[678px] text-white register">
+                    <div className="flex justify-between px-[25px] register-header">
+                        <h1
+                            onClick={() => {
+                                navigate("/login");
+                            }}
+                            className="font-[700] text-[2rem] cursor-pointer"
+                        >
+                            Вход
+                        </h1>
+                        <h1 className="flex flex-col bg-primary-600 mt-[8px] rounded-[35px] w-full h-[6px] font-[700] text-[2rem] text-primary-600 after:content-[''] cursor-pointer">
                             Регистрация
-                        </button>
+                        </h1>
+                    </div>
+                    <form
+                        className="flex flex-col gap-[40px] register-form"
+                        onSubmit={handleSubmit}
+                    >
+                        <input
+                            placeholder="Уникальное имя"
+                            id="username-input"
+                            type="text"
+                            onChange={handleChange}
+                        />
+                        <input
+                            placeholder="Почта"
+                            id="email-input"
+                            type="email"
+                            onChange={handleChange}
+                        />
+                        <input
+                            placeholder="Пароль"
+                            id="password-input"
+                            type="password"
+                            onChange={handleChange}
+                        />
+                        <input
+                            placeholder="Повторите пароль"
+                            id="repeatPassword-input"
+                            type="password"
+                            onChange={handleChange}
+                        />
+                        <button type="submit">Регистрация</button>
                     </form>
                 </div>
             </div>
@@ -141,7 +174,7 @@ function Register() {
                 text={modalData.text}
             />
         </div>
-    )
+    );
 }
 
 export default Register;
