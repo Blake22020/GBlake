@@ -135,6 +135,7 @@ function Register() {
                             Регистрация
                         </h1>
                     </div>
+
                     <form
                         className="flex flex-col gap-[40px] register-form"
                         onSubmit={handleSubmit}
@@ -144,26 +145,35 @@ function Register() {
                             id="username-input"
                             type="text"
                             onChange={handleChange}
+                            className="bg-white/10 px-[25px] py-[15px] border-0 rounded-[35px] outline-none font-[500] text-[2rem] text-white"
                         />
                         <input
                             placeholder="Почта"
                             id="email-input"
                             type="email"
                             onChange={handleChange}
+                            className="bg-white/10 px-[25px] py-[15px] border-0 rounded-[35px] outline-none font-[500] text-[2rem] text-white"
                         />
                         <input
                             placeholder="Пароль"
                             id="password-input"
                             type="password"
                             onChange={handleChange}
+                            className="bg-white/10 px-[25px] py-[15px] border-0 rounded-[35px] outline-none font-[500] text-[2rem] text-white"
                         />
                         <input
                             placeholder="Повторите пароль"
                             id="repeatPassword-input"
                             type="password"
                             onChange={handleChange}
+                            className="bg-white/10 px-[25px] py-[15px] border-0 rounded-[35px] outline-none font-[500] text-[2rem] text-white"
                         />
-                        <button type="submit">Регистрация</button>
+                        <button
+                            type="submit"
+                            className="bg-primary-600 p-[20px] border-0 outline-none text-[2rem] text-white text-center cursor-pointer roudned-[35px]"
+                        >
+                            Регистрация
+                        </button>
                     </form>
                 </div>
             </div>
