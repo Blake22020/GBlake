@@ -1,24 +1,3 @@
-@media (max-width: 900px) {
-    .register {
-        width: 500px;
-        gap: 30px;
-    }
-
-    .register-form input {
-        padding: 10px 20px;
-        font-size: 1.5rem;
-    }
-
-    .register-form {
-        gap: 30px;
-    }
-
-    .register-form button {
-        padding: 15px;
-        font-size: 1.5rem;
-    }
-}
-
 @media (max-width: 600px) {
     .register {
         width: 400px;
