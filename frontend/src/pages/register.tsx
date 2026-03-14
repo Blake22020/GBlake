@@ -121,23 +121,23 @@ function Register() {
     return (
         <div className="bg-bg-elevated w-screen overflow-y-hidden register-main-window">
             <div className="flex justify-center items-center bg-gradient-to-b from-[rgba(110,91,255,0.35)] to-[rgba(11,12,16,1)] w-screen h-screen register-window">
-                <div className="flex flex-col gap-[66px] max-[900px]:gap-[30px] bg-white/10 p-[25px] border-[1.5px] border-white/30 border-solid rounded-[55px] w-[678px] max-[600px]:w-[400px] max-[900px]:w-[500px] text-white register">
-                    <div className="flex justify-between px-[25px] register-header">
+                <div className="flex flex-col gap-[66px] max-[900px]:gap-[30px] bg-white/10 p-[25px] max-[430px]:p-[10px] border-[1.5px] border-white/30 border-solid rounded-[55px] max-[430px]:rounded-[35px] w-[678px] max-[430px]:w-[300px] max-[600px]:w-[400px] max-[900px]:w-[500px] text-white register">
+                    <div className="flex justify-between max-[430px]:justify-between max-[430px]:p-[10px] px-[25px] register-header">
                         <h1
                             onClick={() => {
                                 navigate("/login");
                             }}
-                            className="font-[700] text-[2rem] max-[600px]:text-[1.5rem] cursor-pointer"
+                            className="font-[700] text-[2rem] max-[430px]:text-[1.3rem] max-[600px]:text-[1.5rem] cursor-pointer"
                         >
                             Вход
                         </h1>
-                        <h1 className="flex flex-col bg-primary-600 mt-[8px] rounded-[35px] w-full h-[6px] font-[700] text-[2rem] text-primary-600 max-[600px]:text-[1.5rem] after:content-[''] cursor-pointer">
+                        <h1 className="flex flex-col bg-primary-600 mt-[8px] rounded-[35px] w-full h-[6px] font-[700] text-[2rem] text-primary-600 max-[430px]:text-[1.3rem] max-[600px]:text-[1.5rem] after:content-[''] cursor-pointer">
                             Регистрация
                         </h1>
                     </div>
 
                     <form
-                        className="flex flex-col gap-[40px] max-[600px]:gap-[20px] register-form"
+                        className="flex flex-col gap-[40px] max-[430px]:gap-[15px] max-[600px]:gap-[20px] register-form"
                         onSubmit={handleSubmit}
                     >
                         <input
