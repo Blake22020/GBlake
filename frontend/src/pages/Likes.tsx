@@ -60,7 +60,7 @@ function Likes() {
     return (
         <div className="flex flex-col pt-[65px] max-[900px]:pt-[50px] pb-[110px] pl-[200px] max-[600px]:pl-0 max-[900px]:pl-[200px] w-screen object-cover LikesPage">
             <LoginNavbarHeader />
-            <div className="flex flex-col pt-[150px] pb-[100px] LikesWindow ц-агдд">
+            <div className="flex flex-col pt-[150px] pb-[100px] w-full LikesWindow">
                 {posts.map((post: PostInterface) => (
                     <Post
                         _id={post._id}
