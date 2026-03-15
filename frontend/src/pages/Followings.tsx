@@ -20,7 +20,6 @@ interface PostInterface {
 }
 
 function Followings() {
-
     useEffect(() => {
         document.title = "Подписки | GBlake";
         setMeta("description", "Подписки");
@@ -29,47 +28,50 @@ function Followings() {
     const navigate = useNavigate();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-	const [modalData, setModalData] = useState({ title: '', text: '' });
-	const openModal = (title: string, text: string) => {
-		setModalData({ title, text });
-		setIsModalOpen(true);
-	};
+    const [modalData, setModalData] = useState({ title: "", text: "" });
+    const openModal = (title: string, text: string) => {
+        setModalData({ title, text });
+        setIsModalOpen(true);
+    };
 
-    const [posts, setPosts] = useState<any[]>([])
+    const [posts, setPosts] = useState<any[]>([]);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         if (!token) {
-            navigate('/login');
+            navigate("/login");
         }
 
         const request = async () => {
             try {
                 const res = await likesPosts(token);
-                setPosts(res)
-            } catch(error : any) {
-				const errMsg = error?.response?.data?.message || error.message || 'Неизвестная ошибка';
-				openModal('Ошибка', errMsg);
-			}
-        }
+                setPosts(res);
+            } catch (error: any) {
+                const errMsg =
+                    error?.response?.data?.message ||
+                    error.message ||
+                    "Неизвестная ошибка";
+                openModal("Ошибка", errMsg);
+            }
+        };
 
         request();
-    }, [])
+    }, []);
 
     return (
-        <div className="FollowingsPage">
+        <div className="flex flex-col pt-[65px] max-[900px]:pt-[50px] pb-[110px] pl-[200px] max-[600px]:pl-0 max-[900px]:pl-[200px] w-screen object-cover FollowingsPage">
             <LoginNavbarHeader />
-            <div className="FollowingsWindow">
+            <div className="flex flex-col pt-[150px] pb-[100px] w-full FollowingsWindow">
                 {posts.map((post: PostInterface) => (
-                        <Post
-                            _id={post._id}
-                            title={post.title}
-                            text={post.text}
-                            createdAt={post.createdAt}
-                            likes={post.likes}
-                            liked={false}
-                            author={post.author}
-                        />
+                    <Post
+                        _id={post._id}
+                        title={post.title}
+                        text={post.text}
+                        createdAt={post.createdAt}
+                        likes={post.likes}
+                        liked={false}
+                        author={post.author}
+                    />
                 ))}
             </div>
             <Modal
@@ -79,7 +81,7 @@ function Followings() {
                 text={modalData.text}
             />
         </div>
-    )
+    );
 }
 
 export default Followings;
