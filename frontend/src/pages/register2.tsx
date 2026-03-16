@@ -1,11 +1,9 @@
-import { registerRequest2, uploadAvatar } from '../services/api'
-import React, { useState, useRef, useEffect  } from 'react'
-import '../styles/pages/register2.css'
-import { useNavigate } from 'react-router-dom';
-import Modal from '../components/Modal';
-import { setMeta } from '../services/description';
-
-  
+import { registerRequest2, uploadAvatar } from "../services/api";
+import React, { useState, useRef, useEffect } from "react";
+import "../styles/pages/register2.css";
+import { useNavigate } from "react-router-dom";
+import Modal from "../components/Modal";
+import { setMeta } from "../services/description";
 
 function Register2() {
     const nvaigate = useNavigate();
@@ -15,31 +13,30 @@ function Register2() {
         setMeta("description", "Регистрация");
     }, []);
 
-
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalData, setModalData] = useState({ title: '', text: '' });
+    const [modalData, setModalData] = useState({ title: "", text: "" });
     const openModal = (title: string, text: string) => {
         setModalData({ title, text });
         setIsModalOpen(true);
     };
 
-    const [name, setName] = useState('')
-    const [bio, setBio] = useState('')
+    const [name, setName] = useState("");
+    const [bio, setBio] = useState("");
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     function handleAddClick() {
-        if(!fileInputRef.current) return 
+        if (!fileInputRef.current) return;
         fileInputRef.current.click();
     }
 
     const [avatar, setAvatar] = useState<File | null>(null);
 
     function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-        console.log('ref: ', fileInputRef.current)
+        console.log("ref: ", fileInputRef.current);
         const file = e.target.files?.[0];
 
-        if(!file) return;
-        setAvatar(file)
+        if (!file) return;
+        setAvatar(file);
         console.log(file);
     }
 
@@ -50,86 +47,132 @@ function Register2() {
             if (previewUrl) {
                 URL.revokeObjectURL(previewUrl);
             }
-        }
-    }, [previewUrl])
+        };
+    }, [previewUrl]);
 
     async function handleSubmit() {
-        if(!avatar) {
-            openModal('Ошибка добавления аватара', 'Выбери фото')
-            return
+        if (!avatar) {
+            openModal("Ошибка добавления аватара", "Выбери фото");
+            return;
         }
 
-        if(!name.trim()) {
-            openModal('Нету имени','Введи имя')
-            return
+        if (!name.trim()) {
+            openModal("Нету имени", "Введи имя");
+            return;
         }
 
-        if(avatar.size > 4 * 1024 * 1024) {
-            openModal('Ошибка добавления аватара','Фото слишком большое (макс 4МБ)')
-            return
+        if (avatar.size > 4 * 1024 * 1024) {
+            openModal(
+                "Ошибка добавления аватара",
+                "Фото слишком большое (макс 4МБ)",
+            );
+            return;
         }
 
-        if(!avatar.type.startsWith('image/')) {
-            openModal('Ошибка добавления аватара','Неверный формат файла')
-            return
+        if (!avatar.type.startsWith("image/")) {
+            openModal("Ошибка добавления аватара", "Неверный формат файла");
+            return;
         }
 
         try {
-            const token = localStorage.getItem('token');
-            if(!token) {
-                openModal('Ошибка добавления аватара','Требуется авторизация')
-                return
+            const token = localStorage.getItem("token");
+            if (!token) {
+                openModal("Ошибка добавления аватара", "Требуется авторизация");
+                return;
             }
 
-            await registerRequest2({visualName: name, bio: bio}, token);
+            await registerRequest2({ visualName: name, bio: bio }, token);
             await uploadAvatar(avatar, token);
-            nvaigate('/')
-        } catch(error) {
-            alert('Ошибка при сохранении')
+            nvaigate("/");
+        } catch (error) {
+            alert("Ошибка при сохранении");
         }
     }
 
     return (
-        <div className='register-main-window'>
-            <div className='register-window'>
-                <div className='register2'>
+        <div className="bg-bg-[#191919] w-screen h-screen register-main-window">
+            <div className="flex justify-center items-center bg-gradient-to-b from-[rgba(110,91,255,0.35)] to-[rgba(11,12,16,1)] w-screen h-screen register-window">
+                <div className="flex gap-[66px] px-[85px] py-[100px] border-[1.5px] border-white/30 border-solid w-[1000px]] text-white register2 gb-white/10 roudned-[55px]">
                     <input
                         type="file"
                         accept="image/*"
                         ref={fileInputRef}
-                        style={{ display: 'none' }}
+                        style={{ display: "none" }}
                         onChange={handleFileChange}
                     />
-                    <div className='addCard' onClick={handleAddClick}>
-                        <div className='addIcon' id='addIcon'>
-                            { previewUrl ? (<img src={ previewUrl } alt='Твоя аватарка'/>) : (<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <div
+                        className="flex flex-col gap-[20px] bg-white/5 hover:bg-white/10 p-[20px] rounded-[45px] w-[40%] text-[1.8rem] text-center cursor-pointer addCard"
+                        onClick={handleAddClick}
+                    >
+                        <div
+                            className="addIcon"
+                            id="addIcon bg-white/5 rounded-[35px] p-[15px]"
+                        >
+                            {previewUrl ? (
+                                <img
+                                    src={previewUrl}
+                                    className="rounded-[10px] w-full object-cover aspect-square"
+                                    alt="Твоя аватарка"
+                                />
+                            ) : (
+                                <svg
+                                    width="100%"
+                                    height="100%"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
                                     <g clipPath="url(#clip0_7_6)">
-                                        <path d="M19 11H13V5C13 4.73478 12.8946 4.48043 12.7071 4.29289C12.5196 4.10536 12.2652 4 12 4C11.7348 4 11.4804 4.10536 11.2929 4.29289C11.1054 4.48043 11 4.73478 11 5V11H5C4.73478 11 4.48043 11.1054 4.29289 11.2929C4.10536 11.4804 4 11.7348 4 12C4 12.2652 4.10536 12.5196 4.29289 12.7071C4.48043 12.8946 4.73478 13 5 13H11V19C11 19.2652 11.1054 19.5196 11.2929 19.7071C11.4804 19.8946 11.7348 20 12 20C12.2652 20 12.5196 19.8946 12.7071 19.7071C12.8946 19.5196 13 19.2652 13 19V13H19C19.2652 13 19.5196 12.8946 19.7071 12.7071C19.8946 12.5196 20 12.2652 20 12C20 11.7348 19.8946 11.4804 19.7071 11.2929C19.5196 11.1054 19.2652 11 19 11Z" fill="white"/>
+                                        <path
+                                            d="M19 11H13V5C13 4.73478 12.8946 4.48043 12.7071 4.29289C12.5196 4.10536 12.2652 4 12 4C11.7348 4 11.4804 4.10536 11.2929 4.29289C11.1054 4.48043 11 4.73478 11 5V11H5C4.73478 11 4.48043 11.1054 4.29289 11.2929C4.10536 11.4804 4 11.7348 4 12C4 12.2652 4.10536 12.5196 4.29289 12.7071C4.48043 12.8946 4.73478 13 5 13H11V19C11 19.2652 11.1054 19.5196 11.2929 19.7071C11.4804 19.8946 11.7348 20 12 20C12.2652 20 12.5196 19.8946 12.7071 19.7071C12.8946 19.5196 13 19.2652 13 19V13H19C19.2652 13 19.5196 12.8946 19.7071 12.7071C19.8946 12.5196 20 12.2652 20 12C20 11.7348 19.8946 11.4804 19.7071 11.2929C19.5196 11.1054 19.2652 11 19 11Z"
+                                            fill="white"
+                                        />
                                     </g>
                                     <defs>
                                         <clipPath id="clip0_7_6">
-                                            <rect width="100%" height="100%" fill="white"/>
+                                            <rect
+                                                width="100%"
+                                                height="100%"
+                                                fill="white"
+                                            />
                                         </clipPath>
                                     </defs>
-                                </svg>) }                            
+                                </svg>
+                            )}
                         </div>
-                        { previewUrl ? "Фото добавлено" : "Добавить фото" }
+                        {previewUrl ? "Фото добавлено" : "Добавить фото"}
                     </div>
-                    <form className='addForm' onSubmit={(e) => {
-                        e.preventDefault();
-                        handleSubmit();
-                    }}>
-                        <div className='addInputs'>
-                            <input placeholder='Отображаемое имя' onChange={(e) => {setName(e.target.value)}} maxLength={40} />
+                    <form
+                        className="flex flex-col justify-between addForm"
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            handleSubmit();
+                        }}
+                    >
+                        <div className="flex flex-col gap-[30px] addInputs">
+                            <input
+                                placeholder="Отображаемое имя"
+                                onChange={(e) => {
+                                    setName(e.target.value);
+                                }}
+                                maxLength={40}
+                                className="bg-white/10 hover:bg-white/15 focus:bg-white/20 px-[25px] py-[15px] border-0 rounded-[35px] outline-none w-full font-['Montserrat',_sans-serif] font-[500] text-[2rem] text-white resize-none"
+                            />
                             <textarea
-                                placeholder='Описание'
+                                placeholder="Описание"
                                 rows={2}
                                 value={bio}
                                 onChange={(e) => setBio(e.target.value)}
                                 maxLength={80}
-                            />              
-                      </div>
-                        <button type='submit'>Создать профиль</button>
+                                className="bg-white/10 hover:bg-white/15 focus:bg-white/20 px-[25px] py-[15px] border-0 rounded-[35px] outline-none w-full font-['Montserrat',_sans-serif] font-[500] text-[2rem] text-white resize-none"
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            className="bg-primary-600 hover:bg-primary-500 p-[20px] border-0 rounded-[35px] outline-none text-white text-center cursor-pointer tesxt-[2rem]"
+                        >
+                            Создать профиль
+                        </button>
                     </form>
                 </div>
             </div>
@@ -140,7 +183,7 @@ function Register2() {
                 text={modalData.text}
             />
         </div>
-    )
+    );
 }
 
 export default Register2;
