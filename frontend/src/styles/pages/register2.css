@@ -1,26 +1,3 @@
-@media (max-width: 1080px) {
-    .register2 {
-        padding: 20px;
-        width: 778px;
-    }
-}
-
-@media (max-width: 900px) {
-    .register2 {
-        width: 678px;
-    }
-
-    .register-main-window.addInputs input,
-    .register-main-window .addInputs textarea,
-    .addForm button {
-        font-size: 1.5rem;
-    }
-
-    .register-main-window .addCard {
-        font-size: 1.3rem;
-    }
-}
-
 @media (max-width: 750px) {
     .register2 {
         width: 578px;

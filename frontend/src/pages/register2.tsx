@@ -92,7 +92,7 @@ function Register2() {
     return (
         <div className="bg-bg-[#191919] w-screen h-screen register-main-window">
             <div className="flex justify-center items-center bg-gradient-to-b from-[rgba(110,91,255,0.35)] to-[rgba(11,12,16,1)] w-screen h-screen register-window">
-                <div className="flex gap-[66px] px-[85px] py-[100px] border-[1.5px] border-white/30 border-solid w-[1000px]] text-white register2 gb-white/10 roudned-[55px]">
+                <div className="flex gap-[66px] bg-white/10 max-[1080px]:p-[20px] px-[85px] py-[100px] border-[1.5px] border-white/30 border-solid rounded-[55px] w-[1000px]] max-[1080px]:w-[778px] max-[900px]:w-[678px] text-white register2">
                     <input
                         type="file"
                         accept="image/*"
@@ -101,7 +101,7 @@ function Register2() {
                         onChange={handleFileChange}
                     />
                     <div
-                        className="flex flex-col gap-[20px] bg-white/5 hover:bg-white/10 p-[20px] rounded-[45px] w-[40%] text-[1.8rem] text-center cursor-pointer addCard"
+                        className="flex flex-col gap-[20px] bg-white/5 hover:bg-white/10 p-[20px] rounded-[45px] w-[40%] text-[1.8rem] max-[900px]:text-[1.3rem] text-center cursor-pointer addCard"
                         onClick={handleAddClick}
                     >
                         <div
@@ -156,7 +156,7 @@ function Register2() {
                                     setName(e.target.value);
                                 }}
                                 maxLength={40}
-                                className="bg-white/10 hover:bg-white/15 focus:bg-white/20 px-[25px] py-[15px] border-0 rounded-[35px] outline-none w-full font-['Montserrat',_sans-serif] font-[500] text-[2rem] text-white resize-none"
+                                className="bg-white/10 hover:bg-white/15 focus:bg-white/20 px-[25px] py-[15px] border-0 rounded-[35px] outline-none w-full font-['Montserrat',_sans-serif] font-[500] text-[2rem] text-white max-[900px]:text-[1.5rem] resize-none"
                             />
                             <textarea
                                 placeholder="Описание"
@@ -164,12 +164,12 @@ function Register2() {
                                 value={bio}
                                 onChange={(e) => setBio(e.target.value)}
                                 maxLength={80}
-                                className="bg-white/10 hover:bg-white/15 focus:bg-white/20 px-[25px] py-[15px] border-0 rounded-[35px] outline-none w-full font-['Montserrat',_sans-serif] font-[500] text-[2rem] text-white resize-none"
+                                className="bg-white/10 hover:bg-white/15 focus:bg-white/20 px-[25px] py-[15px] border-0 rounded-[35px] outline-none w-full font-['Montserrat',_sans-serif] font-[500] text-[2rem] text-white max-[900px]:text-[1.5rem] resize-none"
                             />
                         </div>
                         <button
                             type="submit"
-                            className="bg-primary-600 hover:bg-primary-500 p-[20px] border-0 rounded-[35px] outline-none text-white text-center cursor-pointer tesxt-[2rem]"
+                            className="bg-primary-600 hover:bg-primary-500 p-[20px] border-0 rounded-[35px] outline-none text-white max-[900px]:text-[1.5rem] text-center cursor-pointer tesxt-[2rem]"
                         >
                             Создать профиль
                         </button>
