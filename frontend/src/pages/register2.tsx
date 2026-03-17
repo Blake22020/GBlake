@@ -92,7 +92,7 @@ function Register2() {
     return (
         <div className="bg-bg-[#191919] w-screen h-screen register-main-window">
             <div className="flex justify-center items-center bg-gradient-to-b from-[rgba(110,91,255,0.35)] to-[rgba(11,12,16,1)] w-screen h-screen register-window">
-                <div className="flex gap-[66px] max-[578px]:gap-[22px] bg-white/10 max-[1080px]:p-[20px] px-[85px] py-[100px] border-[1.5px] border-white/30 border-solid rounded-[55px] w-[1000px]] max-[1080px]:w-[778px] max-[750px]:w-[578px] max-[900px]:w-[678px] text-white register2">
+                <div className="flex max-[600px]:flex-col gap-[66px] max-[578px]:gap-[22px] bg-white/10 max-[1080px]:p-[20px] px-[85px] py-[100px] border-[1.5px] border-white/30 border-solid rounded-[55px] w-[1000px]] max-[1080px]:w-[778px] max-[600px]:w-[95%] max-[750px]:w-[578px] max-[900px]:w-[678px] text-white register2">
                     <input
                         type="file"
                         accept="image/*"
@@ -143,7 +143,7 @@ function Register2() {
                         {previewUrl ? "Фото добавлено" : "Добавить фото"}
                     </div>
                     <form
-                        className="flex flex-col justify-between addForm"
+                        className="flex flex-col justify-between max-[600px]:gap-[25px] max-[600px]:mx-auto max-[600px]:my-0 max-[600px]:w-[50%] addForm"
                         onSubmit={(e) => {
                             e.preventDefault();
                             handleSubmit();
