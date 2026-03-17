@@ -101,7 +101,7 @@ function Register2() {
                         onChange={handleFileChange}
                     />
                     <div
-                        className="flex flex-col gap-[20px] max-[750px]:gap-[5px] bg-white/5 hover:bg-white/10 p-[20px] max-[750px]:p-[5px] rounded-[45px] max-[750px]:rounded-[35px] w-[40%] text-[1.8rem] max-[900px]:text-[1.3rem] text-center cursor-pointer addCard"
+                        className="flex flex-col gap-[20px] max-[750px]:gap-[5px] bg-white/5 hover:bg-white/10 p-[20px] max-[750px]:p-[5px] rounded-[45px] max-[750px]:rounded-[35px] w-[40%] max-[500px]:w-full text-[1.8rem] max-[900px]:text-[1.3rem] text-center cursor-pointer addCard"
                         onClick={handleAddClick}
                     >
                         <div
