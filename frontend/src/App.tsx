@@ -3,7 +3,7 @@ import Register from "./pages/register";
 import Register2 from "./pages/register2";
 import Login from "./pages/login";
 import { Routes, Route } from "react-router-dom";
-import CreatePost from "./pages/сreatePost";
+import CreatePost from "./pages/createPost";
 import User from "./pages/User";
 import NotFound from "./pages/NotFound";
 import Search from "./pages/Search";

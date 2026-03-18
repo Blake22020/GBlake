@@ -7,7 +7,7 @@ const router = Router();
 router.get("/", async (req: Request, res: Response) => {
     try {
         let { q } = req.query;
-        if(!q) {
+        if (!q) {
             return res.status(404).json({
                 error: "Не передан поисковый запрос"
             })
@@ -17,7 +17,7 @@ router.get("/", async (req: Request, res: Response) => {
             q = q[0];
         }
 
-        if(typeof q !== "string") {
+        if (typeof q !== "string") {
             q = String(q)
         }
 
@@ -38,8 +38,8 @@ router.get("/", async (req: Request, res: Response) => {
 
         const posts = await Post.find({
             $or: [
-                { title: {$regex: q, $options: "i" } },
-                { text: {$regex: q, $options: "i" } },
+                { title: { $regex: q, $options: "i" } },
+                { text: { $regex: q, $options: "i" } },
             ]
         })
             .populate("author", "name avatar _id")
@@ -64,12 +64,12 @@ router.get("/", async (req: Request, res: Response) => {
         })
 
         return res.json({
-            users,
-            posts
+            users: formatedUsers,
+            posts: formatedPosts
         })
 
 
-    } catch(err) {
+    } catch (err) {
         res.status(500).json({
             error: "Ошибка сервера",
         });

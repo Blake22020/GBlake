@@ -1,5 +1,5 @@
-import mongoose, {Schema, Document, Types} from "mongoose";
-import {IUser} from "./User";
+import mongoose, { Schema, Document, Types } from "mongoose";
+import { IUser } from "./User";
 
 export interface IPost extends Document {
     title: string;
@@ -13,14 +13,14 @@ const PostSchema = new Schema<IPost>({
     title: {
         type: String,
         required: true,
-        minlength:1,
-        maxlength:20
+        minlength: 1,
+        maxlength: 20
     },
     text: {
         type: String,
         required: true,
-        minlength:1,
-        maxlength:40
+        minlength: 1,
+        maxlength: 40
     },
     createdAt: {
         type: Date,
@@ -38,5 +38,16 @@ const PostSchema = new Schema<IPost>({
         required: true,
     },
 })
+
+PostSchema.index({
+    title: 'text',
+    text: 'text'
+}, {
+    name: "post_text_index",
+    weights: {
+        title: 5,
+        text: 1
+    }
+});
 
 export default mongoose.model<IPost>("Post", PostSchema);

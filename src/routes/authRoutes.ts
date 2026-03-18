@@ -13,14 +13,14 @@ router.post('/register1',
     [
         body('email').isEmail(),
         body('password').isLength({ min: 6 }),
-        body('username').isLength({ min: 1 , max: 20 }),
+        body('username').isLength({ min: 1, max: 20 }),
     ],
-    async (req :Request, res :Response) => {
+    async (req: Request, res: Response) => {
         const errors = validationResult(req);
-        if(!errors.isEmpty()) {
+        if (!errors.isEmpty()) {
             const errorMessages = errors.array().map(err => err.msg).join(', ')
             return res.status(400).json({
-                message: `errorMessage`
+                message: errorMessages
             });
         }
 
@@ -28,12 +28,12 @@ router.post('/register1',
 
         const existingEmail = await User.findOne({ email });
         if (existingEmail) {
-            return res.status(409).json( { message: 'Email already exist' } );
+            return res.status(409).json({ message: 'Email already exist' });
         }
 
-        const existingUsername = await User.findOne( {username} );
-        if(existingUsername) {
-            return res.status(409).json( { message: 'Username already exist' } );
+        const existingUsername = await User.findOne({ username });
+        if (existingUsername) {
+            return res.status(409).json({ message: 'Username already exist' });
         }
 
         const hashed = await bcrypt.hash(password, 10);
@@ -52,27 +52,27 @@ router.post('/register1',
             { expiresIn: "365d" }
         )
 
-        res.json( {user: formatUser(user), token } )
+        res.json({ user: formatUser(user), token })
     }
 )
 
-router.patch("/register2", auth,  async (req: Request, res: Response) => {
+router.patch("/register2", auth, async (req: Request, res: Response) => {
     try {
         const { visualName, bio } = req.body;
-        
+
         const user = await User.findById(req.user!.id);
-        if(!user) {
+        if (!user) {
             return res.status(404).send("User Not Found")
         }
 
-        if(visualName) user.visualName = visualName;
-        if(bio) user.bio = bio;
+        if (visualName) user.visualName = visualName;
+        if (bio) user.bio = bio;
 
         await user.save();
 
         res.json(formatUser(user));
     } catch {
-        res.status(500).json({ message: "Server Error"})
+        res.status(500).json({ message: "Server Error" })
     }
 })
 

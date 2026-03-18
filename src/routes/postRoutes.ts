@@ -4,13 +4,14 @@ import { auth } from "../middleware/auth";
 import Post from "../models/Post";
 
 function normalizePost(post: any) {
-    return {...post,
-    _id: post._id.toString(),
-    author: post.author
-        ? {
-            ...post.author,
-            _id: post.author._id.toString(),
-        } : null,
+    return {
+        ...post,
+        _id: post._id.toString(),
+        author: post.author
+            ? {
+                ...post.author,
+                _id: post.author._id.toString(),
+            } : null,
     };
 };
 
@@ -21,14 +22,14 @@ router.post("/", auth, async (req: Request, res: Response) => {
     try {
         const { title, text } = req.body;
         const authorId = req.user!.id;
-        if(!title || !text || !authorId) {
+        if (!title || !text || !authorId) {
             return res.status(400).json({
                 error: "Не все данные перенесены",
             })
         }
 
         const author = await User.findById(authorId);
-        if(!author) {
+        if (!author) {
             return res.status(400).json({
                 error: "Пользователь не найден"
             })
@@ -78,7 +79,7 @@ router.get("/:id", async (req: Request, res: Response) => {
         res.status(500).json({
             error: "Ошибка сервера",
         })
-    }   
+    }
 })
 
 router.delete("/:id", auth, async (req: Request, res: Response) => {
@@ -98,8 +99,8 @@ router.delete("/:id", auth, async (req: Request, res: Response) => {
         }
 
         await User.updateOne({
-                _id: post.author
-            },
+            _id: post.author
+        },
             {
                 $pull: {
                     posts: post._id,
@@ -107,12 +108,17 @@ router.delete("/:id", auth, async (req: Request, res: Response) => {
             }
         )
 
+        await User.updateMany(
+            { likes: post._id },
+            { $pull: { likes: post._id } }
+        );
+
         await Post.findByIdAndDelete(req.params.id);
 
         res.json({
             message: "Пост удален"
         })
-    } catch(err) {
+    } catch (err) {
         res.status(500).json({
             error: "Ошибка сервера"
         })
@@ -123,7 +129,7 @@ router.delete("/:id", auth, async (req: Request, res: Response) => {
 router.get("/likes", async (req: Request, res: Response) => {
     try {
         const userId = req.body.userId;
-        if(!userId) {
+        if (!userId) {
             return res.status(400).json({
                 error: "Не передан id пользователя"
             })
@@ -143,9 +149,9 @@ router.get("/likes", async (req: Request, res: Response) => {
         }).populate("author", "username avatar _id");
 
 
-        res.json(posts.map(normalizePost))    
-    } 
-        catch(err) {
+        res.json(posts.map(normalizePost))
+    }
+    catch (err) {
         res.status(500).json({
             error: "Ошибка сервера",
         })
@@ -155,7 +161,7 @@ router.get("/likes", async (req: Request, res: Response) => {
 router.get("/followings", async (req: Request, res: Response) => {
     try {
         const userId = req.body.userId;
-        if(!userId) {
+        if (!userId) {
             return res.status(400).json({
                 error: "Не передан id пользователя"
             })
@@ -163,7 +169,7 @@ router.get("/followings", async (req: Request, res: Response) => {
 
         const user = await User.findById(userId);
         if (!user) {
-            return res.status(404).json({    
+            return res.status(404).json({
                 error: "Пользователь не найден"
             })
         }
@@ -176,7 +182,7 @@ router.get("/followings", async (req: Request, res: Response) => {
 
 
         res.json(posts.map(normalizePost));
-    } catch(err) {
+    } catch (err) {
         res.status(500).json({
             error: "Ошибка сервера",
         })
@@ -187,7 +193,7 @@ router.post("/:id/like", auth, async (req: Request, res: Response) => {
     try {
         const postId = req.params.id;
         const post = await Post.findById(postId);
-        if(!post) {
+        if (!post) {
             return res.status(404).json({
                 error: "Пост не найден"
             })
@@ -200,7 +206,7 @@ router.post("/:id/like", auth, async (req: Request, res: Response) => {
                 error: "Пользователь не найден"
             })
         }
-        if(user.likes.includes(post._id)) {
+        if (user.likes.some(id => id.equals(post._id))) {
             post.likes = post.likes - 1;
             user.likes = user.likes.filter((id) => !id.equals(post._id));
         } else {
@@ -212,7 +218,7 @@ router.post("/:id/like", auth, async (req: Request, res: Response) => {
         await user.save();
 
         res.json({ likes: post.likes })
-    } catch(err) {
+    } catch (err) {
         res.status(500).json({
             error: "Ошибка сервера"
         })
