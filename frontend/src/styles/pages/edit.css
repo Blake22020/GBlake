@@ -1,145 +1,3 @@
-.editPage {
-    width: 100dvw;
-    padding-top: 65px;
-    padding-left: 200px;
-    display: flex;
-    flex-direction: column;
-    object-fit: cover;
-    height: 100dvh;
-}
-
-.editWindow {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    flex-direction: column; 
-    gap: 75px;        
-    position: relative; 
-}
-
-.editWindow .editForm {
-    display: flex;
-    flex-direction: column; 
-    gap: 75px;    
-}
-
-.editWindow .inputs {
-    display: flex;
-    gap: 50px;
-    align-items: center;
-}
-
-.editWindow .closeButton {
-    position: absolute;
-    top: 40px;
-    right: 40px;
-    width: 50px;
-    height: 50px;
-    padding: 0;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.editWindow .addCard {
-    background: rgba(255, 255, 255, 0.15);
-    display: flex;
-    flex-direction: column;
-    gap: 33px;
-    padding: 30px;
-    border-radius: 35px;
-    color: white;
-    transition: all 0.3s ease-in;
-}
-
-.editWindow .addCard:hover {
-    background: rgba(255, 255, 255, 0.2);
-    cursor: pointer;
-}
-
-.editWindow .addCard  img{
-    background: rgba(255, 255, 255, 0.15);
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    box-sizing: border-box;
-    object-fit: cover;
-}
-
-.editWindow .addCard h2 {
-    font-size: 2rem;
-}
-
-.editWindow .closeButton svg {
-    width: 100%;
-    height: 100%;
-}
-
-.editWindow .textInputs {
-    display: flex;
-    flex-direction: column;
-    width: 500px;
-    gap: 20px;
-    height: 100%;
-}
-
-.editWindow .textInputs input {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.15);
-    color: white;
-    padding: 20px 35px;
-    border: 0;
-    border-radius: 35px;
-    font-size: 2rem;
-    outline: 0;
-    transition: all 0.3s ease-out ;
-}
-
-.editWindow .textInputs textarea {
-    height:  100%;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.15);
-    color: white;
-    padding: 20px 35px;
-    border: 0;
-    border-radius: 35px;
-    font-size: 2rem;
-    outline: 0;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 400;
-    transition: all 0.3s ease-out;
-}
-
-.editWindow .textInputs textarea:hover,
-.editWindow .textInputs input:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.editWindow .textInputs textarea:focus,
-.editWindow .textInputs input:focus {
-    background: rgba(255, 255, 255, 0.25);
-}
- 
-.editWindow .editForm button {
-    font-size: 2.25rem;
-    background: #6E5BFF;
-    color: white;
-    font-weight: 700;
-    outline: 0;
-    border: 0;
-    border-radius: 35px;
-    padding: 15px;
-    cursor: pointer;
-    transition: all 0.3s ease-in;
-}
-
-.editWindow .editForm button:hover {
-    background: #5543E9;
-}
-
 @media (max-width: 1300px) {
     .editWindow .inputs {
         gap: 20px;
@@ -160,7 +18,7 @@
     .editWindow .textInputs input,
     .editWindow .textInputs textarea {
         font-size: 1.5rem;
-    }  
+    }
 
     .editWindow .textInputs {
         width: 400px;
@@ -186,7 +44,7 @@
     .editWindow .textInputs input,
     .editWindow .textInputs textarea {
         font-size: 1.4rem;
-    }  
+    }
 
     .editWindow .textInputs {
         width: 350px;
@@ -206,10 +64,9 @@
         text-align: center;
     }
 
-
     .editWindow .inputs {
         flex-direction: column;
-    } 
+    }
 }
 
 @media (max-width: 600px) {
@@ -217,4 +74,3 @@
         padding-left: 0;
     }
 }
-
