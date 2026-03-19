@@ -307,10 +307,10 @@ export async function feedRequest(token: string | null) {
             "https://gblake.ru/api/feed/",
             token
                 ? {
-                      headers: {
-                          Authorization: token ? `Bearer ${token}` : "",
-                      },
-                  }
+                    headers: {
+                        Authorization: token ? `Bearer ${token}` : "",
+                    },
+                }
                 : {},
         );
 

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import LoginNavbarHeader from "../layouts/loginNavbarHeader";
 import { useEffect, useState } from "react";
-import { likesPosts } from "../services/api";
+import { followingsPosts } from "../services/api";
 import Modal from "../components/Modal";
 import Post from "../components/Post";
 import { setMeta } from "../services/description";
@@ -44,7 +44,7 @@ function Followings() {
 
         const request = async () => {
             try {
-                const res = await likesPosts(token);
+                const res = await followingsPosts(token);
                 setPosts(res);
             } catch (error: any) {
                 const errMsg =

@@ -53,6 +53,8 @@ function Login() {
 
             if (res?.token) {
                 localStorage.setItem("token", res.token);
+                localStorage.setItem("id", res.user.id);
+
                 navigate("/");
             } else {
                 openModal("Ошибка входа", "Сервер не вернул токен");

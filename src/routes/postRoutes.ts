@@ -126,14 +126,9 @@ router.delete("/:id", auth, async (req: Request, res: Response) => {
 })
 
 
-router.get("/likes", async (req: Request, res: Response) => {
+router.get("/likes", auth, async (req: Request, res: Response) => {
     try {
-        const userId = req.body.userId;
-        if (!userId) {
-            return res.status(400).json({
-                error: "Не передан id пользователя"
-            })
-        }
+        const userId = req.user!.id;
 
         const user = await User.findById(userId);
         if (!user) {
@@ -158,14 +153,9 @@ router.get("/likes", async (req: Request, res: Response) => {
     }
 })
 
-router.get("/followings", async (req: Request, res: Response) => {
+router.get("/followings", auth, async (req: Request, res: Response) => {
     try {
-        const userId = req.body.userId;
-        if (!userId) {
-            return res.status(400).json({
-                error: "Не передан id пользователя"
-            })
-        }
+        const userId = req.user!.id;
 
         const user = await User.findById(userId);
         if (!user) {

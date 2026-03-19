@@ -147,7 +147,7 @@ router.post("/me/avatar", auth, upload.single("file"), async (req: Request, res:
         if (!user) return res.status(404).send("Пользователь не найден");
 
         if (user.avatar && !user.avatar.startsWith("http")) {
-            const oldPath = path.join(process.cwd(), user.avatar);
+            const oldPath = path.join(process.cwd(), "uploads", path.basename(user.avatar));
             fs.unlink(oldPath, (err) => {
                 if (err) console.log("Не удалось удалить старую аватарку:", err.message);
             });
