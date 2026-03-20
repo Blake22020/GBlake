@@ -386,10 +386,10 @@ export async function updateUserProfile(
     }
 }
 
-export async function setRole(role: number, token: string | null, id: string) {
+export async function promoteUser(role: number, token: string | null, id: string) {
     try {
         const res = await axios.post(
-            "https://gblake.ru/api/admin/promote" + id,
+            "https://gblake.ru/api/admin/promote/" + id,
             {
                 role,
             },

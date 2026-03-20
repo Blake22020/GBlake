@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import LoginNavbarHeader from "../layouts/loginNavbarHeader";
-import { getUser } from "../services/api";
+import { getUser, promoteUser } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import "../styles/pages/adminPanel.css";
 import Modal from "../components/Modal";
@@ -29,7 +29,7 @@ function AdminPanel() {
                     navigate("/404");
                     return;
                 }
-            } catch (err) {
+            } catch {
                 console.error("/404");
                 return;
             }
@@ -37,12 +37,33 @@ function AdminPanel() {
         checkRole();
     }, [navigate]);
 
+    const [userId, setUserId] = useState("");
+    const [role, setRole] = useState("");
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                navigate("/404");
+                return;
+            }
+            const res = await promoteUser(Number(role), token, userId);
+
+            if (res && res.message) {
+                openModal("Успешно", res.message);
+            }
+        } catch (err: any) {
+            openModal("Ошибка", err.message);
+        }
+    }
+
     return (
         <div className="flex flex-col pt-[65px] max-[900px]:pt-[50px] pb-[110px] pl-[200px] max-[600px]:pl-0 max-[900px]:pl-[200px] w-screen h-screen object-cover adminPage">
             <LoginNavbarHeader />
             <div className="flex flex-col justify-center items-center w-full h-full adminWindow">
                 <div className="shadow-[0_0_100px_0_#6e5bff] p-[45px] rounded-[45px] w-[50%] h-[60%] adminPanel">
-                    <form className="flex flex-col justify-between h-full">
+                    <form className="flex flex-col justify-between h-full" onSubmit={handleSubmit}>
                         <h1 className="text-[2rem] text-white text-center">
                             Админ панель
                         </h1>
@@ -50,10 +71,14 @@ function AdminPanel() {
                             <input
                                 placeholder="id пользователя"
                                 className="bg-white/10 hover:bg-white/15 focus:bg-white/20 pt-[20px] pr-0 pb-[20px] pl-[30px] border-0 rounded-[35px] outline-none text-[2rem] text-white"
+                                value={userId}
+                                onChange={(e) => setUserId(e.target.value)}
                             />
                             <input
                                 placeholder="Роль (-1, 0, 1, 2)"
                                 className="bg-white/10 hover:bg-white/15 focus:bg-white/20 pt-[20px] pr-0 pb-[20px] pl-[30px] border-0 rounded-[35px] outline-none text-[2rem] text-white"
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)}
                             />
                         </div>
                         <button
