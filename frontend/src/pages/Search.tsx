@@ -196,7 +196,6 @@ function Search() {
                                     <h1 className="max-[450px]:font-800 text-[2rem] max-[1000px]:text-[1.5rem] max-[450px]:text-[0.9rem] max-[700px]:text-[1rem] max-[900px]:text-[1.3rem]">
                                         {user.visualName}
                                     </h1>{" "}
-                                    n
                                 </div>
                                 {isLoggedIn && (
                                     <button

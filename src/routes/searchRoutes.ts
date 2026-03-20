@@ -27,7 +27,7 @@ router.get("/", async (req: Request, res: Response) => {
                 { bio: { $regex: q, $options: "i" } },
                 { username: { $regex: q, $options: "i" } },
             ]
-        }).select("_id username visualName avatar").lean();
+        }).select("_id username visualName avatar followers posts").lean();
 
         const formatedUsers = users.map((user) => ({
             _id: user._id.toString(),
