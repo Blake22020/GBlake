@@ -188,7 +188,7 @@ function Search() {
                         return (
                             <div className="flex justify-between items-center gap-[30px] max-[450px]:gap-[10px] bg-white/5 hover:bg-white/10 mx-auto p-[20px] rounded-[65px] w-[700px] max-[1000px]:w-[550px] max-[550px]:w-[90%] max-[600px]:w-[80%] max-[700px]:w-[400px] max-[900px]:w-[500px] text-white transition-all duration-300 ease-in-out cursor-pointer userCard">
                                 <img
-                                    src={`https://gblake.ru/uploads/${user.avatar}`}
+                                    src={`https://gblake.ru/${user.avatar}`}
                                     alt="avatar"
                                     className="bg-transparent m-0 p-0 border-0 rounded-[50%] w-[96px] max-[700px]:w-[36px] max-[900px]:w-[48px] max[1000px]:w-[72px] h-[96px] max-[1000px]:h-[72px] max-[700px]:h-[36px] max-[900px]:h-[48px] object-cover aspect-square"
                                 />

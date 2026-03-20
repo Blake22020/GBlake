@@ -70,7 +70,7 @@ function UserPage() {
     useEffect(() => {
         const myId = localStorage.getItem('id');
         const token = localStorage.getItem('token');
-        
+
         if (!myId || !token || !id || myId === id) {
             setIsFollow(false);
             return;
@@ -103,11 +103,11 @@ function UserPage() {
             } catch (err) {
                 console.error('Failed to fetch user:', err);
                 navigate('/404');
-            } 
+            }
         };
 
         fetchUser();
-    }, [id, navigate]); 
+    }, [id, navigate]);
 
 
     if (!id) {
@@ -142,22 +142,22 @@ function UserPage() {
 
     return (
         <div className='userPage'>
-            {localStorage.getItem('token') ? <LoginNavbarHeader /> : <MainNavbarHeader /> } 
+            {localStorage.getItem('token') ? <LoginNavbarHeader /> : <MainNavbarHeader />}
             <div className='userWindow'>
                 <div className='userCard'>
                     <div className='userInfo'>
                         <div className='userLine'>
                             <div className="userNameAvatar">
-                                <img src={`https://gblake.ru/uploads/${user.avatar.trim()}`} alt='' className='userAvatar' />
+                                <img src={`https://gblake.ru/${user.avatar.trim()}`} alt='' className='userAvatar' />
                                 <h1>{user.visualName}</h1>
                             </div>
                             {
-                            localStorage.getItem('id') === user.id
-                             ? <button className='editButton' onClick={() => {navigate('/edit')}}>Редактировать</button>
-                             : 
-                            (isFollow 
-                             ? <button className='unfollowButton' onClick={handleFollow}>Отписаться</button>
-                             : <button className='followButton' onClick={handleFollow}>Подписаться</button>)
+                                localStorage.getItem('id') === user.id
+                                    ? <button className='editButton' onClick={() => { navigate('/edit') }}>Редактировать</button>
+                                    :
+                                    (isFollow
+                                        ? <button className='unfollowButton' onClick={handleFollow}>Отписаться</button>
+                                        : <button className='followButton' onClick={handleFollow}>Подписаться</button>)
                             }
                         </div>
                         <p>{user.bio}</p>
@@ -188,7 +188,7 @@ function UserPage() {
                 text={modalData.text}
             />
         </div>
-    );    
+    );
 }
 
 export default UserPage;
