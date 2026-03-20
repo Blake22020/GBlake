@@ -40,7 +40,7 @@ router.post("/promote/:id", auth, isAdmin, async (req: Request, res: Response) =
             )
 
             if (targetUser.avatar && !targetUser.avatar.startsWith("http")) {
-                const avatarPath = path.join(__dirname, targetUser.avatar);
+                const avatarPath = path.join(process.cwd(), targetUser.avatar);
                 fs.unlink(avatarPath, (err) => {
                     if (err) console.log("Ошибка удаления аватара: ", err.message);
                 })
