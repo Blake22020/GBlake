@@ -27,7 +27,7 @@ router.get("/", async (req: Request, res: Response) => {
                 { bio: { $regex: q, $options: "i" } },
                 { username: { $regex: q, $options: "i" } },
             ]
-        }).select("_id name avatar posts").lean();
+        }).select("_id username visualName avatar").lean();
 
         const formatedUsers = users.map((user) => ({
             _id: user._id.toString(),
@@ -42,7 +42,7 @@ router.get("/", async (req: Request, res: Response) => {
                 { text: { $regex: q, $options: "i" } },
             ]
         })
-            .populate("author", "name avatar _id")
+            .populate("author", "username avatar _id")
             .select("title text author createdAt _id")
             .lean();
 

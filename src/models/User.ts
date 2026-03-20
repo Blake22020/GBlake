@@ -1,4 +1,4 @@
-import mongoose, {Schema, Types, Document} from "mongoose";
+import mongoose, { Schema, Types, Document } from "mongoose";
 
 export interface IUser extends Document {
     username: string;
@@ -17,21 +17,21 @@ export interface IUser extends Document {
 const UserSchema = new Schema<IUser>({
     username: {
         type: String,
-        minlength:1,
-        maxlength:20,
+        minlength: 1,
+        maxlength: 20,
         required: true,
-        unique:true,
+        unique: true,
     },
     visualName: {
         type: String,
-        minlength:1,
-        maxlength:40,
+        minlength: 1,
+        maxlength: 40,
         default: 'New User',
     },
     bio: {
         type: String,
-        minlength:3,
-        maxlength:80,
+        minlength: 3,
+        maxlength: 80,
         default: "..."
     },
     password: {
