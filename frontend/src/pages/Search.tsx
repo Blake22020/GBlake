@@ -58,14 +58,8 @@ function Search() {
         }
 
         try {
-            const isFollowing = followStatus[userId];
-            if (isFollowing) {
-                await followUser(userId, token);
-                setFollowStatus((prev) => ({ ...prev, [userId]: false }));
-            } else {
-                await followUser(userId, token);
-                setFollowStatus((prev) => ({ ...prev, [userId]: true }));
-            }
+            const res = await followUser(userId, token);
+            setFollowStatus((prev) => ({ ...prev, [userId]: res.isFollowing }));
         } catch (error: any) {
             const errMsg =
                 error?.response?.data?.message ||
