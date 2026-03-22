@@ -1,5 +1,5 @@
-import { Request, Response, Router } from 'express';
-import User from '../models/User';
+import { Request, Response, Router } from "express";
+import User from "../models/User";
 import Post from "../models/Post";
 
 const router = Router();
@@ -9,8 +9,8 @@ router.get("/", async (req: Request, res: Response) => {
         let { q } = req.query;
         if (!q) {
             return res.status(404).json({
-                error: "Не передан поисковый запрос"
-            })
+                error: "Не передан поисковый запрос",
+            });
         }
 
         if (Array.isArray(q)) {
@@ -18,7 +18,7 @@ router.get("/", async (req: Request, res: Response) => {
         }
 
         if (typeof q !== "string") {
-            q = String(q)
+            q = String(q);
         }
 
         const users = await User.find({
@@ -26,8 +26,10 @@ router.get("/", async (req: Request, res: Response) => {
                 { visualName: { $regex: q, $options: "i" } },
                 { bio: { $regex: q, $options: "i" } },
                 { username: { $regex: q, $options: "i" } },
-            ]
-        }).select("_id username visualName avatar followers posts").lean();
+            ],
+        })
+            .select("_id username visualName avatar followers posts")
+            .lean();
 
         const formatedUsers = users.map((user) => ({
             _id: user._id.toString(),
@@ -40,10 +42,10 @@ router.get("/", async (req: Request, res: Response) => {
             $or: [
                 { title: { $regex: q, $options: "i" } },
                 { text: { $regex: q, $options: "i" } },
-            ]
+            ],
         })
             .populate("author", "username avatar _id")
-            .select("title text author createdAt _id")
+            .select("title text author createdAt _id likes")
             .lean();
 
         const formatedPosts = posts.map((post) => ({
@@ -53,27 +55,25 @@ router.get("/", async (req: Request, res: Response) => {
             text: post.text,
             createdAt: post.createdAt,
             author: post.author,
-        }))
+        }));
 
         formatedUsers.sort((a, b) => {
             return (b.followers || 0) - (a.followers || 0);
-        })
+        });
 
         formatedPosts.sort((a, b) => {
             return (b.likes || 0) - (a.likes || 0);
-        })
+        });
 
         return res.json({
             users: formatedUsers,
-            posts: formatedPosts
-        })
-
-
+            posts: formatedPosts,
+        });
     } catch (err) {
         res.status(500).json({
             error: "Ошибка сервера",
         });
     }
-})
+});
 
 export default router;
