@@ -148,7 +148,7 @@ function UserPage() {
                     <div className='userInfo'>
                         <div className='userLine'>
                             <div className="userNameAvatar">
-                                <img src={`https://gblake.ru/${user.avatar.trim()}`} alt='' className='userAvatar' />
+                                <img src={`http://localhost:3000/${user.avatar.trim()}`} alt='' className='userAvatar' />
                                 <h1>{user.visualName}</h1>
                             </div>
                             {

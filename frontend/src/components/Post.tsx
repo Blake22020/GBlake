@@ -116,7 +116,7 @@ function Post(post: PostInterface) {
                         {" "}
                         <img
                             src={
-                                "https://gblake.ru/uploads/" +
+                                "http://localhost:3000/uploads/" +
                                 post.author.avatar
                             }
                             className="post__header__avatar"

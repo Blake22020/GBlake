@@ -149,7 +149,7 @@ function Edit() {
                                 src={
                                     avatarFile
                                         ? URL.createObjectURL(avatarFile)
-                                        : `https://gblake.ru/uploads/${userData.avatar}`
+                                        : `http://localhost:3000/uploads/${userData.avatar}`
                                 }
                                 alt=""
                                 className="box-border bg-white/15 rounded-[50%] w-full object-cover aspect-square"

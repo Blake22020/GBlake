@@ -136,7 +136,7 @@ function Search() {
             ) : (
                 <MainNavbarHeader />
             )}
-            <div className="flex gap-[30px] py-[50px] max-[900px]:py-[25px] searchWindow flex=col">
+            <div className="flex gap-[30px] py-[50px] max-[900px]:py-[25px] searchWindow flex-col">
                 <div className="flex justify-center items-center gap-[20px] buttons">
                     <button
                         onClick={() => {
@@ -182,9 +182,9 @@ function Search() {
                         return (
                             <div className="flex justify-between items-center gap-[30px] max-[450px]:gap-[10px] bg-white/5 hover:bg-white/10 mx-auto p-[20px] rounded-[65px] w-[700px] max-[1000px]:w-[550px] max-[550px]:w-[90%] max-[600px]:w-[80%] max-[700px]:w-[400px] max-[900px]:w-[500px] text-white transition-all duration-300 ease-in-out cursor-pointer userCard">
                                 <img
-                                    src={`https://gblake.ru/${user.avatar}`}
+                                    src={`http://localhost:3000/${user.avatar}`}
                                     alt="avatar"
-                                    className="bg-transparent m-0 p-0 border-0 rounded-[50%] w-[96px] max-[700px]:w-[36px] max-[900px]:w-[48px] max[1000px]:w-[72px] h-[96px] max-[1000px]:h-[72px] max-[700px]:h-[36px] max-[900px]:h-[48px] object-cover aspect-square"
+                                    className="bg-transparent m-0 p-0 border-0 rounded-[50%] w-[96px] max-[700px]:w-[36px] max-[900px]:w-[48px] max-[1000px]:w-[72px] h-[96px] max-[1000px]:h-[72px] max-[700px]:h-[36px] max-[900px]:h-[48px] object-cover aspect-square"
                                 />
                                 <div className="flex justify-between text">
                                     <h1 className="max-[450px]:font-800 text-[2rem] max-[1000px]:text-[1.5rem] max-[450px]:text-[0.9rem] max-[700px]:text-[1rem] max-[900px]:text-[1.3rem]">
