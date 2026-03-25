@@ -55,6 +55,8 @@ function Likes() {
                 openModal("Ошибка", errMsg);
             }
         };
+
+        request();
     }, []);
 
     return (

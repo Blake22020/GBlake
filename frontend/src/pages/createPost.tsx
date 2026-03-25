@@ -169,7 +169,7 @@ function CreatePost() {
                                 onChange={(e) => setTitle(e.target.value)}
                                 disabled={isLoading}
                                 maxLength={100}
-                                className="bg-white/15 px-[40p] max-[360px]:px-[20px] max-[480px]:px-[25px] max-[600px]:px-[30px] py-[20px] max-[360px]:py-[10px] max-[480px]:py-[12px] max-[600px]:py-[15px] border-0 rounded-[35px] max-[480px]:rounded-[20px] max-[600px]:rounded-[25px] outline-none text-[3rem] text-[white] hover:text-white/20 focus:text-white/25 max-[360px]:text-[1.3rem] max-[480px]:text-[1.5rem] max-[600px]:text-[1.8rem] max-[768px]:text-[2rem] max-[900px]:text-[2.5rem] placeholder:text-white/35"
+                                className="bg-white/15 px-[40px] max-[360px]:px-[20px] max-[480px]:px-[25px] max-[600px]:px-[30px] py-[20px] max-[360px]:py-[10px] max-[480px]:py-[12px] max-[600px]:py-[15px] border-0 rounded-[35px] max-[480px]:rounded-[20px] max-[600px]:rounded-[25px] outline-none text-[3rem] text-[white] hover:text-white/20 focus:text-white/25 max-[360px]:text-[1.3rem] max-[480px]:text-[1.5rem] max-[600px]:text-[1.8rem] max-[768px]:text-[2rem] max-[900px]:text-[2.5rem] placeholder:text-white/35"
                             />
                             <textarea
                                 placeholder="Текст"
@@ -178,7 +178,7 @@ function CreatePost() {
                                 disabled={isLoading}
                                 maxLength={5000}
                                 rows={6}
-                                className="bg-white/15 px-[40p] max-[360px]:px-[20px] max-[480px]:px-[25px] max-[600px]:px-[30px] py-[20px] max-[360px]:py-[10px] max-[480px]:py-[12px] max-[600px]:py-[15px] border-0 rounded-[35px] max-[480px]:rounded-[20px] max-[600px]:rounded-[25px] outline-none min-h-[300px] max-[480px]:min-h-[150px] max-[600px]:min-h-[180px] max-[768px]:min-h-[200px] max-[900px]:min-h-[250px] text-[1.5rem] text-[white] hover:text-white/20 focus:text-white/25 max-[600p]:text-[1rem] max-[768px]:text-[1rem] max-[900px]:text-[1.2rem] placeholder:text-white/35 resize-none"
+                                className="bg-white/15 px-[40px] max-[360px]:px-[20px] max-[480px]:px-[25px] max-[600px]:px-[30px] py-[20px] max-[360px]:py-[10px] max-[480px]:py-[12px] max-[600px]:py-[15px] border-0 rounded-[35px] max-[480px]:rounded-[20px] max-[600px]:rounded-[25px] outline-none min-h-[300px] max-[480px]:min-h-[150px] max-[600px]:min-h-[180px] max-[768px]:min-h-[200px] max-[900px]:min-h-[250px] text-[1.5rem] text-[white] hover:text-white/20 focus:text-white/25 max-[600p]:text-[1rem] max-[768px]:text-[1rem] max-[900px]:text-[1.2rem] placeholder:text-white/35 resize-none"
                             />
                         </div>
                         <button

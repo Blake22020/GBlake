@@ -5,14 +5,14 @@ import { body, validationResult } from 'express-validator'
 import User from '../models/User'
 import { env } from '../config/env'
 import { auth } from '../middleware/auth';
-import { format } from 'path';
+
 
 const router = Router();
 
 router.post('/register1',
     [
         body('email').isEmail(),
-        body('password').isLength({ min: 6 }),
+        body('password').isLength({ min: 8 }),
         body('username').isLength({ min: 1, max: 20 }),
     ],
     async (req: Request, res: Response) => {

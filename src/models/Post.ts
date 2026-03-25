@@ -14,13 +14,13 @@ const PostSchema = new Schema<IPost>({
         type: String,
         required: true,
         minlength: 1,
-        maxlength: 20
+        maxlength: 100
     },
     text: {
         type: String,
         required: true,
         minlength: 1,
-        maxlength: 40
+        maxlength: 5000
     },
     createdAt: {
         type: Date,

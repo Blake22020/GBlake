@@ -46,7 +46,7 @@ function Edit() {
                 });
             } catch (error) {
                 console.error("Failed to fetch user data:", error);
-                navigate(`/${userData?.id || localStorage.getItem("id")}`);
+                navigate(`/user/${userData?.id || localStorage.getItem("id")}`);
             }
         };
 
@@ -90,7 +90,7 @@ function Edit() {
                 localStorage.setItem("visualName", formData.visualName);
             }
 
-            navigate(`/${userData?.id || localStorage.getItem("id")}`);
+            navigate(`/user/${userData?.id || localStorage.getItem("id")}`);
         } catch (error: any) {
             console.error("Failed to update profile:", error);
             alert(error.message || "Не удалось обновить профиль");
@@ -148,7 +148,7 @@ function Edit() {
                                 src={
                                     avatarFile
                                         ? URL.createObjectURL(avatarFile)
-                                        : `http://localhost:3000/uploads/${userData.avatar}`
+                                        : `http://localhost:3000${userData.avatar}`
                                 }
                                 alt=""
                                 className="box-border bg-white/15 rounded-[50%] w-full object-cover aspect-square"

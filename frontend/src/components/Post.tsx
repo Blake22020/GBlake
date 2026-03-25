@@ -30,7 +30,8 @@ function plural(value: number, forms: [string, string, string]): string {
 
 function timeAgo(date: Date): string {
     const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
+    const d = new Date(date);
+    const diffMs = now.getTime() - d.getTime();
 
     if (diffMs < 0) return "только что";
 
@@ -92,7 +93,7 @@ function Post(post: PostInterface) {
                 return;
             }
 
-            if (!res.likes) {
+            if (res.likes === undefined || res.likes === null) {
                 openModal("Не удалось лайкнуть", "Сервер не ответил");
                 return;
             }
@@ -110,13 +111,13 @@ function Post(post: PostInterface) {
             <div className="flex justify-between items-center post__header">
                 <div className="flex items-start gap-[15px] h-fit post__header__title">
                     <a
-                        href={"https://gblake.ru/users/" + post.author._id}
+                        href={"/user/" + post.author._id}
                         className="bg-white rounded-[50%] w-[32px] object-cover aspect-square"
                     >
                         {" "}
                         <img
                             src={
-                                "http://localhost:3000/uploads/" +
+                                "http://localhost:3000" +
                                 post.author.avatar
                             }
                             className="post__header__avatar"

@@ -53,6 +53,7 @@ router.patch("/me", auth, async (req: Request, res: Response) => {
             }
         }
 
+        if (username) user.username = username;
         if (visualName) user.visualName = visualName;
         if (bio) user.bio = bio;
 

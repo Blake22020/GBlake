@@ -98,8 +98,8 @@ function UserPage() {
             try {
                 const userData = await getUser(id);
                 setUser(userData);
-                document.title = user?.visualName + ' | GBlake' || "GBlake";
-                setMeta("description", user?.visualName || 'Не найдено');
+                document.title = userData?.visualName + ' | GBlake' || "GBlake";
+                setMeta("description", userData?.visualName || 'Не найдено');
             } catch (err) {
                 console.error('Failed to fetch user:', err);
                 navigate('/404');
@@ -148,7 +148,7 @@ function UserPage() {
                     <div className='userInfo'>
                         <div className='userLine'>
                             <div className="userNameAvatar">
-                                <img src={`http://localhost:3000/${user.avatar.trim()}`} alt='' className='userAvatar' />
+                                <img src={`http://localhost:3000${user.avatar.trim()}`} alt='' className='userAvatar' />
                                 <h1>{user.visualName}</h1>
                             </div>
                             {

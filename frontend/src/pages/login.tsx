@@ -106,7 +106,7 @@ function Login() {
                             name="identifier"
                             value={formData.identifier}
                             onChange={handleChange}
-                            className="bg-white/10 px-[25px] max-[900px]:px-[20px] py-[15px] max-[900px]:py-[10x] border-0 rounded-[35px] outline-none font-[500] text-[2rem] text-white max-[600px]:text-[1rem] max-[900px]:text-[1.5rem]"
+                            className="bg-white/10 px-[25px] max-[900px]:px-[20px] py-[15px] max-[900px]:py-[10px] border-0 rounded-[35px] outline-none font-[500] text-[2rem] text-white max-[600px]:text-[1rem] max-[900px]:text-[1.5rem]"
                         />
                         <input
                             placeholder="Пароль"
@@ -114,7 +114,7 @@ function Login() {
                             type="password"
                             value={formData.password}
                             onChange={handleChange}
-                            className="bg-white/10 px-[25px] max-[900px]:px-[20px] py-[15px] max-[900px]:py-[10x] border-0 rounded-[35px] outline-none font-[500] text-[2rem] text-white max-[600px]:text-[1rem] max-[900px]:text-[1.5rem]"
+                            className="bg-white/10 px-[25px] max-[900px]:px-[20px] py-[15px] max-[900px]:py-[10px] border-0 rounded-[35px] outline-none font-[500] text-[2rem] text-white max-[600px]:text-[1rem] max-[900px]:text-[1.5rem]"
                         />
                         <button
                             type="submit"

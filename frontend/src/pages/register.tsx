@@ -170,7 +170,7 @@ function Register() {
                         />
                         <button
                             type="submit"
-                            className="bg-primary-600 p-[20px] max-[900px]:px-[20px] max-[900px]:py-[10px] border-0 outline-none text-[2rem] text-white max-[600px]:text-[1rem] max-[900px]:text-[1.5rem] text-center cursor-pointer roudned-[35px]"
+                            className="bg-primary-600 p-[20px] max-[900px]:px-[20px] max-[900px]:py-[10px] border-0 outline-none text-[2rem] text-white max-[600px]:text-[1rem] max-[900px]:text-[1.5rem] text-center cursor-pointer rounded-[35px]"
                         >
                             Регистрация
                         </button>
