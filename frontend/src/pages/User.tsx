@@ -4,7 +4,6 @@ import LoginNavbarHeader from "../layouts/loginNavbarHeader";
 import MainNavbarHeader from "../layouts/mainNavbarHeader";
 import Post from "../components/Post";
 import { useEffect, useState } from "react";
-import "../styles/pages/user.css";
 import { followUser, checkFollowStatus } from "../services/api";
 import Modal from "../components/Modal";
 import { setMeta } from "../services/description";
@@ -40,9 +39,13 @@ function formatNumberWithSpaces(num: number): string {
 
 function statCard(stat: number, info: string) {
     return (
-        <div className="userStatCard flex flex-col gap-[10px] text-white bg-white/10 p-[20px] rounded-[50px]">
-            <h1 className="text-[2.5rem]">{formatNumberWithSpaces(stat)}</h1>
-            <h2 className="text-[1.5rem]">{info}</h2>
+        <div className="flex flex-col gap-[10px] max-[800px]:gap-2 max-[500px]:gap-2 max-[400px]:gap-2 text-white bg-white/10 p-[20px] max-[400px]:px-[15px] max-[400px]:py-[10px] rounded-[50px]">
+            <h1 className="text-[2.5rem] max-[800px]:text-[1.8rem] max-[500px]:text-[1.4rem] max-[400px]:text-[1.1rem]">
+                {formatNumberWithSpaces(stat)}
+            </h1>
+            <h2 className="text-[1.5rem] max-[800px]:text-[1rem] max-[500px]:text-[1rem] max-[400px]:text-[0.9rem]">
+                {info}
+            </h2>
         </div>
     );
 }
@@ -139,26 +142,26 @@ function UserPage() {
     };
 
     const buttonStyle =
-        "px-[35px] py-[15px] rounded-[35px] text-white text-[2rem] outline-0 border-0 cursor-pointer";
+        "px-[35px] py-[15px] max-[1000px]:px-[20px] max-[1000px]:py-[10px] max-[850px]:px-[20px] max-[850px]:py-[10px] max-[600px]:px-[20px] max-[600px]:py-[10px] max-[400px]:px-[20px] max-[400px]:py-[10px] rounded-[35px] text-white text-[2rem] max-[1200px]:text-[1.5rem] max-[600px]:text-[1.8rem] max-[500px]:text-[1.4rem] max-[400px]:text-[1rem] outline-0 border-0 cursor-pointer";
 
     return (
-        <div className="userPage w-screen pt-[65px] pl-[200px] flex flex-col pb-[110px] object-cover overflow-y-hidden">
+        <div className="w-screen pt-[65px] pl-[200px] max-[900px]:pt-[50px] max-[600px]:pl-0 flex flex-col pb-[110px] object-cover overflow-y-hidden">
             {localStorage.getItem("token") ? (
                 <LoginNavbarHeader />
             ) : (
                 <MainNavbarHeader />
             )}
-            <div className="userWindow">
-                <div className="userCard flex flex-col gap-[100px] px-[150px] pb-[100px] w-full text-center">
-                    <div className="userInfo flex flex-col gap-[100px] text-center">
-                        <div className="userLine flex justify-between w-[850px] items-center">
-                            <div className="userNameAvatar flex items-center gap-[25px]">
+            <div>
+                <div className="flex flex-col gap-[100px] max-[400px]:gap-[40px] px-[150px] max-[400px]:px-0 max-[400px]:py-[75px] pb-[100px] max-[400px]:pb-[50px] w-full text-center">
+                    <div className="flex flex-col gap-[100px] max-[1000px]:gap-[50px] text-center">
+                        <div className="flex justify-between w-[850px] max-[1200px]:w-[700px] max-[1000px]:w-[600px] max-[850px]:w-[500px] max-[600px]:w-[90%] max-[400px]:w-[90%] items-center">
+                            <div className="flex items-center gap-[25px] max-[500px]:gap-2">
                                 <img
                                     src={`http://localhost:3000${user.avatar.trim()}`}
                                     alt=""
-                                    className="userAvatar h-[5rem] object-cover bg-white rounded-full"
+                                    className="h-[5rem] max-[1200px]:h-[4rem] max-[1000px]:h-[3rem] max-[850px]:h-[3rem] max-[600px]:h-[2rem] max-[400px]:h-[1.5rem] object-cover bg-white rounded-full"
                                 />
-                                <h1 className="text-white text-[5rem]">
+                                <h1 className="text-white text-[5rem] max-[1200px]:text-[4rem] max-[1000px]:text-[3rem] max-[850px]:text-[3rem] max-[600px]:text-[2rem] max-[400px]:text-[1.5rem]">
                                     {user.visualName}
                                 </h1>
                             </div>
@@ -187,9 +190,9 @@ function UserPage() {
                                 </button>
                             )}
                         </div>
-                        <p className="text-white text-[2rem]">{user.bio}</p>
+                        <p className="text-white text-[2rem] max-[400px]:text-[1.2rem]">{user.bio}</p>
                     </div>
-                    <div className="userStats flex gap-[100px] justify-center items-center">
+                    <div className="flex gap-[100px] max-[800px]:gap-[50px] max-[500px]:gap-[20px] max-[400px]:gap-[20px] justify-center items-center">
                         {statCard(user.followers, "Подписчиков")}
                         {statCard(user.followings, "Подписок")}
                     </div>
