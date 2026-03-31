@@ -1,4 +1,3 @@
-import "../styles/pages/login.css";
 import { loginRequest } from "../services/api";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";

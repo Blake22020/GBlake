@@ -1,6 +1,5 @@
 import { registerRequest2, uploadAvatar } from "../services/api";
 import React, { useState, useRef, useEffect } from "react";
-import "../styles/pages/register2.css";
 import { useNavigate } from "react-router-dom";
 import Modal from "../components/Modal";
 import { setMeta } from "../services/description";

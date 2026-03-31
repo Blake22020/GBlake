@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { likesPosts } from "../services/api";
 import Modal from "../components/Modal";
 import Post from "../components/Post";
-import "../styles/pages/likes.css";
 import { setMeta } from "../services/description";
 
 interface PostInterface {

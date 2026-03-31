@@ -1,6 +1,5 @@
 import MainNavbarHeader from "../layouts/mainNavbarHeader";
 import Post from "../components/Post";
-import "../styles/pages/main.css";
 import Modal from "../components/Modal";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";

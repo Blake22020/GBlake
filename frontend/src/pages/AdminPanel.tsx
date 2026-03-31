@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import LoginNavbarHeader from "../layouts/loginNavbarHeader";
 import { getUser, promoteUser } from "../services/api";
 import { useNavigate } from "react-router-dom";
-import "../styles/pages/adminPanel.css";
 import Modal from "../components/Modal";
 
 function AdminPanel() {
@@ -56,14 +55,17 @@ function AdminPanel() {
         } catch (err: any) {
             openModal("Ошибка", err.message);
         }
-    }
+    };
 
     return (
         <div className="flex flex-col pt-[65px] max-[900px]:pt-[50px] pb-[110px] pl-[200px] max-[600px]:pl-0 max-[900px]:pl-[200px] w-screen h-screen object-cover adminPage">
             <LoginNavbarHeader />
             <div className="flex flex-col justify-center items-center w-full h-full adminWindow">
                 <div className="shadow-[0_0_100px_0_#6e5bff] p-[45px] rounded-[45px] w-[50%] h-[60%] adminPanel">
-                    <form className="flex flex-col justify-between h-full" onSubmit={handleSubmit}>
+                    <form
+                        className="flex flex-col justify-between h-full"
+                        onSubmit={handleSubmit}
+                    >
                         <h1 className="text-[2rem] text-white text-center">
                             Админ панель
                         </h1>

@@ -1,4 +1,3 @@
-import "../styles/pages/register.css";
 import { registerRequest1 } from "../services/api";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";

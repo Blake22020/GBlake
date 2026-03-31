@@ -1,6 +1,5 @@
 import { useState, FormEvent, useEffect } from "react";
 import LoginNavbarHeader from "../layouts/loginNavbarHeader";
-import "../styles/pages/createPost.css";
 import { useNavigate } from "react-router-dom";
 import Modal from "../components/Modal";
 import { createPost } from "../services/api";
