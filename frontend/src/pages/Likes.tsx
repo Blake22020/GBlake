@@ -2,9 +2,9 @@ import { useNavigate } from "react-router-dom";
 import LoginNavbarHeader from "../layouts/loginNavbarHeader";
 import { useEffect, useState } from "react";
 import { likesPosts } from "../services/api";
-import Modal from "../components/Modal";
 import Post from "../components/Post";
 import { setMeta } from "../services/description";
+import toast from "react-hot-toast";
 
 interface PostInterface {
     _id: string;
@@ -27,13 +27,6 @@ function Likes() {
         setMeta("description", "Лайки");
     }, []);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalData, setModalData] = useState({ title: "", text: "" });
-    const openModal = (title: string, text: string) => {
-        setModalData({ title, text });
-        setIsModalOpen(true);
-    };
-
     const [posts, setPosts] = useState<any[]>([]);
 
     useEffect(() => {
@@ -51,7 +44,7 @@ function Likes() {
                     error?.response?.data?.message ||
                     error.message ||
                     "Неизвестная ошибка";
-                openModal("Ошибка", errMsg);
+                toast.error(errMsg);
             }
         };
 
@@ -74,12 +67,6 @@ function Likes() {
                     />
                 ))}
             </div>
-            <Modal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                title={modalData.title}
-                text={modalData.text}
-            />
         </div>
     );
 }

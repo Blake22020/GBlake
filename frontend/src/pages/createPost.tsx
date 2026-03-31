@@ -1,9 +1,9 @@
 import { useState, FormEvent, useEffect } from "react";
 import LoginNavbarHeader from "../layouts/loginNavbarHeader";
 import { useNavigate } from "react-router-dom";
-import Modal from "../components/Modal";
 import { createPost } from "../services/api";
 import { setMeta } from "../services/description";
+import toast from "react-hot-toast";
 
 function CreatePost() {
     const navigate = useNavigate();
@@ -28,30 +28,22 @@ function CreatePost() {
 
     const validateForm = () => {
         if (!title.trim()) {
-            setModalTitle("Ошибка валидации");
-            setModalText("Заголовок не может быть пустым");
-            setIsModalOpen(true);
+            toast.error("Заголовок не может быть пустым");
             return false;
         }
 
         if (title.trim().length < 3) {
-            setModalTitle("Ошибка валидации");
-            setModalText("Заголовок должен содержать минимум 3 символа");
-            setIsModalOpen(true);
+            toast.error("Заголовок должен содержать минимум 3 символа");
             return false;
         }
 
         if (!text.trim()) {
-            setModalTitle("Ошибка валидации");
-            setModalText("Текст поста не может быть пустым");
-            setIsModalOpen(true);
+            toast.error("Текст поста не может быть пустым");
             return false;
         }
 
         if (text.trim().length < 10) {
-            setModalTitle("Ошибка валидации");
-            setModalText("Текст поста должен содержать минимум 10 символов");
-            setIsModalOpen(true);
+            toast.error("Текст поста должен содержать минимум 10 символов");
             return false;
         }
 
@@ -67,9 +59,7 @@ function CreatePost() {
 
         const token = localStorage.getItem("token");
         if (!token) {
-            setModalTitle("Ошибка авторизации");
-            setModalText("Вы не авторизованы. Пожалуйста, войдите в систему.");
-            setIsModalOpen(true);
+            toast.error("Вы не авторизованы. Пожалуйста, войдите в систему.");
             return;
         }
 
@@ -88,35 +78,27 @@ function CreatePost() {
                     "Произошла ошибка при создании поста";
 
                 if (status === 401) {
-                    setModalTitle("Ошибка авторизации");
-                    setModalText(
+                    toast.error(
                         "Ваша сессия истекла. Пожалуйста, войдите снова.",
                     );
                 } else if (status === 400) {
-                    setModalTitle("Ошибка запроса");
-                    setModalText(message);
+                    toast.error(message);
                 } else if (status >= 500) {
-                    setModalTitle("Ошибка сервера");
-                    setModalText(
+                    toast.error(
                         "Сервер временно недоступен. Попробуйте позже.",
                     );
                 } else {
-                    setModalTitle("Ошибка");
-                    setModalText(message);
+                    toast.error(message);
                 }
             } else if (error.request) {
-                setModalTitle("Ошибка сети");
-                setModalText(
+                toast.error(
                     "Не удалось подключиться к серверу. Проверьте интернет-соединение.",
                 );
             } else {
-                setModalTitle("Неизвестная ошибка");
-                setModalText(
+                toast.error(
                     "Произошла непредвиденная ошибка. Попробуйте снова.",
                 );
             }
-
-            setIsModalOpen(true);
         } finally {
             setIsLoading(false);
         }
@@ -190,12 +172,6 @@ function CreatePost() {
                     </form>
                 </div>
             </div>
-            <Modal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                title={modalTitle}
-                text={modalText}
-            />
         </div>
     );
 }

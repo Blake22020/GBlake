@@ -2,34 +2,27 @@ import { useEffect, useState } from "react";
 import LoginNavbarHeader from "../layouts/loginNavbarHeader";
 import { getUser, promoteUser } from "../services/api";
 import { useNavigate } from "react-router-dom";
-import Modal from "../components/Modal";
+import toast from "react-hot-toast";
 
 function AdminPanel() {
     const navigate = useNavigate();
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalData, setModalData] = useState({ title: "", text: "" });
-    const openModal = (title: string, text: string) => {
-        setModalData({ title, text });
-        setIsModalOpen(true);
-    };
 
     useEffect(() => {
         const checkRole = async () => {
             try {
                 const id = localStorage.getItem("id");
                 if (!id) {
-                    navigate("/404");
+                    toast.error("Ошибка авторизации");
                     return;
                 }
                 const user = await getUser(id);
                 const role = user.role;
                 if (role < 2) {
-                    navigate("/404");
+                    toast.error("Недостаточно прав");
                     return;
                 }
             } catch {
-                console.error("/404");
+                toast.error("Ошибка");
                 return;
             }
         };
@@ -50,10 +43,10 @@ function AdminPanel() {
             const res = await promoteUser(Number(role), token, userId);
 
             if (res && res.message) {
-                openModal("Успешно", res.message);
+                toast.success(res.message);
             }
         } catch (err: any) {
-            openModal("Ошибка", err.message);
+            toast.error(err.message);
         }
     };
 
@@ -92,12 +85,6 @@ function AdminPanel() {
                     </form>
                 </div>
             </div>
-            <Modal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                title={modalData.title}
-                text={modalData.text}
-            />
         </div>
     );
 }

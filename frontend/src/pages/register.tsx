@@ -1,8 +1,8 @@
 import { registerRequest1 } from "../services/api";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Modal from "../components/Modal";
 import { setMeta } from "../services/description";
+import toast from "react-hot-toast";
 
 function Register() {
     const navigate = useNavigate();
@@ -11,13 +11,6 @@ function Register() {
         document.title = "Регистрация | GBlake";
         setMeta("description", "Регистрация");
     }, []);
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalData, setModalData] = useState({ title: "", text: "" });
-    const openModal = (title: string, text: string) => {
-        setModalData({ title, text });
-        setIsModalOpen(true);
-    };
 
     const [formData, setFormData] = useState({
         username: "",
@@ -38,45 +31,44 @@ function Register() {
         const { username, email, password, repeatPassword } = formData;
 
         if (!username.trim()) {
-            openModal("Ошибка", "Имя пользователя не может быть пустым.");
+            toast.error("Имя пользователя не может быть пустым.");
             return false;
         }
         if (username.length < 3 || username.length > 30) {
-            openModal("Ошибка", "Имя должно быть от 3 до 30 символов.");
+            toast.error("Имя должно быть от 3 до 30 символов.");
             return false;
         }
         if (!/^[a-zA-Z0-9_]+$/.test(username)) {
-            openModal("Ошибка", "Имя может содержать только буквы, цифры и _");
+            toast.error("Имя может содержать только буквы, цифры и _");
             return false;
         }
 
         if (!email.trim()) {
-            openModal("Ошибка", "Email обязателен.");
+            toast.error("Email обязателен.");
             return false;
         }
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            openModal("Ошибка", "Неверный формат email.");
+            toast.error("Неверный формат email.");
             return false;
         }
 
         if (password.length < 8) {
-            openModal("Ошибка", "Пароль должен быть не короче 8 символов.");
+            toast.error("Пароль должен быть не короче 8 символов.");
             return false;
         }
         if (!/[A-Z]/.test(password)) {
-            openModal(
-                "Ошибка",
+            toast.error(
                 "Пароль должен содержать хотя бы одну заглавную букву.",
             );
             return false;
         }
         if (!/\d/.test(password)) {
-            openModal("Ошибка", "Пароль должен содержать хотя бы одну цифру.");
+            toast.error("Пароль должен содержать хотя бы одну цифру.");
             return false;
         }
 
         if (password !== repeatPassword) {
-            openModal("Ошибка", "Пароли не совпадают.");
+            toast.error("Пароли не совпадают.");
             return false;
         }
 
@@ -93,10 +85,7 @@ function Register() {
         try {
             const data = await registerRequest1(dataToSend);
             if (!data) {
-                openModal(
-                    "Ошибка регистрации",
-                    "Сервер не ответил или вернул ошибку.",
-                );
+                toast.error("Сервер не ответил или вернул ошибку.");
                 return;
             }
 
@@ -106,14 +95,14 @@ function Register() {
                 navigate("/register2");
             } else {
                 const msg = data.message || "Неизвестная ошибка сервера";
-                openModal("Ошибка регистрации", msg);
+                toast.error(msg);
             }
         } catch (error: any) {
             const errMsg =
                 error?.response?.data?.message ||
                 error.message ||
                 "Неизвестная ошибка";
-            openModal("Ошибка регистрации", errMsg);
+            toast.error(errMsg);
         }
     };
 
@@ -176,12 +165,6 @@ function Register() {
                     </form>
                 </div>
             </div>
-            <Modal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                title={modalData.title}
-                text={modalData.text}
-            />
         </div>
     );
 }

@@ -3,6 +3,7 @@ import LikeIcon from "./icons/Like/LikeIcon";
 import LikedIcon from "./icons/Like/LikedIcon";
 import { likePost } from "../services/api";
 import Modal from "./Modal";
+import toast from "react-hot-toast";
 
 interface PostInterface {
     title: string;
@@ -97,6 +98,8 @@ function Post(post: PostInterface) {
                 openModal("Не удалось лайкнуть", "Сервер не ответил");
                 return;
             }
+
+            toast.success("Лайк поставлен!");
         } catch (error: any) {
             const errMsg =
                 error?.response?.data?.message ||

@@ -1,11 +1,11 @@
 import MainNavbarHeader from "../layouts/mainNavbarHeader";
 import Post from "../components/Post";
-import Modal from "../components/Modal";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { feedRequest } from "../services/api";
 import { setMeta } from "../services/description";
 import LoginNavbarHeader from "../layouts/loginNavbarHeader";
+import toast from "react-hot-toast";
 
 interface PostInterface {
     _id: string;
@@ -28,13 +28,6 @@ function MainPage() {
         setMeta("description", "Gblake");
     }, []);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalData, setModalData] = useState({ title: "", text: "" });
-    const openModal = (title: string, text: string) => {
-        setModalData({ title, text });
-        setIsModalOpen(true);
-    };
-
     const [posts, setPosts] = useState<any[]>([]);
 
     useEffect(() => {
@@ -49,7 +42,7 @@ function MainPage() {
                     error?.response?.data?.message ||
                     error.message ||
                     "Неизвестная ошибка";
-                openModal("Ошибка", errMsg);
+                toast.error(errMsg);
             }
         };
 
@@ -76,13 +69,6 @@ function MainPage() {
                     />
                 ))}
             </main>
-
-            <Modal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                title={modalData.title}
-                text={modalData.text}
-            />
         </div>
     );
 }

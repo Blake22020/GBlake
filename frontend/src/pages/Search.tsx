@@ -3,9 +3,9 @@ import LoginNavbarHeader from "../layouts/loginNavbarHeader";
 import MainNavbarHeader from "../layouts/mainNavbarHeader";
 import { useEffect, useState } from "react";
 import { searchResponse, followUser, checkFollowStatus } from "../services/api";
-import Modal from "../components/Modal";
 import Post from "../components/Post";
 import { setMeta } from "../services/description";
+import toast from "react-hot-toast";
 
 interface UserInterface {
     _id: string;
@@ -43,13 +43,6 @@ function Search() {
         setMeta("description", "GBlake");
     }, []);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalData, setModalData] = useState({ title: "", text: "" });
-    const openModal = (title: string, text: string) => {
-        setModalData({ title, text });
-        setIsModalOpen(true);
-    };
-
     const handleFollowClick = async (userId: string) => {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -60,12 +53,15 @@ function Search() {
         try {
             const res = await followUser(userId, token);
             setFollowStatus((prev) => ({ ...prev, [userId]: res.following }));
+            toast.success(
+                `Вы ${res.following ? "подписались на" : "отписались от"} пользователя`,
+            );
         } catch (error: any) {
             const errMsg =
                 error?.response?.data?.message ||
                 error.message ||
                 "Ошибка при выполнении действия";
-            openModal("Ошибка", errMsg);
+            toast.error(errMsg);
         }
     };
 
@@ -120,7 +116,7 @@ function Search() {
                     error?.response?.data?.message ||
                     error.message ||
                     "Неизвестная ошибка";
-                openModal("Ошибка", errMsg);
+                toast.error(errMsg);
             }
         };
 
@@ -220,12 +216,6 @@ function Search() {
                     })}
                 </div>
             </div>
-            <Modal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                title={modalData.title}
-                text={modalData.text}
-            />
         </div>
     );
 }

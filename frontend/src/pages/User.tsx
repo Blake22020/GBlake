@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { followUser, checkFollowStatus } from "../services/api";
 import Modal from "../components/Modal";
 import { setMeta } from "../services/description";
+import toast from "react-hot-toast";
 
 interface User {
     id: string;
@@ -126,6 +127,7 @@ function UserPage() {
         try {
             const data = await followUser(id, token);
             setIsFollow(data.following);
+            toast.success(`Вы подписались на ${user.visualName}.`);
         } catch (error: any) {
             let message = "Не удалось выполнить действие";
 
@@ -137,7 +139,7 @@ function UserPage() {
             } else if (error.request) {
                 message = "Нет соединения с сервером";
             }
-            openModal("Ошибка", message);
+            toast.error(message);
         }
     };
 

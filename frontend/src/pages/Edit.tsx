@@ -3,6 +3,7 @@ import LoginNavbarHeader from "../layouts/loginNavbarHeader";
 import { setMeta } from "../services/description";
 import { useNavigate } from "react-router-dom";
 import { getUserData, updateUserProfile, uploadAvatar } from "../services/api";
+import toast from "react-hot-toast";
 
 interface UserData {
     id: string;
@@ -90,10 +91,14 @@ function Edit() {
                 localStorage.setItem("visualName", formData.visualName);
             }
 
+            toast.success("Профиль успешно обновлен");
             navigate(`/user/${userData?.id || localStorage.getItem("id")}`);
         } catch (error: any) {
-            console.error("Failed to update profile:", error);
-            alert(error.message || "Не удалось обновить профиль");
+            const errMsg =
+                error?.response?.data?.message ||
+                error.message ||
+                "Неизвестная ошибка";
+            toast.error(errMsg);
         } finally {
             setIsLoading(false);
         }

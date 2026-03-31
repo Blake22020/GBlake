@@ -1,8 +1,8 @@
 import { registerRequest2, uploadAvatar } from "../services/api";
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Modal from "../components/Modal";
 import { setMeta } from "../services/description";
+import toast from "react-hot-toast";
 
 function Register2() {
     const navigate = useNavigate();
@@ -11,13 +11,6 @@ function Register2() {
         document.title = "Продолжение регистрации | GBlake";
         setMeta("description", "Регистрация");
     }, []);
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalData, setModalData] = useState({ title: "", text: "" });
-    const openModal = (title: string, text: string) => {
-        setModalData({ title, text });
-        setIsModalOpen(true);
-    };
 
     const [name, setName] = useState("");
     const [bio, setBio] = useState("");
@@ -51,45 +44,43 @@ function Register2() {
 
     async function handleSubmit() {
         if (!avatar) {
-            openModal("Ошибка добавления аватара", "Выбери фото");
+            toast.error("Выбери фото");
             return;
         }
 
         if (!name.trim()) {
-            openModal("Нету имени", "Введи имя");
+            toast.error("Введи имя");
             return;
         }
 
         if (avatar.size > 4 * 1024 * 1024) {
-            openModal(
-                "Ошибка добавления аватара",
-                "Фото слишком большое (макс 4МБ)",
-            );
+            toast.error("Фото слишком большое (макс 4МБ)");
             return;
         }
 
         if (!avatar.type.startsWith("image/")) {
-            openModal("Ошибка добавления аватара", "Неверный формат файла");
+            toast.error("Неверный формат файла");
             return;
         }
 
         try {
             const token = localStorage.getItem("token");
             if (!token) {
-                openModal("Ошибка добавления аватара", "Требуется авторизация");
+                toast.error("Требуется авторизация");
                 return;
             }
 
             await registerRequest2({ visualName: name, bio: bio }, token);
             const res = await uploadAvatar(avatar, token);
             localStorage.setItem("avatar", res.avatar);
+            toast.success("Регистрация завершена успешно!");
             navigate("/");
         } catch (error: any) {
             const errorMessage =
                 error?.response?.data?.message ||
                 error.message ||
                 "Ошибка при сохранении";
-            alert(errorMessage);
+            toast.error(errorMessage);
         }
     }
 
@@ -181,12 +172,6 @@ function Register2() {
                     </form>
                 </div>
             </div>
-            <Modal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                title={modalData.title}
-                text={modalData.text}
-            />
         </div>
     );
 }

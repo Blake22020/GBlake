@@ -1,8 +1,8 @@
 import { loginRequest } from "../services/api";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Modal from "../components/Modal";
 import { setMeta } from "../services/description";
+import toast from "react-hot-toast";
 
 function Login() {
     const navigate = useNavigate();
@@ -16,13 +16,6 @@ function Login() {
         document.title = "Вход | GBlake";
         setMeta("description", "Вход");
     }, []);
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalData, setModalData] = useState({ title: "", text: "" });
-    const openModal = (title: string, text: string) => {
-        setModalData({ title, text });
-        setIsModalOpen(true);
-    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -38,7 +31,7 @@ function Login() {
         const { identifier, password } = formData;
 
         if (!identifier.trim() || !password.trim()) {
-            openModal("Ошибка заполнения формы", "Заполните все поля");
+            toast.error("Заполните все поля");
             return;
         }
 
@@ -56,7 +49,7 @@ function Login() {
 
                 navigate("/");
             } else {
-                openModal("Ошибка входа", "Сервер не вернул токен");
+                toast.error("Сервер не вернул токен");
             }
         } catch (err: any) {
             let msg = "Неизвестная ошибка";
@@ -75,7 +68,7 @@ function Login() {
                 msg = "Нет соединения с сервером";
             }
 
-            openModal("Ошибка входа", msg);
+            toast.error(msg);
         }
     };
 
@@ -124,12 +117,6 @@ function Login() {
                     </form>
                 </div>
             </div>
-            <Modal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                title={modalData.title}
-                text={modalData.text}
-            />
         </div>
     );
 }
