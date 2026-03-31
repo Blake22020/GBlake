@@ -148,12 +148,14 @@ function Edit() {
                                 src={
                                     avatarFile
                                         ? URL.createObjectURL(avatarFile)
-                                        : `http://localhost:3000${userData.avatar}`
+                                        : `${process.env.REACT_APP_API_URL}${userData.avatar}`
                                 }
                                 alt=""
                                 className="box-border bg-white/15 rounded-[50%] w-full object-cover aspect-square"
                             />
-                            <h2 className="text-[2rem] max-[1300px]:text-[1.5rem] max-[1100px]:text-[1.4rem]">Загрузить фото</h2>
+                            <h2 className="text-[2rem] max-[1300px]:text-[1.5rem] max-[1100px]:text-[1.4rem]">
+                                Загрузить фото
+                            </h2>
                             <input
                                 type="file"
                                 accept="image/*"

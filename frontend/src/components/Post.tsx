@@ -117,7 +117,7 @@ function Post(post: PostInterface) {
                         {" "}
                         <img
                             src={
-                                "http://localhost:3000" +
+                                process.env.REACT_APP_API_URL +
                                 post.author.avatar
                             }
                             className="post__header__avatar"

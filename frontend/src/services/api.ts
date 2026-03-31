@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const BASE_URL = process.env.REACT_APP_API_URL;
+
 export async function loadPosts(token: string, page = 1) {
     try {
-        const res = await axios.get("http://localhost:3000/api/feed/", {
+        const res = await axios.get(`${BASE_URL}/api/feed/`, {
             params: { page, limit: 10 },
             headers: {
                 Authorization: token ? `Bearer ${token}` : "",
@@ -24,7 +26,7 @@ export async function loadPosts(token: string, page = 1) {
 export async function likePost(postId: string, token: string | null) {
     try {
         const res = await axios.post(
-            "http://localhost:3000/api/posts/" + postId + "/like",
+            `${BASE_URL}/api/posts/${postId}/like`,
             {},
             {
                 headers: {
@@ -55,7 +57,7 @@ export async function registerRequest1({
     username: string;
 }) {
     try {
-        const res = await axios.post("http://localhost:3000/api/register1", {
+        const res = await axios.post(`${BASE_URL}/api/register1`, {
             email,
             password,
             username,
@@ -79,7 +81,7 @@ export async function registerRequest2(
 ) {
     try {
         const res = await axios.patch(
-            "http://localhost:3000/api/register2",
+            `${BASE_URL}/api/register2`,
             {
                 visualName,
                 bio,
@@ -109,10 +111,7 @@ export async function loginRequest(
         | { username: string; password: string },
 ) {
     try {
-        const res = await axios.post(
-            "http://localhost:3000/api/login",
-            credentials,
-        );
+        const res = await axios.post(`${BASE_URL}/api/login`, credentials);
         return res.data;
     } catch (e) {
         if (axios.isAxiosError(e) && e.response) {
@@ -131,7 +130,7 @@ export async function uploadAvatar(file: File, token: string) {
         formData.append("file", file);
 
         const res = await axios.post(
-            "http://localhost:3000/api/users/me/avatar",
+            `${BASE_URL}/api/users/me/avatar`,
             formData,
             {
                 headers: {
@@ -156,7 +155,7 @@ export async function uploadAvatar(file: File, token: string) {
 export async function createPost(title: string, text: string, token: string) {
     try {
         const res = await axios.post(
-            "http://localhost:3000/api/posts",
+            `${BASE_URL}/api/posts`,
             {
                 title,
                 text,
@@ -182,7 +181,7 @@ export async function createPost(title: string, text: string, token: string) {
 
 export async function getUser(userId: string) {
     try {
-        const res = await axios.get("http://localhost:3000/api/users/" + userId);
+        const res = await axios.get(`${BASE_URL}/api/users/${userId}`);
 
         return res.data;
     } catch (e) {
@@ -199,7 +198,7 @@ export async function getUser(userId: string) {
 export async function followUser(userId: string, token: string) {
     try {
         const res = await axios.post(
-            "http://localhost:3000/api/users/" + userId + "/follow",
+            `${BASE_URL}/api/users/${userId}/follow`,
             {},
             {
                 headers: {
@@ -221,14 +220,11 @@ export async function followUser(userId: string, token: string) {
 
 export async function checkFollowStatus(userId: string, token: string) {
     try {
-        const res = await axios.get(
-            "http://localhost:3000/api/users/" + userId + "/follow",
-            {
-                headers: {
-                    Authorization: token ? `Bearer ${token}` : "",
-                },
+        const res = await axios.get(`${BASE_URL}/api/users/${userId}/follow`, {
+            headers: {
+                Authorization: token ? `Bearer ${token}` : "",
             },
-        );
+        });
         return res.data;
     } catch (e) {
         if (axios.isAxiosError(e) && e.response) {
@@ -243,7 +239,7 @@ export async function checkFollowStatus(userId: string, token: string) {
 
 export async function searchResponse(text: string) {
     try {
-        const res = await axios.get("http://localhost:3000/api/search/", {
+        const res = await axios.get(`${BASE_URL}/api/search/`, {
             params: {
                 q: text,
             },
@@ -263,7 +259,7 @@ export async function searchResponse(text: string) {
 
 export async function likesPosts(token: string | null) {
     try {
-        const res = await axios.get("http://localhost:3000/api/posts/likes", {
+        const res = await axios.get(`${BASE_URL}/api/posts/likes`, {
             headers: {
                 Authorization: token ? `Bearer ${token}` : "",
             },
@@ -283,7 +279,7 @@ export async function likesPosts(token: string | null) {
 
 export async function followingsPosts(token: string | null) {
     try {
-        const res = await axios.get("http://localhost:3000/api/posts/followings", {
+        const res = await axios.get(`${BASE_URL}/api/posts/followings`, {
             headers: {
                 Authorization: token ? `Bearer ${token}` : "",
             },
@@ -304,7 +300,7 @@ export async function followingsPosts(token: string | null) {
 export async function feedRequest(token: string | null) {
     try {
         const res = await axios.get(
-            "http://localhost:3000/api/feed/",
+            `${BASE_URL}/api/feed/`,
             token
                 ? {
                       headers: {
@@ -333,7 +329,7 @@ export async function getUserData(token: string) {
             throw new Error("User ID not found");
         }
 
-        const res = await axios.get(`http://localhost:3000/api/users/${userId}`, {
+        const res = await axios.get(`${BASE_URL}/api/users/${userId}`, {
             headers: {
                 Authorization: token ? `Bearer ${token}` : "",
             },
@@ -361,7 +357,7 @@ export async function updateUserProfile(
 ) {
     try {
         const res = await axios.patch(
-            "http://localhost:3000/api/users/me",
+            `${BASE_URL}/api/users/me`,
             {
                 visualName,
                 bio,
@@ -393,7 +389,7 @@ export async function promoteUser(
 ) {
     try {
         const res = await axios.post(
-            "http://localhost:3000/api/admin/promote/" + id,
+            `${BASE_URL}/api/admin/promote/${id}`,
             {
                 role,
             },

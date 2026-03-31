@@ -157,7 +157,7 @@ function UserPage() {
                         <div className="flex justify-between w-[850px] max-[1200px]:w-[700px] max-[1000px]:w-[600px] max-[850px]:w-[500px] max-[600px]:w-[90%] max-[400px]:w-[90%] items-center">
                             <div className="flex items-center gap-[25px] max-[500px]:gap-2">
                                 <img
-                                    src={`http://localhost:3000${user.avatar.trim()}`}
+                                    src={`${process.env.REACT_APP_API_URL}${user.avatar.trim()}`}
                                     alt=""
                                     className="h-[5rem] max-[1200px]:h-[4rem] max-[1000px]:h-[3rem] max-[850px]:h-[3rem] max-[600px]:h-[2rem] max-[400px]:h-[1.5rem] object-cover bg-white rounded-full"
                                 />
@@ -190,7 +190,9 @@ function UserPage() {
                                 </button>
                             )}
                         </div>
-                        <p className="text-white text-[2rem] max-[400px]:text-[1.2rem]">{user.bio}</p>
+                        <p className="text-white text-[2rem] max-[400px]:text-[1.2rem]">
+                            {user.bio}
+                        </p>
                     </div>
                     <div className="flex gap-[100px] max-[800px]:gap-[50px] max-[500px]:gap-[20px] max-[400px]:gap-[20px] justify-center items-center">
                         {statCard(user.followers, "Подписчиков")}

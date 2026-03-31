@@ -112,7 +112,8 @@ function LoginHeader({ openFunction, open }: Props) {
                     {localStorage.getItem("avatar") ? (
                         <img
                             src={
-                                "http://localhost:3000/uploads/" +
+                                process.env.REACT_APP_API_URL +
+                                "/uploads/" +
                                 localStorage.getItem("avatar")
                             }
                             className="w-[32px] h-[32px]"
