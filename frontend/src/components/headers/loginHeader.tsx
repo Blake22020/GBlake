@@ -96,15 +96,17 @@ function LoginHeader({ openFunction, open }: Props) {
                     </g>
                 </svg>
                 <a
-                    href="https://gblake.ru/users/"
-                    className="block h-8 w-8 overflow-hidden rounded-full"
+                    onClick={() => {
+                        navigate("/user/" + localStorage.getItem("id"));
+                    }}
+                    className="block h-8 w-8 overflow-hidden rounded-full cursor-pointer"
                 >
                     {localStorage.getItem("avatar") ? (
                         <img
                             className="h-full w-full object-cover"
                             src={
                                 process.env.REACT_APP_API_URL +
-                                "/uploads/" +
+                                "" +
                                 localStorage.getItem("avatar")
                             }
                             alt=""

@@ -153,7 +153,7 @@ function UserPage() {
             )}
             <div>
                 <div className="flex flex-col gap-[100px] max-[400px]:gap-[40px] px-[150px] max-[400px]:px-0 max-[400px]:py-[75px] pb-[100px] max-[400px]:pb-[50px] w-full text-center">
-                    <div className="flex flex-col gap-[100px] max-[1000px]:gap-[50px] text-center">
+                    <div className="flex flex-col gap-[100px] max-[1000px]:gap-[50px] text-center items-center pt-[100px]">
                         <div className="flex justify-between w-[850px] max-[1200px]:w-[700px] max-[1000px]:w-[600px] max-[850px]:w-[500px] max-[600px]:w-[90%] max-[400px]:w-[90%] items-center">
                             <div className="flex items-center gap-[25px] max-[500px]:gap-2">
                                 <img

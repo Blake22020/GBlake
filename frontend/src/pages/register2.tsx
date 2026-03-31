@@ -5,7 +5,7 @@ import Modal from "../components/Modal";
 import { setMeta } from "../services/description";
 
 function Register2() {
-    const nvaigate = useNavigate();
+    const navigate = useNavigate();
 
     useEffect(() => {
         document.title = "Продолжение регистрации | GBlake";
@@ -81,11 +81,14 @@ function Register2() {
             }
 
             await registerRequest2({ visualName: name, bio: bio }, token);
-            await uploadAvatar(avatar, token);
-            nvaigate("/");
+            const res = await uploadAvatar(avatar, token);
+            localStorage.setItem("avatar", res.avatar);
+            navigate("/");
         } catch (error: any) {
             const errorMessage =
-                error?.response?.data?.message || "Ошибка при сохранении";
+                error?.response?.data?.message ||
+                error.message ||
+                "Ошибка при сохранении";
             alert(errorMessage);
         }
     }
@@ -153,6 +156,7 @@ function Register2() {
                         <div className="flex flex-col gap-[30px] max-[750px]:gap-[10px] addInputs">
                             <input
                                 placeholder="Отображаемое имя"
+                                value={name}
                                 onChange={(e) => {
                                     setName(e.target.value);
                                 }}

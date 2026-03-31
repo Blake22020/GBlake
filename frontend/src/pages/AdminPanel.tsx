@@ -61,9 +61,9 @@ function AdminPanel() {
         <div className="flex flex-col pt-[65px] max-[900px]:pt-[50px] pb-[110px] pl-[200px] max-[600px]:pl-0 max-[900px]:pl-[200px] w-screen h-screen object-cover adminPage">
             <LoginNavbarHeader />
             <div className="flex flex-col justify-center items-center w-full h-full adminWindow">
-                <div className="shadow-[0_0_100px_0_#6e5bff] p-[45px] rounded-[45px] w-[50%] h-[60%] adminPanel">
+                <div className="shadow-[0_0_100px_0_#6e5bff] p-[45px] rounded-[45px] w-[50%] min-h-[70%] adminPanel">
                     <form
-                        className="flex flex-col justify-between h-full"
+                        className="flex flex-col justify-between h-full gap-[30px]"
                         onSubmit={handleSubmit}
                     >
                         <h1 className="text-[2rem] text-white text-center">
@@ -85,7 +85,7 @@ function AdminPanel() {
                         </div>
                         <button
                             type="submit"
-                            className="bg-[linear-gradient(135deg,#6e5bff,#a08eff)] p-[15px] border-0 rounded-[35px] outline-0 font-700 text-[3rem] text-white hover:-translate-y-[20px] cursor-pointer"
+                            className="bg-[linear-gradient(135deg,#6e5bff,#a08eff)] p-[15px] border-0 rounded-[35px] outline-0 font-700 text-[3rem] text-white hover:-translate-y-[20px] transition-all cursor-pointer"
                         >
                             Изменить роль
                         </button>

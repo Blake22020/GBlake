@@ -10,6 +10,7 @@ import Search from "./pages/Search";
 import Likes from "./pages/Likes";
 import Edit from "./pages/Edit";
 import AdminPanel from "./pages/AdminPanel";
+import Followings from "./pages/Followings";
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/likes" element={<Likes />} />
             <Route path="/edit" element={<Edit />} />
             <Route path="/admin" element={<AdminPanel />} />
+            <Route path="/followings" element={<Followings />} />
 
             <Route path="*" element={<NotFound />} />
         </Routes>

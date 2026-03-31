@@ -40,7 +40,12 @@ function LoginNavbar({ open }: any) {
                 Создать
             </button>
             <div className="flex flex-col gap-[16px] buttons">
-                <button className="flex justify-center items-center gap-[8px] bg-bg-contactButton hover:bg-bg-contactButtonHover px-0 py-[10px] border-0 rounded-[25px] w-full text-[1.3rem] text-white max-[900px]:text-[1rem] text-center no-underline hover:translate-y-[-5px] duration-200 cursor-pointer">
+                <button
+                    className="flex justify-center items-center gap-[8px] bg-bg-contactButton hover:bg-bg-contactButtonHover px-0 py-[10px] border-0 rounded-[25px] w-full text-[1.3rem] text-white max-[900px]:text-[1rem] text-center no-underline hover:translate-y-[-5px] duration-200 cursor-pointer"
+                    onClick={() => {
+                        navigate("/followings");
+                    }}
+                >
                     <svg
                         width="24"
                         height="24"
@@ -78,6 +83,14 @@ function LoginNavbar({ open }: any) {
                     className="flex justify-center items-center gap-[8px] bg-bg-contactButton hover:bg-bg-contactButtonHover px-0 py-[10px] border-0 rounded-[25px] w-full text-[1.3rem] text-white max-[900px]:text-[1rem] text-center no-underline hover:translate-y-[-5px] duration-200 cursor-pointer"
                 >
                     Лайки
+                </button>
+                <button
+                    onClick={() => {
+                        navigate("/admin");
+                    }}
+                    className="flex justify-center items-center gap-[8px] bg-bg-contactButton hover:bg-bg-contactButtonHover px-0 py-[10px] border-0 rounded-[25px] w-full text-[1.3rem] text-white max-[900px]:text-[1rem] text-center no-underline hover:translate-y-[-5px] duration-200 cursor-pointer"
+                >
+                    Админ панель
                 </button>
             </div>
             <h1 className="text-[1.6rem] text-white">Контакты</h1>
