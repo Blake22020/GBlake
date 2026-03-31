@@ -10,6 +10,7 @@ function LoginHeader({ openFunction, open }: Props) {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const [inputValue, setInputValue] = useState(searchParams.get("q") || "");
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
 
     const handleSearch = () => {
         if (inputValue.trim()) {
@@ -22,29 +23,34 @@ function LoginHeader({ openFunction, open }: Props) {
     }, [searchParams]);
 
     return (
-        <header className="top-0 right-0 left-0 z-[99] fixed flex justify-between items-center max-[600px]:gap-[10px] bg-bg-elevated px-[30px] max-[600px]:px-[15px] max-[900px]:min-[600px]:px-[20px] py-[10px] border-white/25 border-b-2 font-['Montserrat'] text-white login-header">
-            <div className="flex items-center gap-[20px] cursor-pointer title">
+        <header className="fixed top-0 left-0 right-0 flex items-center justify-between border-b-2 border-white/20 bg-bg-elevated px-4 py-2.5 text-white z-[99] sm:px-5 md:px-[30px]">
+            <div
+                className={`items-center gap-5 ${isSearchOpen ? "hidden" : "flex"}`}
+            >
                 <div
-                    className="hidden max-[600px]:flex flex-col gap-[5px] h-full burger"
-                    onClick={() => openFunction()}
+                    className="flex cursor-pointer flex-col gap-1.25 sm:hidden"
+                    onClick={openFunction}
                 >
                     <div
-                        className={`bg-white h-[5px] w-[30px] rounded-[10px] transition-all duration-200 ease-in-out ${open ? "translate-y-[10px] rotate-[135deg]" : ""}`}
+                        className={`h-[5px] w-[30px] rounded-full bg-white transition-transform duration-200 ${open ? "translate-y-[10px] rotate-[135deg]" : ""}`}
                     ></div>
                     <div
-                        className={`bg-white h-[5px] w-[30px] rounded-[10px] transition-all duration-200 ease-in-out ${open ? "opacity-0" : ""}`}
+                        className={`h-[5px] w-[30px] rounded-full bg-white transition-opacity duration-200 ${open ? "opacity-0" : ""}`}
                     ></div>
                     <div
-                        className={`bg-white h-[5px] w-[30px] rounded-[10px] transition-all duration-200 ease-in-out ${open ? "-translate-y-[10px] rotate-45" : ""}`}
+                        className={`h-[5px] w-[30px] rounded-full bg-white transition-transform duration-200 ${open ? "-translate-y-[10px] -rotate-[135deg]" : ""}`}
                     ></div>
                 </div>
-                <h1 className="text-[2rem] max-[600px]:text-[1.4rem] max-[900px]:min-[600px]:text-[1.7rem]">
+                <h1 className="text-[1.4rem] font-medium sm:text-[1.7rem] md:text-[2rem]">
                     GBlake
                 </h1>
             </div>
-            <div className="max-[600px]:hidden flex items-center gap-[4px] bg-white/20 autofill:shadow-[inset_0_0_0_1000px_#0b0c10] focus:shadow-none autofill:[-webkit-text-fill-color:white] p-[5px] rounded-[25px] focus:outline-none focus:ring-0 w-[500px] max-[900px]:min-[600px]:w-[300px] h-fit search-bar">
+
+            <div
+                className={`items-center gap-1 rounded-full bg-white/20 px-[5px] py-[5px] transition-all duration-200 md:flex ${isSearchOpen ? "flex w-[95%]" : "hidden w-[300px] md:w-[500px]"}`}
+            >
                 <svg
-                    className="fill-white search-icon"
+                    className="fill-white"
                     width="24"
                     height="24"
                     xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +64,7 @@ function LoginHeader({ openFunction, open }: Props) {
                     </g>
                 </svg>
                 <input
-                    className="bg-transparent border-0 outline-none w-full max-[600px]:w-[160px] max-[900px]:min-[600px]:w-250px h-fit text-[1rem] text-white max-[600px]:text-[0.75rem] max-[900px]:min-600px[]:text-[0.9rem] placeholder:text-white/50 search-input"
+                    className="w-full border-none bg-transparent text-[0.85rem] text-white outline-none placeholder:text-white/50 focus:ring-0 sm:text-[0.9rem] md:text-base px-1"
                     type="text"
                     placeholder="Поиск в GBlake"
                     value={inputValue}
@@ -70,29 +76,13 @@ function LoginHeader({ openFunction, open }: Props) {
                     }}
                 />
             </div>
-            <div className="flex items-center gap-[14px] mobileIcon">
-                <svg
-                    onClick={() => {
-                        const title = document.querySelector(
-                            ".login-header .title",
-                        ) as HTMLElement;
-                        const mobileIcon = document.querySelector(
-                            ".login-header .mobileIcon",
-                        ) as HTMLElement;
-                        const closeIcon = document.querySelector(
-                            ".login-header .closeIcon",
-                        ) as HTMLElement;
-                        const searchBar = document.querySelector(
-                            ".login-header .search-bar",
-                        ) as HTMLElement;
 
-                        searchBar.style.display = "flex";
-                        searchBar.style.width = "95%";
-                        title.style.display = "none";
-                        mobileIcon.style.display = "none";
-                        closeIcon.style.display = "block";
-                    }}
-                    className="hidden max-[600px]:block fill-white w-[24px] h-[24px] cursor-pointer search-icon"
+            <div
+                className={`items-center gap-3.5 ${isSearchOpen ? "hidden" : "flex"}`}
+            >
+                <svg
+                    onClick={() => setIsSearchOpen(true)}
+                    className="cursor-pointer fill-white md:hidden"
                     width="24"
                     height="24"
                     xmlns="http://www.w3.org/2000/svg"
@@ -107,63 +97,50 @@ function LoginHeader({ openFunction, open }: Props) {
                 </svg>
                 <a
                     href="https://gblake.ru/users/"
-                    className="rounded-[50%] w-[32px] h-[32px] object-cover cursor-pointer"
+                    className="block h-8 w-8 overflow-hidden rounded-full"
                 >
                     {localStorage.getItem("avatar") ? (
                         <img
+                            className="h-full w-full object-cover"
                             src={
                                 process.env.REACT_APP_API_URL +
                                 "/uploads/" +
                                 localStorage.getItem("avatar")
                             }
-                            className="w-[32px] h-[32px]"
                             alt=""
                         />
                     ) : (
                         <img
+                            className="h-full w-full object-cover"
                             src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                             alt=""
                         />
                     )}
                 </a>
             </div>
-            <svg
-                onClick={() => {
-                    const title = document.querySelector(
-                        ".login-header .title",
-                    ) as HTMLElement;
-                    const mobileIcon = document.querySelector(
-                        ".login-header .mobileIcon",
-                    ) as HTMLElement;
-                    const closeIcon = document.querySelector(
-                        ".login-header .closeIcon",
-                    ) as HTMLElement;
-                    const searchBar = document.querySelector(
-                        ".login-header .search-bar",
-                    ) as HTMLElement;
 
-                    searchBar.style.display = "none";
-                    title.style.display = "flex";
-                    searchBar.style.width = "300px";
-                    mobileIcon.style.display = "flex";
-                    closeIcon.style.display = "none";
-                }}
-                className="hidden fill-white w-[24px] h-[24px] cursor-pointer closeIcon"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-            >
-                <g data-name="Layer 2">
-                    <g data-name="close">
-                        <rect
-                            width="24"
-                            height="24"
-                            transform="rotate(180 12 12)"
-                            opacity="0"
-                        />
-                        <path d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
+            {isSearchOpen && (
+                <svg
+                    onClick={() => setIsSearchOpen(false)}
+                    className="cursor-pointer fill-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                >
+                    <g data-name="Layer 2">
+                        <g data-name="close">
+                            <rect
+                                width="24"
+                                height="24"
+                                transform="rotate(180 12 12)"
+                                opacity="0"
+                            />
+                            <path d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
+                        </g>
                     </g>
-                </g>
-            </svg>
+                </svg>
+            )}
         </header>
     );
 }
