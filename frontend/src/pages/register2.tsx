@@ -83,8 +83,10 @@ function Register2() {
             await registerRequest2({ visualName: name, bio: bio }, token);
             await uploadAvatar(avatar, token);
             nvaigate("/");
-        } catch (error) {
-            alert("Ошибка при сохранении");
+        } catch (error: any) {
+            const errorMessage =
+                error?.response?.data?.message || "Ошибка при сохранении";
+            alert(errorMessage);
         }
     }
 

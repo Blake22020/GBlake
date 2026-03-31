@@ -71,7 +71,8 @@ router.patch("/register2", auth, async (req: Request, res: Response) => {
         await user.save();
 
         res.json(formatUser(user));
-    } catch {
+    } catch (err) {
+        console.error("Error in PATCH /api/register2:", err);
         res.status(500).json({ message: "Server Error" })
     }
 })
@@ -122,8 +123,8 @@ function formatUser(u: any) {
         username: u.username,
         visualName: u.visualName,
         bio: u.bio,
-        followers: u.followers.length,
-        followings: u.followings.length
+        followers: u.followers ? u.followers.length : 0,
+        followings: u.followings ? u.followings.length : 0
     }
 }
 

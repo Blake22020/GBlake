@@ -16,10 +16,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, text }) => {
 
     return (
         <div
-            className="top-0 right-0 bottom-0.5 left-0 z-1000 fixed flex justify-center items-center bg-white/50 modal-window"
+            className="top-0 right-0 bottom-0.5 left-0 z-100000 fixed flex justify-center items-center bg-black/50 backdrop-blur-sm modal-window"
             onClick={handleOverlayClick}
         >
-            <div className="bg-white/90 shadow-[0_10px_30px_rgba(0,0,0,0.25)] max-[640px]:m-20px p-0 rounded-[12px] w-[90%] max-[640px]:w-[95%] max-w-[500px] max-h-[80vh] overflow-y-auto text-white modal">
+            <div className="bg-bg-primary shadow-[0_0_100px_#6E5BFF] max-[640px]:m-20px p-0 rounded-[12px] w-[90%] max-[640px]:w-[95%] max-w-[500px] max-h-[80vh] overflow-y-auto text-white modal">
                 <div className="flex justify-between items-center px-[24px] max-[640px]:px-[20px] py-[20px] max-[640px]:py-[16px] border-[#3d3d3f] border-b modal-header">
                     <h2 className="m-0 text-[1.25rem] text-600">{title}</h2>
                     <button

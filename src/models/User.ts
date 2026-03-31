@@ -30,7 +30,7 @@ const UserSchema = new Schema<IUser>({
     },
     bio: {
         type: String,
-        minlength: 3,
+        minlength: 0,
         maxlength: 80,
         default: "..."
     },

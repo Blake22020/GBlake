@@ -7,8 +7,13 @@ import fs from "fs";
 
 const router = Router();
 
+const uploadsDir = path.join(process.cwd(), "uploads");
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
 const upload = multer({
-    dest: "uploads/",
+    dest: uploadsDir,
 });
 
 
@@ -33,7 +38,8 @@ router.get("/:id", async (req: Request, res: Response) => {
             posts: user.posts,
             role: user.role
         });
-    } catch {
+    } catch (err) {
+        console.error("Error in GET /api/users/:id:", err);
         res.status(500).send("Server Error");
     }
 })
@@ -60,7 +66,8 @@ router.patch("/me", auth, async (req: Request, res: Response) => {
         await user.save();
 
         res.json(formatUser(user));
-    } catch {
+    } catch (err) {
+        console.error("Error in PATCH /api/users/me:", err);
         res.status(500).json({ message: "Server Error" });
     }
 })
@@ -177,8 +184,8 @@ function formatUser(u: any) {
         username: u.username,
         visualName: u.visualName,
         bio: u.bio,
-        followers: u.followers.length,
-        followings: u.followings.length
+        followers: u.followers ? u.followers.length : 0,
+        followings: u.followings ? u.followings.length : 0
     }
 }
 

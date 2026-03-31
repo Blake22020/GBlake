@@ -1,35 +1,3 @@
-[INFO] 11:06:13 ts-node-dev ver. 2.0.0 (using ts-node ver. 10.9.2, typescript ver. 5.9.3)
-DB ERROR:  MongooseServerSelectionError: connect ECONNREFUSED 127.0.0.1:27017
-    at _handleConnectionErrors (/home/blake/bin/Gblake/node_modules/mongoose/lib/connection.js:1169:11)
-    at NativeConnection.openUri (/home/blake/bin/Gblake/node_modules/mongoose/lib/connection.js:1100:11)
-    at connectDB (/home/blake/bin/Gblake/src/config/db.ts:6:22)
-    at startServer (/home/blake/bin/Gblake/src/server.ts:45:3) {
-  errorLabelSet: Set(0) {},
-  reason: TopologyDescription {
-    type: 'Unknown',
-    servers: Map(1) { '127.0.0.1:27017' => [ServerDescription] },
-    stale: false,
-    compatible: true,
-    heartbeatFrequencyMS: 10000,
-    localThresholdMS: 15,
-    setName: null,
-    maxElectionId: null,
-    maxSetVersion: null,
-    commonWireVersion: 0,
-    logicalSessionTimeoutMinutes: null
-  },
-  code: undefined,
-  cause: TopologyDescription {
-    type: 'Unknown',
-    servers: Map(1) { '127.0.0.1:27017' => [ServerDescription] },
-    stale: false,
-    compatible: true,
-    heartbeatFrequencyMS: 10000,
-    localThresholdMS: 15,
-    setName: null,
-    maxElectionId: null,
-    maxSetVersion: null,
-    commonWireVersion: 0,
-    logicalSessionTimeoutMinutes: null
-  }
-}
+[INFO] 12:53:53 ts-node-dev ver. 2.0.0 (using ts-node ver. 10.9.2, typescript ver. 5.9.3)
+MongoDB Connected: 127.0.0.1 =)
+Server listening on 3000
