@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import LikeIcon from "./icons/Like/LikeIcon";
 import LikedIcon from "./icons/Like/LikedIcon";
 import { likePost } from "../services/api";
-import Modal from "./Modal";
 import toast from "react-hot-toast";
 
 interface PostInterface {
@@ -67,13 +66,6 @@ function timeAgo(date: Date): string {
 }
 
 function Post(post: PostInterface) {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalData, setModalData] = useState({ title: "", text: "" });
-    const openModal = (title: string, text: string) => {
-        setModalData({ title, text });
-        setIsModalOpen(true);
-    };
-
     const [liked, setLiked] = useState(!!post.liked);
     const [likesCount, setLikesCount] = useState(post.likes);
 
@@ -87,15 +79,12 @@ function Post(post: PostInterface) {
             const res = await likePost(post._id, token);
 
             if (!res) {
-                openModal(
-                    "Не удалось лайкнуть",
-                    "Сервер не ответил или вернул ошибку.",
-                );
+                toast.error("Сервер не ответил или вернул ошибку.");
                 return;
             }
 
             if (res.likes === undefined || res.likes === null) {
-                openModal("Не удалось лайкнуть", "Сервер не ответил");
+                toast.error("Сервер не ответил");
                 return;
             }
 
@@ -105,7 +94,7 @@ function Post(post: PostInterface) {
                 error?.response?.data?.message ||
                 error.message ||
                 "Неизвестная ошибка";
-            openModal("Ошибка. Не удалось лайкнуть", errMsg);
+            toast.error("Ошибка. Не удалось лайкнуть" + errMsg);
         }
     };
 
@@ -154,12 +143,6 @@ function Post(post: PostInterface) {
                     </button>
                 </div>
             </div>
-            <Modal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                title={modalData.title}
-                text={modalData.text}
-            />
         </article>
     );
 }

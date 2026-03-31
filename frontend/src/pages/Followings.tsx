@@ -49,7 +49,7 @@ function Followings() {
         };
 
         request();
-    }, []);
+    }, [navigate]);
 
     return (
         <div className="flex flex-col pt-[65px] max-[900px]:pt-[50px] pb-[110px] pl-[200px] max-[600px]:pl-0 max-[900px]:pl-[200px] w-screen object-cover FollowingsPage">

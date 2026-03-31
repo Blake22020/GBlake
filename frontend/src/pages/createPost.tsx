@@ -21,9 +21,6 @@ function CreatePost() {
 
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalTitle, setModalTitle] = useState("");
-    const [modalText, setModalText] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
     const validateForm = () => {

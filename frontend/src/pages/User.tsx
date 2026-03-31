@@ -5,7 +5,6 @@ import MainNavbarHeader from "../layouts/mainNavbarHeader";
 import Post from "../components/Post";
 import { useEffect, useState } from "react";
 import { followUser, checkFollowStatus } from "../services/api";
-import Modal from "../components/Modal";
 import { setMeta } from "../services/description";
 import toast from "react-hot-toast";
 
@@ -53,15 +52,6 @@ function statCard(stat: number, info: string) {
 
 function UserPage() {
     const navigate = useNavigate();
-
-    useEffect(() => {}, []);
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalData, setModalData] = useState({ title: "", text: "" });
-    const openModal = (title: string, text: string) => {
-        setModalData({ title, text });
-        setIsModalOpen(true);
-    };
 
     const [user, setUser] = useState<User | null>(null);
     const [isFollow, setIsFollow] = useState<boolean>(false);
@@ -215,12 +205,6 @@ function UserPage() {
                     ))}
                 </div>
             </div>
-            <Modal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                title={modalData.title}
-                text={modalData.text}
-            />
         </div>
     );
 }

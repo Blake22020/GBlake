@@ -52,7 +52,7 @@ function Edit() {
         };
 
         fetchUserData();
-    }, [navigate]);
+    }, [navigate, userData?.id]);
 
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

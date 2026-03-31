@@ -95,7 +95,7 @@ function LoginHeader({ openFunction, open }: Props) {
                         </g>
                     </g>
                 </svg>
-                <a
+                <button
                     onClick={() => {
                         navigate("/user/" + localStorage.getItem("id"));
                     }}
@@ -118,7 +118,7 @@ function LoginHeader({ openFunction, open }: Props) {
                             alt=""
                         />
                     )}
-                </a>
+                </button>
             </div>
 
             {isSearchOpen && (
