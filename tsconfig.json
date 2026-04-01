@@ -17,7 +17,7 @@
     "paths": {
       "*": ["*"]
     },
-    "typeRoots": ["./src/types/express/index.d.ts", "./node_modules/@types"],
+    "typeRoots": ["./node_modules/@types", "./src/types"],
     "useUnknownInCatchVariables": false
   },
   "include": ["src"]
