@@ -2,6 +2,28 @@ import axios from "axios";
 
 const BASE_URL = process.env.REACT_APP_API_URL || "";
 
+const apiClient = axios.create({
+    baseURL: BASE_URL,
+});
+
+export const setupInterceptors = (setIsLoading: (loading: boolean) => void) => {
+    apiClient.interceptors.request.use((config) => {
+        setIsLoading(true);
+        return config;
+    });
+
+    apiClient.interceptors.response.use(
+        (response) => {
+            setIsLoading(false);
+            return response;
+        },
+        (error) => {
+            setIsLoading(false);
+            return Promise.reject(error);
+        },
+    );
+};
+
 export async function loadPosts(token: string, page = 1) {
     try {
         const res = await axios.get(`${BASE_URL}/api/feed/`, {

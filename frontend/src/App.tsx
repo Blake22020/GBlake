@@ -12,10 +12,21 @@ import Edit from "./pages/Edit";
 import AdminPanel from "./pages/AdminPanel";
 import Followings from "./pages/Followings";
 import { Toaster } from "react-hot-toast";
+import LoadingBar from "./components/LoadingBar";
+import { LoadingProvider, useLoading } from "./context/LoadingContext";
+import { useEffect } from "react";
+import { setupInterceptors } from "./services/api";
 
-function App() {
+function AppContent() {
+    const { setIsLoading } = useLoading();
+
+    useEffect(() => {
+        setupInterceptors(setIsLoading);
+    }, [setIsLoading]);
+
     return (
         <>
+            <LoadingBar />
             <Routes>
                 <Route path="/" element={<MainPage />} />
                 <Route path="/login" element={<Login />} />
@@ -58,6 +69,14 @@ function App() {
                 }}
             />
         </>
+    );
+}
+
+function App() {
+    return (
+        <LoadingProvider>
+            <AppContent />
+        </LoadingProvider>
     );
 }
 
