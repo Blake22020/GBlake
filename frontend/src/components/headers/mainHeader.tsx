@@ -28,7 +28,7 @@ function MainHeader({ openFunction, open }: Props) {
                 className={`items-center gap-[5px] ${isSearchOpen ? "hidden" : "flex"}`}
             >
                 <div
-                    className="flex cursor-pointer flex-col gap-[5px] sm:hidden"
+                    className="flex cursor-pointer flex-col gap-[5px] xs:hidden"
                     onClick={openFunction}
                 >
                     <div
