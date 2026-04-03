@@ -99,7 +99,7 @@ function Post(post: PostInterface) {
     };
 
     return (
-        <article className="flex flex-col gap-[30px] bg-bg-contactButton mx-auto my-[25px] p-[20px] rounded-[35px] w-[700px] max-[1050px]:min-[900px]:w-550px max-[500px]:w-[90%] max-[600px]:min-[500px]:w-[400px] max-[750px]:min-[600px]:w-350px max-[900px]:min-[750px]:w-450px text-white post">
+        <article className="flex flex-col gap-[30px] bg-bg-contactButton mx-auto my-[25px] p-[20px] rounded-[35px] w-[700px] max-[1050px]:min-[900px]:w-[550px] max-[500px]:w-[90%] max-[600px]:min-[500px]:w-[400px] max-[750px]:min-[600px]:w-[350px] max-[900px]:min-[750px]:w-[450px] text-white post">
             <div className="flex justify-between items-center post__header">
                 <div className="flex items-start gap-[15px] h-fit post__header__title">
                     <a

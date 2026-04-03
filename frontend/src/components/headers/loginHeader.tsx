@@ -28,7 +28,7 @@ function LoginHeader({ openFunction, open }: Props) {
                 className={`items-center gap-5 ${isSearchOpen ? "hidden" : "flex"}`}
             >
                 <div
-                    className="flex cursor-pointer flex-col gap-1.25 sm:hidden"
+                    className="flex cursor-pointer flex-col gap-[5px] sm:hidden"
                     onClick={openFunction}
                 >
                     <div

@@ -56,7 +56,7 @@ function MainPage() {
             ) : (
                 <MainNavbarHeader />
             )}
-            <main className="flex flex-col pt-[65px] max-[900px]:pt-[50px] pb-[110px] pl-[200px] max-[600px]:pl-0 max-[900px]:min-[600px]:pl-[200px] w-[100dvw] object-cover">
+            <main className="flex flex-col pt-[50px] nav:pt-[65px] pb-[110px] w-full pl-[0px] xs:pl-[200px] ">
                 {posts.map((post: PostInterface) => (
                     <Post
                         _id={post._id}

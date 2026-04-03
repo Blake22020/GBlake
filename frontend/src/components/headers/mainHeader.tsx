@@ -24,16 +24,31 @@ function MainHeader({ openFunction, open }: Props) {
 
     return (
         <header className="fixed top-0 left-0 right-0 flex items-center justify-between border-b-2 border-white/20 bg-bg-elevated px-4 py-2.5 text-white z-[99] sm:px-5 md:px-[30px]">
-            <div className={`items-center gap-5 ${isSearchOpen ? "hidden" : "flex"}`}>
-                <div className="flex cursor-pointer flex-col gap-1.25 sm:hidden" onClick={openFunction}>
-                    <div className={`h-[5px] w-[30px] rounded-full bg-white transition-transform duration-200 ${open ? "translate-y-[10px] rotate-[135deg]" : ""}`}></div>
-                    <div className={`h-[5px] w-[30px] rounded-full bg-white transition-opacity duration-200 ${open ? "opacity-0" : ""}`}></div>
-                    <div className={`h-[5px] w-[30px] rounded-full bg-white transition-transform duration-200 ${open ? "-translate-y-[10px] -rotate-[135deg]" : ""}`}></div>
+            <div
+                className={`items-center gap-[5px] ${isSearchOpen ? "hidden" : "flex"}`}
+            >
+                <div
+                    className="flex cursor-pointer flex-col gap-[5px] sm:hidden"
+                    onClick={openFunction}
+                >
+                    <div
+                        className={`h-[5px] w-[30px] rounded-full bg-white transition-transform duration-200 ${open ? "translate-y-[10px] rotate-[135deg]" : ""}`}
+                    ></div>
+                    <div
+                        className={`h-[5px] w-[30px] rounded-full bg-white transition-opacity duration-200 ${open ? "opacity-0" : ""}`}
+                    ></div>
+                    <div
+                        className={`h-[5px] w-[30px] rounded-full bg-white transition-transform duration-200 ${open ? "-translate-y-[10px] -rotate-[135deg]" : ""}`}
+                    ></div>
                 </div>
-                <h1 className="text-[1.4rem] font-medium sm:text-[1.7rem] md:text-[2rem]">GBlake</h1>
+                <h1 className="text-[1.4rem] font-medium sm:text-[1.7rem] md:text-[2rem]">
+                    GBlake
+                </h1>
             </div>
 
-            <div className={`items-center gap-1 rounded-full bg-white/20 px-[5px] py-[5px] transition-all duration-200 md:flex ${isSearchOpen ? "flex w-[95%]" : "hidden w-[300px] md:w-[500px]"}`}>
+            <div
+                className={`items-center gap-1 rounded-full bg-white/20 px-[5px] py-[5px] transition-all duration-200 md:flex ${isSearchOpen ? "flex w-[95%]" : "hidden w-[300px] md:w-[500px]"}`}
+            >
                 <svg
                     className="fill-white"
                     width="24"
@@ -62,7 +77,9 @@ function MainHeader({ openFunction, open }: Props) {
                 />
             </div>
 
-            <div className={`items-center gap-3.5 ${isSearchOpen ? "hidden" : "flex"}`}>
+            <div
+                className={`items-center gap-3.5 ${isSearchOpen ? "hidden" : "flex"}`}
+            >
                 <svg
                     onClick={() => setIsSearchOpen(true)}
                     className="cursor-pointer fill-white md:hidden"
