@@ -57,7 +57,7 @@ function MainPage() {
                 <MainNavbarHeader />
             )}
             <main className="flex flex-col pt-[50px] nav:pt-[65px] pb-[110px] w-full pl-[0px] xs:pl-[200px] ">
-                {/* {posts.map((post: PostInterface) => (
+                {posts.map((post: PostInterface) => (
                     <Post
                         _id={post._id}
                         title={post.title}
@@ -67,16 +67,7 @@ function MainPage() {
                         liked={false}
                         author={post.author}
                     />
-                ))} */}
-                <Post
-                    _id={"123"}
-                    title={"123"}
-                    text={"123"}
-                    createdAt={new Date()}
-                    likes={123}
-                    liked={false}
-                    author={{ _id: "123", username: "123", avatar: "123" }}
-                />
+                ))}
             </main>
         </div>
     );
