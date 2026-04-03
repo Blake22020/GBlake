@@ -99,7 +99,7 @@ function Post(post: PostInterface) {
     };
 
     return (
-        <article className="flex flex-col gap-[30px] bg-bg-contactButton mx-auto my-[25px] p-[20px] rounded-[35px] w-[700px] max-[1050px]:min-[900px]:w-[550px] max-[500px]:w-[90%] max-[600px]:min-[500px]:w-[400px] max-[750px]:min-[600px]:w-[350px] max-[900px]:min-[750px]:w-[450px] text-white post">
+        <article className="flex flex-col gap-[30px] bg-bg-contactButton mx-auto my-[25px] p-[20px] rounded-[35px] w-[90%] min-[500px]:w-[400px] min-[600px]:w-[350px] min-[750px]:w-[450px] min-[900px]:w-[550px] min-[1050px]:w-[700px] text-white post">
             <div className="flex justify-between items-center post__header">
                 <div className="flex items-start gap-[15px] h-fit post__header__title">
                     <a
@@ -124,11 +124,11 @@ function Post(post: PostInterface) {
                     {timeAgo(post.createdAt)}
                 </p>
             </div>
-            <div className="flex flex-col gap-[10px] max-[1050px]:min-[750px]:gap-[40px] max-[750px]:gap-[10px] post__body">
-                <h1 className="font-bold text-[2rem] max-[750px]:text-[1.5rem] max-[900px]:min-[750px]:text-[1.7rem]">
+            <div className="flex flex-col gap-[10px] min-[750px]:gap-[40px] min-[1050px]:gap-[10px] post__body">
+                <h1 className="font-bold text-[1.5rem] min-[750px]:text-[1.7rem] min-[900px]:text-[2rem]">
                     {post.title}
                 </h1>
-                <p className="text-[1.4rem] max-[1050px]:min-[750px]:text-[1.3rem] max-[500px]:text-[1.1rem] max-[750px]:min-[500px]:text-[1.2rem]">
+                <p className="text-[1.1rem] min-[500px]:text-[1.2rem] min-[750px]:text-[1.3rem] min-[1050px]:text-[1.4rem]">
                     {post.text}
                 </p>
             </div>
