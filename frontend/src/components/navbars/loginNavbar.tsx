@@ -92,6 +92,15 @@ function LoginNavbar({ open }: any) {
                 >
                     Админ панель
                 </button>
+                <button
+                    onClick={() => {
+                        localStorage.clear();
+                        window.location.reload();
+                    }}
+                    className="flex justify-center items-center gap-[8px] bg-red-600/50 hover:bg-red-600/80 px-0 py-[10px] border-0 rounded-[25px] w-full text-[1.3rem] text-white max-[900px]:text-[1rem] text-center no-underline hover:translate-y-[-5px] duration-200 cursor-pointer"
+                >
+                    Выйти / Очистить
+                </button>
             </div>
             <h1 className="text-[1.6rem] text-white">Контакты</h1>
             <div className="flex flex-col gap-[28px] p-0 w-full h-fit font-[300] contacts">

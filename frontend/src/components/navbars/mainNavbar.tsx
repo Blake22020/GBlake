@@ -39,6 +39,15 @@ function MainNavbar({ open }: any) {
                 </svg>
                 Создать
             </button>
+            <button
+                onClick={() => {
+                    localStorage.clear();
+                    window.location.reload();
+                }}
+                className="flex justify-center items-center gap-[8px] bg-red-600/50 hover:bg-red-600/80 p-[10px] border-0 rounded-[25px] w-full h-fit font-[500] text-[1.3rem] text-white max-[900px]:min-[600px]:text-[1rem] transition-all hover:translate-y-[-5px] duration-200 cursor-pointer"
+            >
+                Очистить кэш
+            </button>
             <h1 className="text-[1.6rem] text-white">Контакты</h1>
             <div className="flex flex-col gap-[28px] p-0 w-full h-fit font-[300] contacts">
                 <a
