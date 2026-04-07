@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setMeta } from "../services/description";
 import toast from "react-hot-toast";
+import Input from "../components/Input";
 
 function Register() {
     const navigate = useNavigate();
@@ -128,33 +129,33 @@ function Register() {
                         className="flex flex-col gap-[40px] max-[430px]:gap-[15px] max-[600px]:gap-[20px] register-form"
                         onSubmit={handleSubmit}
                     >
-                        <input
+                        <Input
                             placeholder="Уникальное имя"
                             id="username-input"
                             type="text"
                             onChange={handleChange}
-                            className="bg-white/10 px-[25px] max-[900px]:px-[20px] py-[15px] max-[900px]:py-[10px] border-0 rounded-[35px] outline-none font-[500] text-[2rem] text-white max-[600px]:text-[1rem] max-[900px]:text-[1.5rem]"
+                            className="px-[25px] max-[900px]:px-[20px] py-[15px] max-[900px]:py-[10px] text-[2rem] max-[600px]:text-[1rem] max-[900px]:text-[1.5rem]"
                         />
-                        <input
+                        <Input
                             placeholder="Почта"
                             id="email-input"
                             type="email"
                             onChange={handleChange}
-                            className="bg-white/10 px-[25px] max-[900px]:px-[20px] py-[15px] max-[900px]:py-[10px] border-0 rounded-[35px] outline-none font-[500] text-[2rem] text-white max-[600px]:text-[1rem] max-[900px]:text-[1.5rem]"
+                            className="px-[25px] max-[900px]:px-[20px] py-[15px] max-[900px]:py-[10px] text-[2rem] max-[600px]:text-[1rem] max-[900px]:text-[1.5rem]"
                         />
-                        <input
+                        <Input
                             placeholder="Пароль"
                             id="password-input"
                             type="password"
                             onChange={handleChange}
-                            className="bg-white/10 px-[25px] max-[900px]:px-[20px] py-[15px] max-[900px]:py-[10px] border-0 rounded-[35px] outline-none font-[500] text-[2rem] text-white max-[600px]:text-[1rem] max-[900px]:text-[1.5rem]"
+                            className="px-[25px] max-[900px]:px-[20px] py-[15px] max-[900px]:py-[10px] text-[2rem] max-[600px]:text-[1rem] max-[900px]:text-[1.5rem]"
                         />
-                        <input
+                        <Input
                             placeholder="Повторите пароль"
                             id="repeatPassword-input"
                             type="password"
                             onChange={handleChange}
-                            className="bg-white/10 px-[25px] max-[900px]:px-[20px] py-[15px] max-[900px]:py-[10px] border-0 rounded-[35px] outline-none font-[500] text-[2rem] text-white max-[600px]:text-[1rem] max-[900px]:text-[1.5rem]"
+                            className="px-[25px] max-[900px]:px-[20px] py-[15px] max-[900px]:py-[10px] text-[2rem] max-[600px]:text-[1rem] max-[900px]:text-[1.5rem]"
                         />
                         <button
                             type="submit"

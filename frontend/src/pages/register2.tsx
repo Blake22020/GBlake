@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { setMeta } from "../services/description";
 import toast from "react-hot-toast";
+import Input from "../components/Input";
 
 function Register2() {
     const navigate = useNavigate();
@@ -145,14 +146,14 @@ function Register2() {
                         }}
                     >
                         <div className="flex flex-col gap-[30px] max-[750px]:gap-[10px] addInputs">
-                            <input
+                            <Input
                                 placeholder="Отображаемое имя"
                                 value={name}
                                 onChange={(e) => {
                                     setName(e.target.value);
                                 }}
                                 maxLength={40}
-                                className="bg-white/10 hover:bg-white/15 focus:bg-white/20 max-[750px]:p-[15px] px-[25px] py-[15px] border-0 rounded-[35px] max-[750px]:rounded-[25px] outline-none w-full font-['Montserrat',_sans-serif] font-[500] text-[2rem] text-white max-[750px]:text-[1.2rem] max-[900px]:text-[1.5rem] resize-none"
+                                className="max-[750px]:p-[15px] px-[25px] py-[15px] text-[2rem] max-[750px]:text-[1.2rem] max-[900px]:text-[1.5rem] resize-none"
                             />
                             <textarea
                                 placeholder="Описание"
