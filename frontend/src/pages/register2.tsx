@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { setMeta } from "../services/description";
 import toast from "react-hot-toast";
 import Input from "../components/Input";
+import Button from "../components/Button";
 
 function Register2() {
     const navigate = useNavigate();
@@ -164,12 +165,13 @@ function Register2() {
                                 className="bg-white/10 hover:bg-white/15 focus:bg-white/20 max-[750px]:p-[15px] px-[25px] py-[15px] border-0 rounded-[35px] max-[750px]:rounded-[25px] outline-none w-full font-['Montserrat',_sans-serif] font-[500] text-[2rem] text-white max-[750px]:text-[1.2rem] max-[900px]:text-[1.5rem] resize-none"
                             />
                         </div>
-                        <button
+                        <Button
                             type="submit"
-                            className="bg-primary-600 hover:bg-primary-500 p-[20px] max-[750px]:p-[15px] border-0 rounded-[35px] outline-none text-[2rem] text-white max-[900px]:text-[1.5rem] text-center cursor-pointer"
+                            onClick={() => {}}
+                            className="p-[20px] max-[750px]:p-[15px] text-[2rem] max-[900px]:text-[1.5rem]"
                         >
                             Создать профиль
-                        </button>
+                        </Button>
                     </form>
                 </div>
             </div>

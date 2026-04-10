@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { setMeta } from "../services/description";
 import toast from "react-hot-toast";
 import Input from "../components/Input";
+import Button from "../components/Button";
 
 function Register() {
     const navigate = useNavigate();
@@ -157,12 +158,13 @@ function Register() {
                             onChange={handleChange}
                             className="px-[25px] max-[900px]:px-[20px] py-[15px] max-[900px]:py-[10px] text-[2rem] max-[600px]:text-[1rem] max-[900px]:text-[1.5rem]"
                         />
-                        <button
+                        <Button
                             type="submit"
-                            className="bg-primary-600 p-[20px] max-[900px]:px-[20px] max-[900px]:py-[10px] border-0 outline-none text-[2rem] text-white max-[600px]:text-[1rem] max-[900px]:text-[1.5rem] text-center cursor-pointer rounded-[35px]"
+                            onClick={() => {}}
+                            className="p-[20px] max-[900px]:p-[15px] text-[2rem] max-[600px]:text-[1rem] max-[900px]:text-[1.5rem] text-center cursor-pointer"
                         >
                             Регистрация
-                        </button>
+                        </Button>
                     </form>
                 </div>
             </div>

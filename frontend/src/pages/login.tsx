@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { setMeta } from "../services/description";
 import toast from "react-hot-toast";
 import Input from "../components/Input";
+import Button from "../components/Button";
 
 function Login() {
     const navigate = useNavigate();
@@ -109,12 +110,13 @@ function Login() {
                             onChange={handleChange}
                             className="px-[25px] max-[900px]:px-[20px] py-[15px] max-[900px]:py-[10px] text-[2rem] max-[600px]:text-[1rem] max-[900px]:text-[1.5rem]"
                         />
-                        <button
+                        <Button
                             type="submit"
-                            className="bg-primary-600 hover:bg-primary-600/75 p-[20px] max-[900px]:p-[15px] border-0 rounded-[35px] outline-none text-[2rem] text-white max-[600px]:text-[1rem] max-[900px]:text-[1.5rem] text-center cursor-pointer"
+                            onClick={() => {}}
+                            className="p-[20px] max-[900px]:p-[15px] text-[2rem] max-[600px]:text-[1rem] max-[900px]:text-[1.5rem] text-center cursor-pointer"
                         >
                             Войти
-                        </button>
+                        </Button>
                     </form>
                 </div>
             </div>
