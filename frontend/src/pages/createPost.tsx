@@ -6,6 +6,7 @@ import { setMeta } from "../services/description";
 import toast from "react-hot-toast";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import Textarea from "../components/Textarea";
 
 function CreatePost() {
     const navigate = useNavigate();
@@ -150,13 +151,13 @@ function CreatePost() {
                                 maxLength={100}
                                 className="px-[20px] min-[480px]:px-[25px] xs:px-[30px] nav:px-[40px] py-[10px] min-[480px]:py-[12px] xs:py-[15px] nav:py-[20px] text-[1.3rem] min-[480px]:text-[1.5rem] xs:text-[1.8rem] md:text-[2rem] nav:text-[2.5rem] lg:text-[3rem]"
                             />
-                            <textarea
+                            <Textarea
                                 placeholder="Текст"
                                 value={text}
                                 onChange={(e) => setText(e.target.value)}
                                 maxLength={5000}
                                 rows={6}
-                                className="bg-white/15 px-[20px] min-[480px]:px-[25px] xs:px-[30px] nav:px-[40px] py-[10px] min-[480px]:py-[12px] xs:py-[15px] nav:py-[20px] border-0 rounded-[20px] xs:rounded-[25px] nav:rounded-[35px] outline-none min-h-[150px] xs:min-h-[180px] md:min-h-[200px] nav:min-h-[250px] lg:min-h-[300px] text-[1rem] nav:text-[1.2rem] lg:text-[1.5rem] text-white hover:text-white/20 focus:text-white/25 placeholder:text-white/35 resize-none"
+                                className="px-[20px] min-[480px]:px-[25px] xs:px-[30px] nav:px-[40px] py-[10px] min-[480px]:py-[12px] xs:py-[15px] nav:py-[20px] text-[1rem] nav:text-[1.2rem] lg:text-[1.5rem]"
                             />
                         </div>
                         <Button
