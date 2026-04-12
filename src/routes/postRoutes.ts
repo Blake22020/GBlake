@@ -24,14 +24,14 @@ router.post("/", auth, async (req: Request, res: Response) => {
         const authorId = req.user!.id;
         if (!title || !text || !authorId) {
             return res.status(400).json({
-                error: "Не все данные перенесены",
+                message: "Не все данные перенесены",
             });
         }
 
         const author = await User.findById(authorId);
         if (!author) {
             return res.status(400).json({
-                error: "Пользователь не найден",
+                message: "Пользователь не найден",
             });
         }
 
@@ -53,7 +53,7 @@ router.post("/", auth, async (req: Request, res: Response) => {
         res.json(normalizePost(populatedPost));
     } catch (err) {
         res.status(400).json({
-            error: "Ошибка сервера",
+            message: "Ошибка сервера",
         });
     }
 });
@@ -66,7 +66,7 @@ router.get("/:id", async (req: Request, res: Response) => {
         );
         if (!post) {
             return res.status(404).json({
-                error: "Пост не найден",
+                message: "Пост не найден",
             });
         }
 
@@ -84,7 +84,7 @@ router.get("/:id", async (req: Request, res: Response) => {
         res.json(normalizePost(post));
     } catch (err) {
         res.status(500).json({
-            error: "Ошибка сервера",
+            message: "Ошибка сервера",
         });
     }
 });
@@ -94,13 +94,13 @@ router.delete("/:id", auth, async (req: Request, res: Response) => {
         const post = await Post.findById(req.params.id);
         if (!post) {
             return res.status(404).json({
-                error: "Пост не найден",
+                message: "Пост не найден",
             });
         }
 
         if (req.user!.id !== post.author.toString()) {
             return res.status(400).json({
-                error: "Нельзя удалить чужой пост",
+                message: "Нельзя удалить чужой пост",
             });
         }
 
@@ -127,7 +127,7 @@ router.delete("/:id", auth, async (req: Request, res: Response) => {
         });
     } catch (err) {
         res.status(500).json({
-            error: "Ошибка сервера",
+            message: "Ошибка сервера",
         });
     }
 });
@@ -139,7 +139,7 @@ router.get("/likes", auth, async (req: Request, res: Response) => {
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({
-                error: "Пользователь не найден",
+                message: "Пользователь не найден",
             });
         }
 
@@ -152,7 +152,7 @@ router.get("/likes", auth, async (req: Request, res: Response) => {
         res.json(posts.map(normalizePost));
     } catch (err) {
         res.status(500).json({
-            error: "Ошибка сервера",
+            message: "Ошибка сервера",
         });
     }
 });
@@ -164,7 +164,7 @@ router.get("/followings", auth, async (req: Request, res: Response) => {
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({
-                error: "Пользователь не найден",
+                message: "Пользователь не найден",
             });
         }
 
@@ -177,7 +177,7 @@ router.get("/followings", auth, async (req: Request, res: Response) => {
         res.json(posts.map(normalizePost));
     } catch (err) {
         res.status(500).json({
-            error: "Ошибка сервера",
+            message: "Ошибка сервера",
         });
     }
 });
@@ -188,7 +188,7 @@ router.post("/:id/like", auth, async (req: Request, res: Response) => {
         const post = await Post.findById(postId);
         if (!post) {
             return res.status(404).json({
-                error: "Пост не найден",
+                message: "Пост не найден",
             });
         }
         const userId = req.user!.id;
@@ -196,7 +196,7 @@ router.post("/:id/like", auth, async (req: Request, res: Response) => {
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({
-                error: "Пользователь не найден",
+                message: "Пользователь не найден",
             });
         }
         if (user.likes.some((id) => id.equals(post._id))) {
@@ -213,7 +213,7 @@ router.post("/:id/like", auth, async (req: Request, res: Response) => {
         res.json({ likes: post.likes });
     } catch (err) {
         res.status(500).json({
-            error: "Ошибка сервера",
+            message: "Ошибка сервера",
         });
     }
 });

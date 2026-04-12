@@ -16,7 +16,6 @@ const upload = multer({
     dest: uploadsDir,
 });
 
-
 router.get("/:id", async (req: Request, res: Response) => {
     try {
         const user = await User.findById(req.params.id)
@@ -36,14 +35,13 @@ router.get("/:id", async (req: Request, res: Response) => {
             followings: user.followings.length,
             avatar: user.avatar,
             posts: user.posts,
-            role: user.role
+            role: user.role,
         });
     } catch (err) {
         console.error("Error in GET /api/users/:id:", err);
-        res.status(500).send("Server Error");
+        res.status(500).json({ message: "Ошибка сервера" });
     }
-})
-
+});
 
 router.patch("/me", auth, async (req: Request, res: Response) => {
     try {
@@ -53,7 +51,7 @@ router.patch("/me", auth, async (req: Request, res: Response) => {
         if (!user) return res.status(404).send("User Not Found");
 
         if (username && username !== user.username) {
-            const exist = await User.findOne({ username })
+            const exist = await User.findOne({ username });
             if (exist) {
                 return res.status(409).send("Username already used");
             }
@@ -70,7 +68,7 @@ router.patch("/me", auth, async (req: Request, res: Response) => {
         console.error("Error in PATCH /api/users/me:", err);
         res.status(500).json({ message: "Server Error" });
     }
-})
+});
 
 router.get("/:id/follow", auth, async (req: Request, res: Response) => {
     try {
@@ -82,9 +80,12 @@ router.get("/:id/follow", auth, async (req: Request, res: Response) => {
         }
 
         const me = await User.findById(meId);
-        if (!me) return res.status(404).json({ message: "Ваш аккаунт не найден" });
+        if (!me)
+            return res.status(404).json({ message: "Ваш аккаунт не найден" });
 
-        const isFollowing = me.followings.some(id => id.toString() === targetId);
+        const isFollowing = me.followings.some(
+            (id) => id.toString() === targetId,
+        );
 
         res.json({ following: isFollowing });
     } catch {
@@ -102,22 +103,28 @@ router.post("/:id/follow", auth, async (req: Request, res: Response) => {
         }
 
         const me = await User.findById(meId);
-        if (!me) return res.status(404).json({ message: "Ваш аккаунт не найден" });
+        if (!me)
+            return res.status(404).json({ message: "Ваш аккаунт не найден" });
 
         const target = await User.findById(targetId);
-        if (!target) return res.status(404).json({ message: "Пользоватеь не найден" });
+        if (!target)
+            return res.status(404).json({ message: "Пользоватеь не найден" });
 
-        const already = me!.followings.some(id => id.toString() === targetId);
+        const already = me!.followings.some((id) => id.toString() === targetId);
         if (already) {
-            me!.followings = me!.followings.filter(id => id.toString() !== targetId);
-            target.followers = target.followers.filter(id => id.toString() !== meId);
+            me!.followings = me!.followings.filter(
+                (id) => id.toString() !== targetId,
+            );
+            target.followers = target.followers.filter(
+                (id) => id.toString() !== meId,
+            );
 
             await me!.save();
             await target.save();
 
             return res.json({
                 following: false,
-            })
+            });
         } else {
             me!.followings.push(targetId as any);
             target.followers.push(meId as any);
@@ -127,7 +134,7 @@ router.post("/:id/follow", auth, async (req: Request, res: Response) => {
 
             return res.json({
                 following: true,
-            })
+            });
         }
     } catch {
         res.status(500).json({ message: "Ошибка сервера" });
@@ -135,48 +142,65 @@ router.post("/:id/follow", auth, async (req: Request, res: Response) => {
 });
 
 router.get("/:id/followers", async (req: Request, res: Response) => {
-    const user = await User.findById(req.params.id).populate("followers", "username visualName avatar")
+    const user = await User.findById(req.params.id).populate(
+        "followers",
+        "username visualName avatar",
+    );
     if (!user) return res.status(404).send("User Not Found");
-    res.json(user.followers)
-})
+    res.json(user.followers);
+});
 
 router.get("/:id/followings", async (req: Request, res: Response) => {
-    const user = await User.findById(req.params.id).populate("followings", "username visualName avatar")
+    const user = await User.findById(req.params.id).populate(
+        "followings",
+        "username visualName avatar",
+    );
     if (!user) return res.status(404).send("User Not Found");
-    res.json(user.followings)
-})
+    res.json(user.followings);
+});
 
-router.post("/me/avatar", auth, upload.single("file"), async (req: Request, res: Response) => {
-    try {
-        const fileData = req.file;
-        if (!fileData) return res.status(400).send("Файл не загружен");
+router.post(
+    "/me/avatar",
+    auth,
+    upload.single("file"),
+    async (req: Request, res: Response) => {
+        try {
+            const fileData = req.file;
+            if (!fileData) return res.status(400).send("Файл не загружен");
 
-        const user = await User.findById(req.user?.id);
-        if (!user) return res.status(404).send("Пользователь не найден");
+            const user = await User.findById(req.user?.id);
+            if (!user) return res.status(404).send("Пользователь не найден");
 
-        if (user.avatar && !user.avatar.startsWith("http")) {
-            const oldPath = path.join(process.cwd(), "uploads", path.basename(user.avatar));
-            fs.unlink(oldPath, (err) => {
-                if (err) console.log("Не удалось удалить старую аватарку:", err.message);
+            if (user.avatar && !user.avatar.startsWith("http")) {
+                const oldPath = path.join(
+                    process.cwd(),
+                    "uploads",
+                    path.basename(user.avatar),
+                );
+                fs.unlink(oldPath, (err) => {
+                    if (err)
+                        console.log(
+                            "Не удалось удалить старую аватарку:",
+                            err.message,
+                        );
+                });
+            }
+
+            const newAvatarPath = "/uploads/" + fileData.filename;
+
+            user.avatar = newAvatarPath;
+            await user.save();
+
+            res.json({
+                message: "Аватар обновлён!",
+                avatar: newAvatarPath,
             });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: "Ошибка сервера" });
         }
-
-        const newAvatarPath = "/uploads/" + fileData.filename;
-
-        user.avatar = newAvatarPath;
-        await user.save();
-
-        res.json({
-            message: "Аватар обновлён!",
-            avatar: newAvatarPath,
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Ошибка сервера" });
-    }
-})
-
-
+    },
+);
 
 function formatUser(u: any) {
     return {
@@ -185,8 +209,8 @@ function formatUser(u: any) {
         visualName: u.visualName,
         bio: u.bio,
         followers: u.followers ? u.followers.length : 0,
-        followings: u.followings ? u.followings.length : 0
-    }
+        followings: u.followings ? u.followings.length : 0,
+    };
 }
 
 export default router;

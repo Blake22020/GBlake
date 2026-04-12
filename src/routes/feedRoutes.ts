@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { optionalAuth } from "../middleware/auth"
+import { optionalAuth } from "../middleware/auth";
 import Post from "../models/Post";
 import User from "../models/User";
 
@@ -16,9 +16,10 @@ router.get("/", optionalAuth, async (req: Request, res: Response) => {
             _id: post._id.toString(),
             author: post.author
                 ? {
-                    ...post.author,
-                    _id: post.author._id.toString(),
-                } : null,
+                      ...post.author,
+                      _id: post.author._id.toString(),
+                  }
+                : null,
         });
 
         if (!req.user) {
@@ -29,22 +30,27 @@ router.get("/", optionalAuth, async (req: Request, res: Response) => {
                 .limit(limit)
                 .lean();
 
-
-
             return res.json(posts.map(normalizePost));
         }
 
-        const user = await User.findById(req.user.id)
+        const user = await User.findById(req.user.id);
         if (!user) {
             return res.status(401).json({
-                error: "User not found"
-            })
+                message: "User not found",
+            });
         }
-        const likedPosts = await Post.find({ _id: { $in: user.likes } }).limit(5);
-        const keywords = [...new Set(
-            likedPosts.flatMap(p => p.title.split(/\W+/).concat(p.text.split(/\W+/)))
-                .filter(word => word.length > 0)
-        )].slice(0, 10);
+        const likedPosts = await Post.find({ _id: { $in: user.likes } }).limit(
+            5,
+        );
+        const keywords = [
+            ...new Set(
+                likedPosts
+                    .flatMap((p) =>
+                        p.title.split(/\W+/).concat(p.text.split(/\W+/)),
+                    )
+                    .filter((word) => word.length > 0),
+            ),
+        ].slice(0, 10);
 
         let posts = [];
         if (keywords.length === 0) {
@@ -57,7 +63,7 @@ router.get("/", optionalAuth, async (req: Request, res: Response) => {
         } else {
             posts = await Post.find({
                 _id: { $nin: user.likes },
-                $text: { $search: keywords.join(" ") }
+                $text: { $search: keywords.join(" ") },
             })
                 .populate("author", "username avatar _id")
                 .sort({ likes: -1, createdAt: -1 })
@@ -69,8 +75,8 @@ router.get("/", optionalAuth, async (req: Request, res: Response) => {
         res.json(posts.map(normalizePost));
     } catch (error) {
         console.log(error);
-        res.status(500).json({ error: "Ошибка сервера " })
+        res.status(500).json({ message: "Ошибка сервера " });
     }
-})
+});
 
-export default router
+export default router;

@@ -15,23 +15,23 @@ router.post(
         try {
             const targetUser = await User.findById(req.params.id);
             if (!targetUser) {
-                return res.status(404).json({ error: "User not found" });
+                return res.status(404).json({ message: "User not found" });
             }
 
             const user = await User.findById(req.user!.id);
             if (!user) {
-                return res.status(404).json({ error: "Admin not found" });
+                return res.status(404).json({ message: "Admin not found" });
             }
 
             const newRole = parseInt(req.body.role);
 
             if (![-1, 0, 1, 2, 3].includes(newRole)) {
-                return res.status(400).json({ error: "Invalid role" });
+                return res.status(400).json({ message: "Invalid role" });
             }
 
             if (targetUser.role >= req.user!.role || newRole > req.user!.role) {
                 return res.status(403).json({
-                    error: "Нельзя повышать роль выше своей или чужой",
+                    message: "Нельзя повышать роль выше своей или чужой",
                 });
             }
 
@@ -71,13 +71,13 @@ router.post(
             }
 
             if (![0, 1, 2, 3].includes(newRole)) {
-                return res.status(400).json({ error: "Invalid role" });
+                return res.status(400).json({ message: "Invalid role" });
             }
 
             if (newRole === 3) {
                 return res
                     .status(400)
-                    .json({ error: "Нельзя повышать до создателя" });
+                    .json({ message: "Нельзя повышать до создателя" });
             }
 
             targetUser.role = newRole;
@@ -85,7 +85,7 @@ router.post(
 
             res.json({ message: "Роль обновлена ", role: targetUser.role });
         } catch (err) {
-            res.status(500).json({ error: "Ошибка сервера" });
+            res.status(500).json({ message: "Ошибка сервера" });
         }
     },
 );

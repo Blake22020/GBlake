@@ -1,26 +1,29 @@
-import { Router, Request, Response } from 'express';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import { body, validationResult } from 'express-validator'
-import User from '../models/User'
-import { env } from '../config/env'
-import { auth } from '../middleware/auth';
-
+import { Router, Request, Response } from "express";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { body, validationResult } from "express-validator";
+import User from "../models/User";
+import { env } from "../config/env";
+import { auth } from "../middleware/auth";
 
 const router = Router();
 
-router.post('/register1',
+router.post(
+    "/register1",
     [
-        body('email').isEmail(),
-        body('password').isLength({ min: 8 }),
-        body('username').isLength({ min: 1, max: 20 }),
+        body("email").isEmail(),
+        body("password").isLength({ min: 8 }),
+        body("username").isLength({ min: 1, max: 20 }),
     ],
     async (req: Request, res: Response) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            const errorMessages = errors.array().map(err => err.msg).join(', ')
+            const errorMessages = errors
+                .array()
+                .map((err) => err.msg)
+                .join(", ");
             return res.status(400).json({
-                message: errorMessages
+                message: errorMessages,
             });
         }
 
@@ -28,12 +31,12 @@ router.post('/register1',
 
         const existingEmail = await User.findOne({ email });
         if (existingEmail) {
-            return res.status(409).json({ message: 'Email already exist' });
+            return res.status(409).json({ message: "Email already exist" });
         }
 
         const existingUsername = await User.findOne({ username });
         if (existingUsername) {
-            return res.status(409).json({ message: 'Username already exist' });
+            return res.status(409).json({ message: "Username already exist" });
         }
 
         const hashed = await bcrypt.hash(password, 10);
@@ -44,17 +47,17 @@ router.post('/register1',
             password: hashed,
             username,
             role,
-        })
+        });
 
         const token = jwt.sign(
             { id: user._id, role: user.role },
             env.jwtSecret,
-            { expiresIn: "365d" }
-        )
+            { expiresIn: "365d" },
+        );
 
-        res.json({ user: formatUser(user), token })
-    }
-)
+        res.json({ user: formatUser(user), token });
+    },
+);
 
 router.patch("/register2", auth, async (req: Request, res: Response) => {
     try {
@@ -62,7 +65,7 @@ router.patch("/register2", auth, async (req: Request, res: Response) => {
 
         const user = await User.findById(req.user!.id);
         if (!user) {
-            return res.status(404).send("User Not Found")
+            return res.status(404).json({ message: "User not found" });
         }
 
         if (visualName) user.visualName = visualName;
@@ -73,48 +76,60 @@ router.patch("/register2", auth, async (req: Request, res: Response) => {
         res.json(formatUser(user));
     } catch (err) {
         console.error("Error in PATCH /api/register2:", err);
-        res.status(500).json({ message: "Server Error" })
+        res.status(500).json({ message: "Server Error" });
     }
-})
+});
 
-router.post('/login',
+router.post(
+    "/login",
     [
-        body('password').notEmpty().withMessage('Password is required'),
-        body('email').optional().isEmail().withMessage('Invalid email'),
-        body('username').optional().isString().trim().isLength({ min: 1 }).withMessage('Invalid username')
+        body("password").notEmpty().withMessage("Password is required"),
+        body("email").optional().isEmail().withMessage("Invalid email"),
+        body("username")
+            .optional()
+            .isString()
+            .trim()
+            .isLength({ min: 1 })
+            .withMessage("Invalid username"),
     ],
     async (req: Request, res: Response) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ message: 'Invalid credentials', errors: errors.array() });
+            return res
+                .status(400)
+                .json({
+                    message: "Invalid credentials",
+                    errors: errors.array(),
+                });
         }
 
         const { email, username, password } = req.body;
 
         if ((!email && !username) || (email && username)) {
             return res.status(400).json({
-                message: 'Please provide either email or username, but not both.'
+                message:
+                    "Please provide either email or username, but not both.",
             });
         }
 
         const user = await User.findOne(email ? { email } : { username });
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(404).json({ message: "User not found" });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid credentials' });
+            return res.status(400).json({ message: "Invalid credentials" });
         }
 
         const token = jwt.sign(
             { id: user._id, role: user.role },
             env.jwtSecret,
-            { expiresIn: '365d' }
+            { expiresIn: "365d" },
         );
 
         res.json({ user: formatUser(user), token });
-    }
+    },
 );
 
 function formatUser(u: any) {
@@ -124,9 +139,8 @@ function formatUser(u: any) {
         visualName: u.visualName,
         bio: u.bio,
         followers: u.followers ? u.followers.length : 0,
-        followings: u.followings ? u.followings.length : 0
-    }
+        followings: u.followings ? u.followings.length : 0,
+    };
 }
-
 
 export default router;

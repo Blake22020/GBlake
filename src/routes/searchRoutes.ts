@@ -9,7 +9,7 @@ router.get("/", async (req: Request, res: Response) => {
         let { q } = req.query;
         if (!q) {
             return res.status(404).json({
-                error: "Не передан поисковый запрос",
+                message: "Не передан поисковый запрос",
             });
         }
 
@@ -71,7 +71,7 @@ router.get("/", async (req: Request, res: Response) => {
         });
     } catch (err) {
         res.status(500).json({
-            error: "Ошибка сервера",
+            message: "Ошибка сервера",
         });
     }
 });
