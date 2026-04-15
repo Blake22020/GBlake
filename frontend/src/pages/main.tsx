@@ -59,6 +59,7 @@ function MainPage() {
             <main className="flex flex-col pt-[50px] nav:pt-[65px] pb-[110px] w-full pl-[0px] xs:pl-[200px] ">
                 {posts.map((post: PostInterface) => (
                     <Post
+                        key={post._id}
                         _id={post._id}
                         title={post.title}
                         text={post.text}

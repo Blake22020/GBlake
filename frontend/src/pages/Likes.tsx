@@ -57,6 +57,7 @@ function Likes() {
             <div className="flex flex-col pt-[150px] pb-[100px] w-full LikesWindow">
                 {posts.map((post: PostInterface) => (
                     <Post
+                        key={post._id}
                         _id={post._id}
                         title={post.title}
                         text={post.text}

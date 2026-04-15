@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import LikeIcon from "./icons/Like/LikeIcon";
 import LikedIcon from "./icons/Like/LikedIcon";
 import { likePost } from "../services/api";
@@ -69,7 +69,9 @@ function Post(post: PostInterface) {
     const [liked, setLiked] = useState(!!post.liked);
     const [likesCount, setLikesCount] = useState(post.likes);
 
-    const toggleLike = async () => {
+    const timeAgoStr = useMemo(() => timeAgo(post.createdAt), [post.createdAt]);
+
+    const toggleLike = useCallback(async () => {
         setLiked((prev) => !prev);
         setLikesCount((prev) => prev + (liked ? -1 : 1));
 
@@ -96,7 +98,7 @@ function Post(post: PostInterface) {
                 "Неизвестная ошибка";
             toast.error("Ошибка. Не удалось лайкнуть" + errMsg);
         }
-    };
+    }, [liked, post._id]);
 
     return (
         <article className="flex flex-col gap-[30px] bg-bg-contactButton mx-auto my-[25px] p-[20px] rounded-[35px] w-[90%] min-[500px]:w-[400px] min-[600px]:w-[350px] min-[750px]:w-[450px] min-[900px]:w-[550px] min-[1050px]:w-[700px] text-white post">
@@ -121,7 +123,7 @@ function Post(post: PostInterface) {
                     </h1>
                 </div>
                 <p className="m-0 text-[1rem] text-white/75 post__header__date">
-                    {timeAgo(post.createdAt)}
+                    {timeAgoStr}
                 </p>
             </div>
             <div className="flex flex-col gap-[10px] min-[750px]:gap-[40px] min-[1050px]:gap-[10px] post__body">
@@ -147,4 +149,4 @@ function Post(post: PostInterface) {
     );
 }
 
-export default Post;
+export default React.memo(Post);

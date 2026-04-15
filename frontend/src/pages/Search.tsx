@@ -157,6 +157,7 @@ function Search() {
                 >
                     {posts.map((post: PostInterface) => (
                         <Post
+                            key={post._id}
                             _id={post._id}
                             title={post.title}
                             text={post.text}
