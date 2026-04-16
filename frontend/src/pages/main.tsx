@@ -6,6 +6,8 @@ import { feedRequest } from "../services/api";
 import { setMeta } from "../services/description";
 import LoginNavbarHeader from "../layouts/loginNavbarHeader";
 import toast from "react-hot-toast";
+import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
+import { useCallback } from "react";
 
 interface PostInterface {
     _id: string;
@@ -29,25 +31,49 @@ function MainPage() {
     }, []);
 
     const [posts, setPosts] = useState<any[]>([]);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(() => {
+    const loadPosts = useCallback(async () => {
+        if (isLoading || !hasMore) return;
+        setIsLoading(true);
         const token = localStorage.getItem("token");
 
-        const request = async () => {
-            try {
-                const res = await feedRequest(token);
-                setPosts(res);
-            } catch (error: any) {
-                const errMsg =
-                    error?.response?.data?.message ||
-                    error.message ||
-                    "Неизвестная ошибка";
-                toast.error(errMsg);
+        try {
+            const res = await feedRequest(token, page, 10);
+            if (res.length < 10) {
+                setHasMore(false);
             }
-        };
+            setPosts((prev) => {
+                const newPosts = res.filter(
+                    (newP: any) => !prev.some((p) => p._id === newP._id),
+                );
+                return [...prev, ...newPosts];
+            });
+            setPage((prev) => prev + 1);
+        } catch (error: any) {
+            const errMsg =
+                error?.response?.data?.message ||
+                error.message ||
+                "Неизвестная ошибка";
+            toast.error(errMsg);
+        } finally {
+            setIsLoading(false);
+        }
+    }, [page, isLoading, hasMore]);
 
-        request();
-    }, [navigate]);
+    useEffect(() => {
+        if (page === 1 && posts.length === 0 && hasMore) {
+            loadPosts();
+        }
+    }, [loadPosts, page, posts.length, hasMore]);
+
+    const lastElementRef = useInfiniteScroll({
+        isLoading,
+        hasMore,
+        onLoadMore: loadPosts,
+    });
 
     return (
         <div className="main">
@@ -69,6 +95,14 @@ function MainPage() {
                         author={post.author}
                     />
                 ))}
+
+                {/* Якорь для бесконечной прокрутки */}
+                <div ref={lastElementRef} style={{ height: "20px" }} />
+                {isLoading && (
+                    <div className="text-center text-white my-4">
+                        Загрузка...
+                    </div>
+                )}
             </main>
         </div>
     );

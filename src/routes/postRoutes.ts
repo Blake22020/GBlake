@@ -135,6 +135,9 @@ router.delete("/:id", auth, async (req: Request, res: Response) => {
 router.get("/likes", auth, async (req: Request, res: Response) => {
     try {
         const userId = req.user!.id;
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
 
         const user = await User.findById(userId);
         if (!user) {
@@ -147,7 +150,11 @@ router.get("/likes", auth, async (req: Request, res: Response) => {
             _id: {
                 $in: user.likes,
             },
-        }).populate("author", "username avatar _id");
+        })
+            .populate("author", "username avatar _id")
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
 
         res.json(posts.map(normalizePost));
     } catch (err) {
@@ -160,6 +167,9 @@ router.get("/likes", auth, async (req: Request, res: Response) => {
 router.get("/followings", auth, async (req: Request, res: Response) => {
     try {
         const userId = req.user!.id;
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
 
         const user = await User.findById(userId);
         if (!user) {
@@ -172,7 +182,11 @@ router.get("/followings", auth, async (req: Request, res: Response) => {
             author: {
                 $in: user.followings,
             },
-        }).populate("author", "username avatar _id");
+        })
+            .populate("author", "username avatar _id")
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
 
         res.json(posts.map(normalizePost));
     } catch (err) {

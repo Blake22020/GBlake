@@ -7,6 +7,10 @@ const router = Router();
 router.get("/", async (req: Request, res: Response) => {
     try {
         let { q } = req.query;
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
         if (!q) {
             return res.status(404).json({
                 message: "Не передан поисковый запрос",
@@ -65,9 +69,13 @@ router.get("/", async (req: Request, res: Response) => {
             return (b.likes || 0) - (a.likes || 0);
         });
 
+        // Apply pagination
+        const paginatedUsers = formatedUsers.slice(skip, skip + limit);
+        const paginatedPosts = formatedPosts.slice(skip, skip + limit);
+
         return res.json({
-            users: formatedUsers,
-            posts: formatedPosts,
+            users: paginatedUsers,
+            posts: paginatedPosts,
         });
     } catch (err) {
         res.status(500).json({

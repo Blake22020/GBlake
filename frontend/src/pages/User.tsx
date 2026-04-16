@@ -4,9 +4,11 @@ import LoginNavbarHeader from "../layouts/loginNavbarHeader";
 import MainNavbarHeader from "../layouts/mainNavbarHeader";
 import Post from "../components/Post";
 import { useEffect, useState } from "react";
-import { followUser, checkFollowStatus } from "../services/api";
+import { followUser, checkFollowStatus, userPosts } from "../services/api";
 import { setMeta } from "../services/description";
 import toast from "react-hot-toast";
+import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
+import { useCallback } from "react";
 
 interface User {
     id: string;
@@ -54,8 +56,18 @@ function UserPage() {
     const navigate = useNavigate();
 
     const [user, setUser] = useState<User | null>(null);
+    const [posts, setPosts] = useState<PostInterface[]>([]);
     const [isFollow, setIsFollow] = useState<boolean>(false);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const { id } = useParams<{ id: string }>();
+
+    useEffect(() => {
+        setPosts([]);
+        setPage(1);
+        setHasMore(true);
+    }, [id]);
 
     useEffect(() => {
         const myId = localStorage.getItem("id");
@@ -98,6 +110,41 @@ function UserPage() {
 
         fetchUser();
     }, [id, navigate]);
+
+    const loadPosts = useCallback(async () => {
+        if (isLoading || !hasMore || !id) return;
+        setIsLoading(true);
+
+        try {
+            const res = await userPosts(id, page, 10);
+            if (res.length < 10) {
+                setHasMore(false);
+            }
+            setPosts((prev) => {
+                const newPosts = res.filter(
+                    (newP: any) => !prev.some((p) => p._id === newP._id),
+                );
+                return [...prev, ...newPosts];
+            });
+            setPage((prev) => prev + 1);
+        } catch (error) {
+            console.error("Failed to fetch user posts:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    }, [id, page, isLoading, hasMore]);
+
+    useEffect(() => {
+        if (id && page === 1 && posts.length === 0 && hasMore) {
+            loadPosts();
+        }
+    }, [loadPosts, id, page, posts.length, hasMore]);
+
+    const lastElementRef = useInfiniteScroll({
+        isLoading,
+        hasMore,
+        onLoadMore: loadPosts,
+    });
 
     if (!id) {
         return <div>Loading...</div>;
@@ -192,7 +239,7 @@ function UserPage() {
                     </div>
                 </div>
                 <div className="posts">
-                    {user.posts.map((post: PostInterface) => (
+                    {posts.map((post: PostInterface) => (
                         <Post
                             key={post._id}
                             _id={post._id}
@@ -205,6 +252,14 @@ function UserPage() {
                         />
                     ))}
                 </div>
+
+                {/* Якорь для бесконечной прокрутки */}
+                <div ref={lastElementRef} style={{ height: "20px" }} />
+                {isLoading && (
+                    <div className="text-center text-white my-4">
+                        Загрузка...
+                    </div>
+                )}
             </div>
         </div>
     );

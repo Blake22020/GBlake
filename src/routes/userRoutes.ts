@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import User from "../models/User";
+import Post from "../models/Post";
 import { auth } from "../middleware/auth";
 import multer from "multer";
 import path from "path";
@@ -157,6 +158,34 @@ router.get("/:id/followings", async (req: Request, res: Response) => {
     );
     if (!user) return res.status(404).send("User Not Found");
     res.json(user.followings);
+});
+
+router.get("/:id/posts", async (req: Request, res: Response) => {
+    try {
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
+        const posts = await Post.find({ author: req.params.id })
+            .populate("author", "username avatar _id")
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .lean();
+
+        const normalizePost = (post: any) => ({
+            ...post,
+            _id: post._id.toString(),
+            author: post.author
+                ? { ...post.author, _id: post.author._id.toString() }
+                : null,
+        });
+
+        res.json(posts.map(normalizePost));
+    } catch (err) {
+        console.error("Error in GET /api/users/:id/posts:", err);
+        res.status(500).json({ message: "Ошибка сервера" });
+    }
 });
 
 router.post(

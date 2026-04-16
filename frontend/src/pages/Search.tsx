@@ -6,6 +6,8 @@ import { searchResponse, followUser, checkFollowStatus } from "../services/api";
 import Post from "../components/Post";
 import { setMeta } from "../services/description";
 import toast from "react-hot-toast";
+import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
+import { useCallback } from "react";
 
 interface UserInterface {
     _id: string;
@@ -37,10 +39,17 @@ function Search() {
     const [followStatus, setFollowStatus] = useState<{
         [key: string]: boolean;
     }>({});
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         document.title = query + " | Поиск в GBlake";
         setMeta("description", "GBlake");
+        setPosts([]);
+        setUsers([]);
+        setPage(1);
+        setHasMore(true);
     }, [query]);
 
     const handleFollowClick = async (userId: string) => {
@@ -77,53 +86,82 @@ function Search() {
         }
     };
 
-    useEffect(() => {
-        const performSearch = async () => {
-            try {
-                const results = await searchResponse(query);
-                if (results && results.posts) {
-                    setPosts(results.posts);
-                }
-                if (results && results.users) {
-                    setUsers(results.users);
+    const performSearch = useCallback(async () => {
+        if (!query || isLoading || !hasMore) return;
+        setIsLoading(true);
 
-                    const token = localStorage.getItem("token");
-                    if (token) {
-                        const followStatusPromises = results.users.map(
-                            async (user: UserInterface) => {
-                                const isFollowing = await checkUserFollowStatus(
-                                    user._id,
-                                );
-                                return { userId: user._id, isFollowing };
-                            },
-                        );
+        try {
+            const results = await searchResponse(query, page, 10);
 
-                        const followStatusResults =
-                            await Promise.all(followStatusPromises);
-                        const statusMap: { [key: string]: boolean } = {};
-                        followStatusResults.forEach(
-                            ({ userId, isFollowing }) => {
-                                statusMap[userId] = isFollowing;
-                            },
-                        );
-                        setFollowStatus(statusMap);
-                    }
-                }
-                console.log("Posts saved:", results.posts);
-                console.log("Users saved:", results.users);
-            } catch (error: any) {
-                const errMsg =
-                    error?.response?.data?.message ||
-                    error.message ||
-                    "Неизвестная ошибка";
-                toast.error(errMsg);
+            if (results.posts.length < 10 && results.users.length < 10) {
+                setHasMore(false);
             }
-        };
 
-        if (query) {
+            if (results && results.posts) {
+                setPosts((prev) => {
+                    const newPosts = results.posts.filter(
+                        (newP: any) => !prev.some((p) => p._id === newP._id),
+                    );
+                    return [...prev, ...newPosts];
+                });
+            }
+            if (results && results.users) {
+                setUsers((prev) => {
+                    const newUsers = results.users.filter(
+                        (newU: any) => !prev.some((p) => p._id === newU._id),
+                    );
+                    return [...prev, ...newUsers];
+                });
+
+                const token = localStorage.getItem("token");
+                if (token) {
+                    const followStatusPromises = results.users.map(
+                        async (user: UserInterface) => {
+                            const isFollowing = await checkUserFollowStatus(
+                                user._id,
+                            );
+                            return { userId: user._id, isFollowing };
+                        },
+                    );
+
+                    const followStatusResults =
+                        await Promise.all(followStatusPromises);
+                    const statusMap: { [key: string]: boolean } = {};
+                    followStatusResults.forEach(({ userId, isFollowing }) => {
+                        statusMap[userId] = isFollowing;
+                    });
+                    setFollowStatus((prev) => ({ ...prev, ...statusMap }));
+                }
+            }
+            setPage((prev) => prev + 1);
+        } catch (error: any) {
+            const errMsg =
+                error?.response?.data?.message ||
+                error.message ||
+                "Неизвестная ошибка";
+            toast.error(errMsg);
+        } finally {
+            setIsLoading(false);
+        }
+    }, [query, page, isLoading, hasMore]);
+
+    useEffect(() => {
+        if (
+            query &&
+            page === 1 &&
+            posts.length === 0 &&
+            users.length === 0 &&
+            hasMore
+        ) {
             performSearch();
         }
-    }, [query, navigate]);
+    }, [performSearch, query, page, posts.length, users.length, hasMore]);
+
+    const lastElementRef = useInfiniteScroll({
+        isLoading,
+        hasMore,
+        onLoadMore: performSearch,
+    });
 
     return (
         <div className="flex flex-col pt-[50px] nav:pt-[65px] pb-[110px] pl-[0px] xs:pl-[200px] w-full object-cover search">
@@ -216,6 +254,14 @@ function Search() {
                         );
                     })}
                 </div>
+
+                {/* Якорь для бесконечной прокрутки */}
+                <div ref={lastElementRef} style={{ height: "20px" }} />
+                {isLoading && (
+                    <div className="text-center text-white my-4">
+                        Загрузка...
+                    </div>
+                )}
             </div>
         </div>
     );

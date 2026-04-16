@@ -159,18 +159,21 @@ export async function checkFollowStatus(userId: string, token: string) {
     return res.data;
 }
 
-export async function searchResponse(text: string) {
+export async function searchResponse(text: string, page = 1, limit = 10) {
     const res = await apiClient.get(`${BASE_URL}/api/search/`, {
         params: {
             q: text,
+            page,
+            limit,
         },
     });
 
     return res.data;
 }
 
-export async function likesPosts(token: string | null) {
+export async function likesPosts(token: string | null, page = 1, limit = 10) {
     const res = await apiClient.get(`${BASE_URL}/api/posts/likes`, {
+        params: { page, limit },
         headers: {
             Authorization: token ? `Bearer ${token}` : "",
         },
@@ -179,8 +182,13 @@ export async function likesPosts(token: string | null) {
     return res.data;
 }
 
-export async function followingsPosts(token: string | null) {
+export async function followingsPosts(
+    token: string | null,
+    page = 1,
+    limit = 10,
+) {
     const res = await apiClient.get(`${BASE_URL}/api/posts/followings`, {
+        params: { page, limit },
         headers: {
             Authorization: token ? `Bearer ${token}` : "",
         },
@@ -189,17 +197,24 @@ export async function followingsPosts(token: string | null) {
     return res.data;
 }
 
-export async function feedRequest(token: string | null) {
-    const res = await apiClient.get(
-        `${BASE_URL}/api/feed/`,
-        token
-            ? {
-                  headers: {
-                      Authorization: token ? `Bearer ${token}` : "",
-                  },
-              }
-            : {},
-    );
+export async function feedRequest(token: string | null, page = 1, limit = 10) {
+    const config: any = {
+        params: { page, limit },
+    };
+    if (token) {
+        config.headers = {
+            Authorization: `Bearer ${token}`,
+        };
+    }
+    const res = await apiClient.get(`${BASE_URL}/api/feed/`, config);
+
+    return res.data;
+}
+
+export async function userPosts(userId: string, page = 1, limit = 10) {
+    const res = await apiClient.get(`${BASE_URL}/api/users/${userId}/posts`, {
+        params: { page, limit },
+    });
 
     return res.data;
 }
