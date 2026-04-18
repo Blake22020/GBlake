@@ -7,6 +7,7 @@ import { setMeta } from "../services/description";
 import toast from "react-hot-toast";
 import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
 import { useCallback } from "react";
+import PostSkeleton from "../components/PostSkeleton";
 
 interface PostInterface {
     _id: string;
@@ -99,9 +100,11 @@ function Likes() {
                 {/* Якорь для бесконечной прокрутки */}
                 <div ref={lastElementRef} style={{ height: "20px" }} />
                 {isLoading && (
-                    <div className="text-center text-white my-4">
-                        Загрузка...
-                    </div>
+                    <>
+                        <PostSkeleton />
+                        <PostSkeleton />
+                        <PostSkeleton />
+                    </>
                 )}
             </div>
         </div>

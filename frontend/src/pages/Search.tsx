@@ -8,6 +8,8 @@ import { setMeta } from "../services/description";
 import toast from "react-hot-toast";
 import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
 import { useCallback } from "react";
+import PostSkeleton from "../components/PostSkeleton";
+import UserCardSkeleton from "../components/UserCardSkeleton";
 
 interface UserInterface {
     _id: string;
@@ -257,9 +259,18 @@ function Search() {
 
                 {/* Якорь для бесконечной прокрутки */}
                 <div ref={lastElementRef} style={{ height: "20px" }} />
-                {isLoading && (
-                    <div className="text-center text-white my-4">
-                        Загрузка...
+                {isLoading && isPosts && (
+                    <>
+                        <PostSkeleton />
+                        <PostSkeleton />
+                        <PostSkeleton />
+                    </>
+                )}
+                {isLoading && !isPosts && (
+                    <div className="flex flex-col gap-[25px] nav:gap-[100px]">
+                        <UserCardSkeleton />
+                        <UserCardSkeleton />
+                        <UserCardSkeleton />
                     </div>
                 )}
             </div>

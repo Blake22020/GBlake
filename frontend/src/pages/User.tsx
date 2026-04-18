@@ -9,6 +9,8 @@ import { setMeta } from "../services/description";
 import toast from "react-hot-toast";
 import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
 import { useCallback } from "react";
+import PostSkeleton from "../components/PostSkeleton";
+import UserProfileSkeleton from "../components/UserProfileSkeleton";
 
 interface User {
     id: string;
@@ -147,11 +149,20 @@ function UserPage() {
     });
 
     if (!id) {
-        return <div>Loading...</div>;
+        return null;
     }
 
     if (!user) {
-        return <div>Loading user data...</div>;
+        return (
+            <div className="w-full pt-[50px] nav:pt-[65px] pl-0 xs:pl-[200px] flex flex-col pb-[110px] min-h-screen">
+                {localStorage.getItem("token") ? (
+                    <LoginNavbarHeader />
+                ) : (
+                    <MainNavbarHeader />
+                )}
+                <UserProfileSkeleton />
+            </div>
+        );
     }
 
     const handleFollow = async () => {
@@ -256,9 +267,11 @@ function UserPage() {
                 {/* Якорь для бесконечной прокрутки */}
                 <div ref={lastElementRef} style={{ height: "20px" }} />
                 {isLoading && (
-                    <div className="text-center text-white my-4">
-                        Загрузка...
-                    </div>
+                    <>
+                        <PostSkeleton />
+                        <PostSkeleton />
+                        <PostSkeleton />
+                    </>
                 )}
             </div>
         </div>
