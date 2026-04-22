@@ -259,6 +259,26 @@ export async function updateUserProfile(
     return res.data;
 }
 
+export async function getAdminStats(token: string | null) {
+    const res = await apiClient.get(`${BASE_URL}/api/admin/stats`, {
+        headers: { Authorization: token ? `Bearer ${token}` : "" },
+    });
+    return res.data;
+}
+
+export async function getAdminUsers(
+    token: string | null,
+    page = 1,
+    limit = 20,
+    search = "",
+) {
+    const res = await apiClient.get(`${BASE_URL}/api/admin/users`, {
+        params: { page, limit, search },
+        headers: { Authorization: token ? `Bearer ${token}` : "" },
+    });
+    return res.data;
+}
+
 export async function promoteUser(
     role: number,
     token: string | null,
