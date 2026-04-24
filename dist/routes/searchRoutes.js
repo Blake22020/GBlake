@@ -6,14 +6,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const User_1 = __importDefault(require("../models/User"));
 const Post_1 = __importDefault(require("../models/Post"));
+const handleError_1 = require("../utils/handleError");
 const router = (0, express_1.Router)();
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
     try {
         let { q } = req.query;
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
         if (!q) {
-            return res.status(404).json({
-                error: "Не передан поисковый запрос"
-            });
+            return next(new handleError_1.AppError(400, "Не передан поисковый запрос"));
         }
         if (Array.isArray(q)) {
             q = q[0];
@@ -26,29 +28,27 @@ router.get("/", async (req, res) => {
                 { visualName: { $regex: q, $options: "i" } },
                 { bio: { $regex: q, $options: "i" } },
                 { username: { $regex: q, $options: "i" } },
-            ]
-        }).select("_id name avatar posts").lean();
+            ],
+        })
+            .select("_id username visualName avatar followers posts")
+            .lean();
         const formatedUsers = users.map((user) => ({
-            type: "user",
-            _id: user._id,
+            _id: user._id.toString(),
             visualName: user.visualName,
-            bio: user.bio,
-            followers: user.followers,
+            followers: user.followers.length,
             avatar: user.avatar,
-            posts: user.posts ? user.posts.length : 0,
         }));
         const posts = await Post_1.default.find({
             $or: [
                 { title: { $regex: q, $options: "i" } },
                 { text: { $regex: q, $options: "i" } },
-            ]
+            ],
         })
-            .populate("author", "name avatar _id")
-            .select("title text author createdAt _id")
+            .populate("author", "username avatar _id")
+            .select("title text author createdAt _id likes")
             .lean();
         const formatedPosts = posts.map((post) => ({
-            type: "post",
-            _id: post._id,
+            _id: post._id.toString(),
             likes: post.likes,
             title: post.title,
             text: post.text,
@@ -56,20 +56,20 @@ router.get("/", async (req, res) => {
             author: post.author,
         }));
         formatedUsers.sort((a, b) => {
-            return (b.followers.length || 0) - (a.followers.length || 0);
+            return (b.followers || 0) - (a.followers || 0);
         });
         formatedPosts.sort((a, b) => {
             return (b.likes || 0) - (a.likes || 0);
         });
+        const paginatedUsers = formatedUsers.slice(skip, skip + limit);
+        const paginatedPosts = formatedPosts.slice(skip, skip + limit);
         return res.json({
-            users,
-            posts
+            users: paginatedUsers,
+            posts: paginatedPosts,
         });
     }
     catch (err) {
-        res.status(500).json({
-            error: "Ошибка сервера",
-        });
+        next(err);
     }
 });
 exports.default = router;

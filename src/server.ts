@@ -10,6 +10,7 @@ import postRoutes from './routes/postRoutes';
 import feedRoutes from './routes/feedRoutes';
 import adminRoutes from './routes/adminRoutes';
 import searchRoutes from './routes/searchRoutes';
+import { errorHandler } from './middleware/errorHandler';
 
 import { env } from './config/env';
 import { connectDB } from './config/db'
@@ -28,6 +29,8 @@ app.use("/api/feed", feedRoutes);
 app.use("/api/admin", adminRoutes)
 app.use("/api/search", searchRoutes);
 
+
+app.use(errorHandler);
 
 const clientPath = path.join(ROOT, 'frontend', 'build');
 app.use(express.static(clientPath));

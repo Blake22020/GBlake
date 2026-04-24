@@ -1,10 +1,11 @@
-import { Request, Response, Router } from "express";
+import { Request, Response, Router, NextFunction } from "express";
 import User from "../models/User";
 import Post from "../models/Post";
+import { AppError } from "../utils/handleError";
 
 const router = Router();
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response, next: NextFunction) => {
     try {
         let { q } = req.query;
         const page = Number(req.query.page) || 1;
@@ -12,9 +13,7 @@ router.get("/", async (req: Request, res: Response) => {
         const skip = (page - 1) * limit;
 
         if (!q) {
-            return res.status(404).json({
-                message: "Не передан поисковый запрос",
-            });
+            return next(new AppError(400, "Не передан поисковый запрос"));
         }
 
         if (Array.isArray(q)) {
@@ -69,7 +68,6 @@ router.get("/", async (req: Request, res: Response) => {
             return (b.likes || 0) - (a.likes || 0);
         });
 
-        // Apply pagination
         const paginatedUsers = formatedUsers.slice(skip, skip + limit);
         const paginatedPosts = formatedPosts.slice(skip, skip + limit);
 
@@ -78,9 +76,7 @@ router.get("/", async (req: Request, res: Response) => {
             posts: paginatedPosts,
         });
     } catch (err) {
-        res.status(500).json({
-            message: "Ошибка сервера",
-        });
+        next(err);
     }
 });
 

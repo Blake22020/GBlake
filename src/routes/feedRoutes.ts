@@ -1,11 +1,12 @@
-import { Request, Response, Router } from "express";
+import { Request, Response, Router, NextFunction } from "express";
 import { optionalAuth } from "../middleware/auth";
 import Post from "../models/Post";
 import User from "../models/User";
+import { AppError } from "../utils/handleError";
 
 const router = Router();
 
-router.get("/", optionalAuth, async (req: Request, res: Response) => {
+router.get("/", optionalAuth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const page = Number(req.query.page) || 1;
         const limit = Number(req.query.limit) || 10;
@@ -35,9 +36,7 @@ router.get("/", optionalAuth, async (req: Request, res: Response) => {
 
         const user = await User.findById(req.user.id);
         if (!user) {
-            return res.status(401).json({
-                message: "User not found",
-            });
+            return next(new AppError(401, "Пользователь не найден"));
         }
         const likedPosts = await Post.find({ _id: { $in: user.likes } }).limit(
             5,
@@ -73,9 +72,8 @@ router.get("/", optionalAuth, async (req: Request, res: Response) => {
         }
 
         res.json(posts.map(normalizePost));
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: "Ошибка сервера " });
+    } catch (err) {
+        next(err);
     }
 });
 

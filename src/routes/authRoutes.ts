@@ -1,10 +1,11 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { body, validationResult } from "express-validator";
 import User from "../models/User";
 import { env } from "../config/env";
 import { auth } from "../middleware/auth";
+import { AppError } from "../utils/handleError";
 
 const router = Router();
 
@@ -15,57 +16,59 @@ router.post(
         body("password").isLength({ min: 8 }),
         body("username").isLength({ min: 1, max: 20 }),
     ],
-    async (req: Request, res: Response) => {
+    async (req: Request, res: Response, next: NextFunction) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             const errorMessages = errors
                 .array()
                 .map((err) => err.msg)
                 .join(", ");
-            return res.status(400).json({
-                message: errorMessages,
+            return next(new AppError(400, errorMessages));
+        }
+
+        try {
+            const { email, password, username } = req.body;
+
+            const existingEmail = await User.findOne({ email });
+            if (existingEmail) {
+                return next(new AppError(409, "Email already exist"));
+            }
+
+            const existingUsername = await User.findOne({ username });
+            if (existingUsername) {
+                return next(new AppError(409, "Username already exist"));
+            }
+
+            const hashed = await bcrypt.hash(password, 10);
+            const role = email === env.creator ? 3 : 0;
+
+            const user = await User.create({
+                email,
+                password: hashed,
+                username,
+                role,
             });
+
+            const token = jwt.sign(
+                { id: user._id, role: user.role },
+                env.jwtSecret,
+                { expiresIn: "365d" },
+            );
+
+            res.json({ user: formatUser(user), token });
+        } catch (err) {
+            next(err);
         }
-
-        const { email, password, username } = req.body;
-
-        const existingEmail = await User.findOne({ email });
-        if (existingEmail) {
-            return res.status(409).json({ message: "Email already exist" });
-        }
-
-        const existingUsername = await User.findOne({ username });
-        if (existingUsername) {
-            return res.status(409).json({ message: "Username already exist" });
-        }
-
-        const hashed = await bcrypt.hash(password, 10);
-        const role = email === env.creator ? 3 : 0;
-
-        const user = await User.create({
-            email,
-            password: hashed,
-            username,
-            role,
-        });
-
-        const token = jwt.sign(
-            { id: user._id, role: user.role },
-            env.jwtSecret,
-            { expiresIn: "365d" },
-        );
-
-        res.json({ user: formatUser(user), token });
     },
 );
 
-router.patch("/register2", auth, async (req: Request, res: Response) => {
+router.patch("/register2", auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { visualName, bio } = req.body;
 
         const user = await User.findById(req.user!.id);
         if (!user) {
-            return res.status(404).json({ message: "User not found" });
+            return next(new AppError(404, "Пользователь не найден"));
         }
 
         if (visualName) user.visualName = visualName;
@@ -75,8 +78,7 @@ router.patch("/register2", auth, async (req: Request, res: Response) => {
 
         res.json(formatUser(user));
     } catch (err) {
-        console.error("Error in PATCH /api/register2:", err);
-        res.status(500).json({ message: "Server Error" });
+        next(err);
     }
 });
 
@@ -92,43 +94,39 @@ router.post(
             .isLength({ min: 1 })
             .withMessage("Invalid username"),
     ],
-    async (req: Request, res: Response) => {
+    async (req: Request, res: Response, next: NextFunction) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res
-                .status(400)
-                .json({
-                    message: "Invalid credentials",
-                    errors: errors.array(),
-                });
+            return next(new AppError(400, "Invalid credentials"));
         }
 
-        const { email, username, password } = req.body;
+        try {
+            const { email, username, password } = req.body;
 
-        if ((!email && !username) || (email && username)) {
-            return res.status(400).json({
-                message:
-                    "Please provide either email or username, but not both.",
-            });
+            if ((!email && !username) || (email && username)) {
+                return next(new AppError(400, "Please provide either email or username, but not both."));
+            }
+
+            const user = await User.findOne(email ? { email } : { username });
+            if (!user) {
+                return next(new AppError(404, "Пользователь не найден"));
+            }
+
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                return next(new AppError(400, "Invalid credentials"));
+            }
+
+            const token = jwt.sign(
+                { id: user._id, role: user.role },
+                env.jwtSecret,
+                { expiresIn: "365d" },
+            );
+
+            res.json({ user: formatUser(user), token });
+        } catch (err) {
+            next(err);
         }
-
-        const user = await User.findOne(email ? { email } : { username });
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({ message: "Invalid credentials" });
-        }
-
-        const token = jwt.sign(
-            { id: user._id, role: user.role },
-            env.jwtSecret,
-            { expiresIn: "365d" },
-        );
-
-        res.json({ user: formatUser(user), token });
     },
 );
 

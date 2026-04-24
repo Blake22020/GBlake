@@ -9,42 +9,53 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const express_validator_1 = require("express-validator");
 const User_1 = __importDefault(require("../models/User"));
 const env_1 = require("../config/env");
+const auth_1 = require("../middleware/auth");
+const handleError_1 = require("../utils/handleError");
 const router = (0, express_1.Router)();
-router.post('/register1', [
-    (0, express_validator_1.body)('email').isEmail(),
-    (0, express_validator_1.body)('password').isLength({ min: 6 }),
-    (0, express_validator_1.body)('username').optional().isLength({ min: 1, max: 20 }),
-], async (req, res) => {
+router.post("/register1", [
+    (0, express_validator_1.body)("email").isEmail(),
+    (0, express_validator_1.body)("password").isLength({ min: 8 }),
+    (0, express_validator_1.body)("username").isLength({ min: 1, max: 20 }),
+], async (req, res, next) => {
     const errors = (0, express_validator_1.validationResult)(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        const errorMessages = errors
+            .array()
+            .map((err) => err.msg)
+            .join(", ");
+        return next(new handleError_1.AppError(400, errorMessages));
     }
-    const { email, password, username } = req.body;
-    const existingEmail = await User_1.default.findOne({ email });
-    if (existingEmail) {
-        return res.status(409).json({ message: 'Email already exist' });
+    try {
+        const { email, password, username } = req.body;
+        const existingEmail = await User_1.default.findOne({ email });
+        if (existingEmail) {
+            return next(new handleError_1.AppError(409, "Email already exist"));
+        }
+        const existingUsername = await User_1.default.findOne({ username });
+        if (existingUsername) {
+            return next(new handleError_1.AppError(409, "Username already exist"));
+        }
+        const hashed = await bcrypt_1.default.hash(password, 10);
+        const role = email === env_1.env.creator ? 3 : 0;
+        const user = await User_1.default.create({
+            email,
+            password: hashed,
+            username,
+            role,
+        });
+        const token = jsonwebtoken_1.default.sign({ id: user._id, role: user.role }, env_1.env.jwtSecret, { expiresIn: "365d" });
+        res.json({ user: formatUser(user), token });
     }
-    const existingUsername = await User_1.default.findOne({ username });
-    if (existingUsername) {
-        return res.status(409).json({ message: 'Username already exist' });
+    catch (err) {
+        next(err);
     }
-    const hashed = await bcrypt_1.default.hash(password, 10);
-    const role = email === env_1.env.creator ? 3 : 0;
-    const user = await User_1.default.create({
-        email,
-        password: hashed,
-        username,
-        role,
-    });
-    const token = jsonwebtoken_1.default.sign({ id: user._id, role: user.role }, env_1.env.jwtSecret, { expiresIn: "365d" });
-    res.json({ user, token });
 });
-router.patch("/register2", async (req, res) => {
+router.patch("/register2", auth_1.auth, async (req, res, next) => {
     try {
         const { visualName, bio } = req.body;
         const user = await User_1.default.findById(req.user.id);
         if (!user) {
-            return res.status(404).send("User Not Found");
+            return next(new handleError_1.AppError(404, "Пользователь не найден"));
         }
         if (visualName)
             user.visualName = visualName;
@@ -53,44 +64,52 @@ router.patch("/register2", async (req, res) => {
         await user.save();
         res.json(formatUser(user));
     }
-    catch {
-        res.status(500).json({ message: "Server Error" });
+    catch (err) {
+        next(err);
     }
 });
-router.post('/login', [
-    (0, express_validator_1.body)('password').notEmpty().withMessage('Password is required'),
-    (0, express_validator_1.body)('email').optional().isEmail().withMessage('Invalid email'),
-    (0, express_validator_1.body)('username').optional().isString().trim().isLength({ min: 1 }).withMessage('Invalid username')
-], async (req, res) => {
+router.post("/login", [
+    (0, express_validator_1.body)("password").notEmpty().withMessage("Password is required"),
+    (0, express_validator_1.body)("email").optional().isEmail().withMessage("Invalid email"),
+    (0, express_validator_1.body)("username")
+        .optional()
+        .isString()
+        .trim()
+        .isLength({ min: 1 })
+        .withMessage("Invalid username"),
+], async (req, res, next) => {
     const errors = (0, express_validator_1.validationResult)(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ message: 'Invalid credentials', errors: errors.array() });
+        return next(new handleError_1.AppError(400, "Invalid credentials"));
     }
-    const { email, username, password } = req.body;
-    if ((!email && !username) || (email && username)) {
-        return res.status(400).json({
-            message: 'Please provide either email or username, but not both.'
-        });
+    try {
+        const { email, username, password } = req.body;
+        if ((!email && !username) || (email && username)) {
+            return next(new handleError_1.AppError(400, "Please provide either email or username, but not both."));
+        }
+        const user = await User_1.default.findOne(email ? { email } : { username });
+        if (!user) {
+            return next(new handleError_1.AppError(404, "Пользователь не найден"));
+        }
+        const isMatch = await bcrypt_1.default.compare(password, user.password);
+        if (!isMatch) {
+            return next(new handleError_1.AppError(400, "Invalid credentials"));
+        }
+        const token = jsonwebtoken_1.default.sign({ id: user._id, role: user.role }, env_1.env.jwtSecret, { expiresIn: "365d" });
+        res.json({ user: formatUser(user), token });
     }
-    const user = await User_1.default.findOne(email ? { email } : { username });
-    if (!user) {
-        return res.status(404).json({ message: 'User not found' });
+    catch (err) {
+        next(err);
     }
-    const isMatch = await bcrypt_1.default.compare(password, user.password);
-    if (!isMatch) {
-        return res.status(400).json({ message: 'Invalid credentials' });
-    }
-    const token = jsonwebtoken_1.default.sign({ id: user._id, role: user.role }, env_1.env.jwtSecret, { expiresIn: '365d' });
-    res.json({ user, token });
 });
 function formatUser(u) {
     return {
-        id: u._id,
+        id: u._id.toString(),
         username: u.username,
         visualName: u.visualName,
         bio: u.bio,
-        followers: u.followers.length,
-        followings: u.followings.length
+        followers: u.followers ? u.followers.length : 0,
+        followings: u.followings ? u.followings.length : 0,
     };
 }
 exports.default = router;

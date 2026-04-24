@@ -1,7 +1,8 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import User from "../models/User";
 import Post from "../models/Post";
 import { auth } from "../middleware/auth";
+import { AppError } from "../utils/handleError";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -17,14 +18,14 @@ const upload = multer({
     dest: uploadsDir,
 });
 
-router.get("/:id", async (req: Request, res: Response) => {
+router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await User.findById(req.params.id)
             .select("-password")
             .populate("posts", "_id title text createdAt likes liked author");
 
         if (!user) {
-            return res.status(404).send("User Not Found");
+            return next(new AppError(404, "Пользователь не найден"));
         }
 
         res.json({
@@ -39,22 +40,21 @@ router.get("/:id", async (req: Request, res: Response) => {
             role: user.role,
         });
     } catch (err) {
-        console.error("Error in GET /api/users/:id:", err);
-        res.status(500).json({ message: "Ошибка сервера" });
+        next(err);
     }
 });
 
-router.patch("/me", auth, async (req: Request, res: Response) => {
+router.patch("/me", auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { visualName, bio, username } = req.body;
 
         const user = await User.findById(req.user!.id);
-        if (!user) return res.status(404).send("User Not Found");
+        if (!user) return next(new AppError(404, "Пользователь не найден"));
 
         if (username && username !== user.username) {
             const exist = await User.findOne({ username });
             if (exist) {
-                return res.status(409).send("Username already used");
+                return next(new AppError(409, "Username already used"));
             }
         }
 
@@ -66,12 +66,11 @@ router.patch("/me", auth, async (req: Request, res: Response) => {
 
         res.json(formatUser(user));
     } catch (err) {
-        console.error("Error in PATCH /api/users/me:", err);
-        res.status(500).json({ message: "Server Error" });
+        next(err);
     }
 });
 
-router.get("/:id/follow", auth, async (req: Request, res: Response) => {
+router.get("/:id/follow", auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const meId = req.user!.id;
         const targetId = req.params.id;
@@ -81,35 +80,32 @@ router.get("/:id/follow", auth, async (req: Request, res: Response) => {
         }
 
         const me = await User.findById(meId);
-        if (!me)
-            return res.status(404).json({ message: "Ваш аккаунт не найден" });
+        if (!me) return next(new AppError(404, "Ваш аккаунт не найден"));
 
         const isFollowing = me.followings.some(
             (id) => id.toString() === targetId,
         );
 
         res.json({ following: isFollowing });
-    } catch {
-        res.status(500).json({ message: "Ошибка сервера" });
+    } catch (err) {
+        next(err);
     }
 });
 
-router.post("/:id/follow", auth, async (req: Request, res: Response) => {
+router.post("/:id/follow", auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const meId = req.user!.id;
         const targetId = req.params.id;
 
         if (meId === targetId) {
-            return res.status(404).json({ message: "Cannot follow yourself" });
+            return next(new AppError(400, "Cannot follow yourself"));
         }
 
         const me = await User.findById(meId);
-        if (!me)
-            return res.status(404).json({ message: "Ваш аккаунт не найден" });
+        if (!me) return next(new AppError(404, "Ваш аккаунт не найден"));
 
         const target = await User.findById(targetId);
-        if (!target)
-            return res.status(404).json({ message: "Пользоватеь не найден" });
+        if (!target) return next(new AppError(404, "Пользователь не найден"));
 
         const already = me!.followings.some((id) => id.toString() === targetId);
         if (already) {
@@ -123,9 +119,7 @@ router.post("/:id/follow", auth, async (req: Request, res: Response) => {
             await me!.save();
             await target.save();
 
-            return res.json({
-                following: false,
-            });
+            return res.json({ following: false });
         } else {
             me!.followings.push(targetId as any);
             target.followers.push(meId as any);
@@ -133,34 +127,40 @@ router.post("/:id/follow", auth, async (req: Request, res: Response) => {
             await me!.save();
             await target.save();
 
-            return res.json({
-                following: true,
-            });
+            return res.json({ following: true });
         }
-    } catch {
-        res.status(500).json({ message: "Ошибка сервера" });
+    } catch (err) {
+        next(err);
     }
 });
 
-router.get("/:id/followers", async (req: Request, res: Response) => {
-    const user = await User.findById(req.params.id).populate(
-        "followers",
-        "username visualName avatar",
-    );
-    if (!user) return res.status(404).send("User Not Found");
-    res.json(user.followers);
+router.get("/:id/followers", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = await User.findById(req.params.id).populate(
+            "followers",
+            "username visualName avatar",
+        );
+        if (!user) return next(new AppError(404, "Пользователь не найден"));
+        res.json(user.followers);
+    } catch (err) {
+        next(err);
+    }
 });
 
-router.get("/:id/followings", async (req: Request, res: Response) => {
-    const user = await User.findById(req.params.id).populate(
-        "followings",
-        "username visualName avatar",
-    );
-    if (!user) return res.status(404).send("User Not Found");
-    res.json(user.followings);
+router.get("/:id/followings", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = await User.findById(req.params.id).populate(
+            "followings",
+            "username visualName avatar",
+        );
+        if (!user) return next(new AppError(404, "Пользователь не найден"));
+        res.json(user.followings);
+    } catch (err) {
+        next(err);
+    }
 });
 
-router.get("/:id/posts", async (req: Request, res: Response) => {
+router.get("/:id/posts", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const page = Number(req.query.page) || 1;
         const limit = Number(req.query.limit) || 10;
@@ -183,8 +183,7 @@ router.get("/:id/posts", async (req: Request, res: Response) => {
 
         res.json(posts.map(normalizePost));
     } catch (err) {
-        console.error("Error in GET /api/users/:id/posts:", err);
-        res.status(500).json({ message: "Ошибка сервера" });
+        next(err);
     }
 });
 
@@ -192,13 +191,13 @@ router.post(
     "/me/avatar",
     auth,
     upload.single("file"),
-    async (req: Request, res: Response) => {
+    async (req: Request, res: Response, next: NextFunction) => {
         try {
             const fileData = req.file;
-            if (!fileData) return res.status(400).send("Файл не загружен");
+            if (!fileData) return next(new AppError(400, "Файл не загружен"));
 
             const user = await User.findById(req.user?.id);
-            if (!user) return res.status(404).send("Пользователь не найден");
+            if (!user) return next(new AppError(404, "Пользователь не найден"));
 
             if (user.avatar && !user.avatar.startsWith("http")) {
                 const oldPath = path.join(
@@ -225,8 +224,7 @@ router.post(
                 avatar: newAvatarPath,
             });
         } catch (err) {
-            console.error(err);
-            res.status(500).json({ message: "Ошибка сервера" });
+            next(err);
         }
     },
 );

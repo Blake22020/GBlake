@@ -1,7 +1,8 @@
-import { Request, Response, Router } from "express";
+import { Request, Response, Router, NextFunction } from "express";
 import { auth, isAdmin } from "../middleware/auth";
 import User from "../models/User";
 import Post from "../models/Post";
+import { AppError } from "../utils/handleError";
 import path from "path";
 import fs from "fs";
 
@@ -11,7 +12,7 @@ router.get(
     "/stats",
     auth,
     isAdmin,
-    async (_req: Request, res: Response) => {
+    async (_req: Request, res: Response, next: NextFunction) => {
         try {
             const [totalUsers, totalPosts, roleCounts, weekAgoUsers, weekAgoPosts] =
                 await Promise.all([
@@ -40,8 +41,8 @@ router.get(
                 newPostsThisWeek: weekAgoPosts,
                 byRole,
             });
-        } catch {
-            res.status(500).json({ message: "Ошибка сервера" });
+        } catch (err) {
+            next(err);
         }
     },
 );
@@ -50,7 +51,7 @@ router.get(
     "/users",
     auth,
     isAdmin,
-    async (req: Request, res: Response) => {
+    async (req: Request, res: Response, next: NextFunction) => {
         try {
             const page = Math.max(1, parseInt(String(req.query.page || "1")));
             const limit = Math.min(50, Math.max(1, parseInt(String(req.query.limit || "20"))));
@@ -80,8 +81,8 @@ router.get(
                 page,
                 totalPages: Math.ceil(total / limit),
             });
-        } catch {
-            res.status(500).json({ message: "Ошибка сервера" });
+        } catch (err) {
+            next(err);
         }
     },
 );
@@ -90,28 +91,26 @@ router.post(
     "/promote/:id",
     auth,
     isAdmin,
-    async (req: Request, res: Response) => {
+    async (req: Request, res: Response, next: NextFunction) => {
         try {
             const targetUser = await User.findById(req.params.id);
             if (!targetUser) {
-                return res.status(404).json({ message: "User not found" });
+                return next(new AppError(404, "Пользователь не найден"));
             }
 
             const user = await User.findById(req.user!.id);
             if (!user) {
-                return res.status(404).json({ message: "Admin not found" });
+                return next(new AppError(404, "Admin not found"));
             }
 
             const newRole = parseInt(req.body.role);
 
             if (![-1, 0, 1, 2, 3].includes(newRole)) {
-                return res.status(400).json({ message: "Invalid role" });
+                return next(new AppError(400, "Invalid role"));
             }
 
             if (targetUser.role >= req.user!.role || newRole > req.user!.role) {
-                return res.status(403).json({
-                    message: "Нельзя повышать роль выше своей или чужой",
-                });
+                return next(new AppError(403, "Нельзя повышать роль выше своей или чужой"));
             }
 
             if (newRole === -1) {
@@ -149,22 +148,16 @@ router.post(
                 return res.json({ message: "Пользователь забанен и удалён" });
             }
 
-            if (![0, 1, 2, 3].includes(newRole)) {
-                return res.status(400).json({ message: "Invalid role" });
-            }
-
             if (newRole === 3) {
-                return res
-                    .status(400)
-                    .json({ message: "Нельзя повышать до создателя" });
+                return next(new AppError(400, "Нельзя повышать до создателя"));
             }
 
             targetUser.role = newRole;
             await targetUser.save();
 
-            res.json({ message: "Роль обновлена ", role: targetUser.role });
+            res.json({ message: "Роль обновлена", role: targetUser.role });
         } catch (err) {
-            res.status(500).json({ message: "Ошибка сервера" });
+            next(err);
         }
     },
 );
