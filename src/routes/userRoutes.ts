@@ -6,6 +6,7 @@ import { AppError } from "../utils/handleError";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import { processAndSaveAvatar } from "utils/processImage";
 
 const router = Router();
 
@@ -16,6 +17,14 @@ if (!fs.existsSync(uploadsDir)) {
 
 const upload = multer({
     dest: uploadsDir,
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+    fileFilter: (_req, file, cb) => {
+        if (file.mimetype.startsWith("image/")) {
+            cb(null, true);
+        } else {
+            cb(new AppError(400, "Разрешены только изображения"));
+        }
+    },
 });
 
 router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
@@ -44,148 +53,172 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     }
 });
 
-router.patch("/me", auth, async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const { visualName, bio, username } = req.body;
+router.patch(
+    "/me",
+    auth,
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { visualName, bio, username } = req.body;
 
-        const user = await User.findById(req.user!.id);
-        if (!user) return next(new AppError(404, "Пользователь не найден"));
+            const user = await User.findById(req.user!.id);
+            if (!user) return next(new AppError(404, "Пользователь не найден"));
 
-        if (username && username !== user.username) {
-            const exist = await User.findOne({ username });
-            if (exist) {
-                return next(new AppError(409, "Username already used"));
+            if (username && username !== user.username) {
+                const exist = await User.findOne({ username });
+                if (exist) {
+                    return next(new AppError(409, "Username already used"));
+                }
             }
+
+            if (username) user.username = username;
+            if (visualName) user.visualName = visualName;
+            if (bio) user.bio = bio;
+
+            await user.save();
+
+            res.json(formatUser(user));
+        } catch (err) {
+            next(err);
         }
+    },
+);
 
-        if (username) user.username = username;
-        if (visualName) user.visualName = visualName;
-        if (bio) user.bio = bio;
+router.get(
+    "/:id/follow",
+    auth,
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const meId = req.user!.id;
+            const targetId = req.params.id;
 
-        await user.save();
+            if (meId === targetId) {
+                return res.json({ following: false });
+            }
 
-        res.json(formatUser(user));
-    } catch (err) {
-        next(err);
-    }
-});
+            const me = await User.findById(meId);
+            if (!me) return next(new AppError(404, "Ваш аккаунт не найден"));
 
-router.get("/:id/follow", auth, async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const meId = req.user!.id;
-        const targetId = req.params.id;
-
-        if (meId === targetId) {
-            return res.json({ following: false });
-        }
-
-        const me = await User.findById(meId);
-        if (!me) return next(new AppError(404, "Ваш аккаунт не найден"));
-
-        const isFollowing = me.followings.some(
-            (id) => id.toString() === targetId,
-        );
-
-        res.json({ following: isFollowing });
-    } catch (err) {
-        next(err);
-    }
-});
-
-router.post("/:id/follow", auth, async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const meId = req.user!.id;
-        const targetId = req.params.id;
-
-        if (meId === targetId) {
-            return next(new AppError(400, "Cannot follow yourself"));
-        }
-
-        const me = await User.findById(meId);
-        if (!me) return next(new AppError(404, "Ваш аккаунт не найден"));
-
-        const target = await User.findById(targetId);
-        if (!target) return next(new AppError(404, "Пользователь не найден"));
-
-        const already = me!.followings.some((id) => id.toString() === targetId);
-        if (already) {
-            me!.followings = me!.followings.filter(
-                (id) => id.toString() !== targetId,
-            );
-            target.followers = target.followers.filter(
-                (id) => id.toString() !== meId,
+            const isFollowing = me.followings.some(
+                (id) => id.toString() === targetId,
             );
 
-            await me!.save();
-            await target.save();
-
-            return res.json({ following: false });
-        } else {
-            me!.followings.push(targetId as any);
-            target.followers.push(meId as any);
-
-            await me!.save();
-            await target.save();
-
-            return res.json({ following: true });
+            res.json({ following: isFollowing });
+        } catch (err) {
+            next(err);
         }
-    } catch (err) {
-        next(err);
-    }
-});
+    },
+);
 
-router.get("/:id/followers", async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const user = await User.findById(req.params.id).populate(
-            "followers",
-            "username visualName avatar",
-        );
-        if (!user) return next(new AppError(404, "Пользователь не найден"));
-        res.json(user.followers);
-    } catch (err) {
-        next(err);
-    }
-});
+router.post(
+    "/:id/follow",
+    auth,
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const meId = req.user!.id;
+            const targetId = req.params.id;
 
-router.get("/:id/followings", async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const user = await User.findById(req.params.id).populate(
-            "followings",
-            "username visualName avatar",
-        );
-        if (!user) return next(new AppError(404, "Пользователь не найден"));
-        res.json(user.followings);
-    } catch (err) {
-        next(err);
-    }
-});
+            if (meId === targetId) {
+                return next(new AppError(400, "Cannot follow yourself"));
+            }
 
-router.get("/:id/posts", async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const page = Number(req.query.page) || 1;
-        const limit = Number(req.query.limit) || 10;
-        const skip = (page - 1) * limit;
+            const me = await User.findById(meId);
+            if (!me) return next(new AppError(404, "Ваш аккаунт не найден"));
 
-        const posts = await Post.find({ author: req.params.id })
-            .populate("author", "username avatar _id")
-            .sort({ createdAt: -1 })
-            .skip(skip)
-            .limit(limit)
-            .lean();
+            const target = await User.findById(targetId);
+            if (!target)
+                return next(new AppError(404, "Пользователь не найден"));
 
-        const normalizePost = (post: any) => ({
-            ...post,
-            _id: post._id.toString(),
-            author: post.author
-                ? { ...post.author, _id: post.author._id.toString() }
-                : null,
-        });
+            const already = me!.followings.some(
+                (id) => id.toString() === targetId,
+            );
+            if (already) {
+                me!.followings = me!.followings.filter(
+                    (id) => id.toString() !== targetId,
+                );
+                target.followers = target.followers.filter(
+                    (id) => id.toString() !== meId,
+                );
 
-        res.json(posts.map(normalizePost));
-    } catch (err) {
-        next(err);
-    }
-});
+                await me!.save();
+                await target.save();
+
+                return res.json({ following: false });
+            } else {
+                me!.followings.push(targetId as any);
+                target.followers.push(meId as any);
+
+                await me!.save();
+                await target.save();
+
+                return res.json({ following: true });
+            }
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+
+router.get(
+    "/:id/followers",
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const user = await User.findById(req.params.id).populate(
+                "followers",
+                "username visualName avatar",
+            );
+            if (!user) return next(new AppError(404, "Пользователь не найден"));
+            res.json(user.followers);
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+
+router.get(
+    "/:id/followings",
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const user = await User.findById(req.params.id).populate(
+                "followings",
+                "username visualName avatar",
+            );
+            if (!user) return next(new AppError(404, "Пользователь не найден"));
+            res.json(user.followings);
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+
+router.get(
+    "/:id/posts",
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const page = Number(req.query.page) || 1;
+            const limit = Number(req.query.limit) || 10;
+            const skip = (page - 1) * limit;
+
+            const posts = await Post.find({ author: req.params.id })
+                .populate("author", "username avatar _id")
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(limit)
+                .lean();
+
+            const normalizePost = (post: any) => ({
+                ...post,
+                _id: post._id.toString(),
+                author: post.author
+                    ? { ...post.author, _id: post.author._id.toString() }
+                    : null,
+            });
+
+            res.json(posts.map(normalizePost));
+        } catch (err) {
+            next(err);
+        }
+    },
+);
 
 router.post(
     "/me/avatar",
@@ -213,8 +246,7 @@ router.post(
                         );
                 });
             }
-
-            const newAvatarPath = "/uploads/" + fileData.filename;
+            const newAvatarPath = await processAndSaveAvatar(fileData.buffer);
 
             user.avatar = newAvatarPath;
             await user.save();
