@@ -19,5 +19,5 @@ export async function processAndSaveAvatar(buffer: Buffer) {
         .webp({ quality: 80 })
         .toFile(outputPath);
 
-    return outputPath;
+    return `/uploads/${filename}`;
 }
