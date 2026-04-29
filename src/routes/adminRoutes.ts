@@ -8,28 +8,47 @@ import fs from "fs";
 
 const router = Router();
 
+function escapeRegex(str: string) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 router.get(
     "/stats",
     auth,
     isAdmin,
     async (_req: Request, res: Response, next: NextFunction) => {
         try {
-            const [totalUsers, totalPosts, roleCounts, weekAgoUsers, weekAgoPosts] =
-                await Promise.all([
-                    User.countDocuments(),
-                    Post.countDocuments(),
-                    User.aggregate([
-                        { $group: { _id: "$role", count: { $sum: 1 } } },
-                    ]),
-                    User.countDocuments({
-                        createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
-                    }),
-                    Post.countDocuments({
-                        createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
-                    }),
-                ]);
+            const [
+                totalUsers,
+                totalPosts,
+                roleCounts,
+                weekAgoUsers,
+                weekAgoPosts,
+            ] = await Promise.all([
+                User.countDocuments(),
+                Post.countDocuments(),
+                User.aggregate([
+                    { $group: { _id: "$role", count: { $sum: 1 } } },
+                ]),
+                User.countDocuments({
+                    createdAt: {
+                        $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+                    },
+                }),
+                Post.countDocuments({
+                    createdAt: {
+                        $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+                    },
+                }),
+            ]);
 
-            const byRole: Record<number, number> = { "-1": 0, "0": 0, "1": 0, "2": 0, "3": 0 };
+            const byRole: Record<number, number> = {
+                "-1": 0,
+                "0": 0,
+                "1": 0,
+                "2": 0,
+                "3": 0,
+            };
             for (const entry of roleCounts) {
                 byRole[entry._id] = entry.count;
             }
@@ -54,20 +73,25 @@ router.get(
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const page = Math.max(1, parseInt(String(req.query.page || "1")));
-            const limit = Math.min(50, Math.max(1, parseInt(String(req.query.limit || "20"))));
+            const limit = Math.min(
+                50,
+                Math.max(1, parseInt(String(req.query.limit || "20"))),
+            );
             const search = String(req.query.search || "").trim();
 
             const filter: Record<string, any> = {};
             if (search) {
                 filter.$or = [
-                    { username: { $regex: search, $options: "i" } },
-                    { visualName: { $regex: search, $options: "i" } },
+                    { username: { $regex: escapeRegex(search), $options: "i" } },
+                    { visualName: { $regex: escapeRegex(search), $options: "i" } },
                 ];
             }
 
             const [users, total] = await Promise.all([
                 User.find(filter)
-                    .select("_id username visualName email role avatar createdAt")
+                    .select(
+                        "_id username visualName email role avatar createdAt",
+                    )
                     .sort({ createdAt: -1 })
                     .skip((page - 1) * limit)
                     .limit(limit)
@@ -110,7 +134,12 @@ router.post(
             }
 
             if (targetUser.role >= req.user!.role || newRole > req.user!.role) {
-                return next(new AppError(403, "Нельзя повышать роль выше своей или чужой"));
+                return next(
+                    new AppError(
+                        403,
+                        "Нельзя повышать роль выше своей или чужой",
+                    ),
+                );
             }
 
             if (newRole === -1) {

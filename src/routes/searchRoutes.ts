@@ -5,6 +5,10 @@ import { AppError } from "../utils/handleError";
 
 const router = Router();
 
+function escapeRegex(str: string) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 router.get("/", async (req: Request, res: Response, next: NextFunction) => {
     try {
         let { q } = req.query;
@@ -26,9 +30,9 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
 
         const users = await User.find({
             $or: [
-                { visualName: { $regex: q, $options: "i" } },
-                { bio: { $regex: q, $options: "i" } },
-                { username: { $regex: q, $options: "i" } },
+                { visualName: { $regex: escapeRegex(q), $options: "i" } },
+                { bio: { $regex: escapeRegex(q), $options: "i" } },
+                { username: { $regex: escapeRegex(q), $options: "i" } },
             ],
         })
             .select("_id username visualName avatar followers posts")
@@ -43,8 +47,8 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
 
         const posts = await Post.find({
             $or: [
-                { title: { $regex: q, $options: "i" } },
-                { text: { $regex: q, $options: "i" } },
+                { title: { $regex: escapeRegex(q), $options: "i" } },
+                { text: { $regex: escapeRegex(q), $options: "i" } },
             ],
         })
             .populate("author", "username avatar _id")
