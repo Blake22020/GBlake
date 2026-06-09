@@ -52,7 +52,8 @@ function Edit() {
         };
 
         fetchUserData();
-    }, [navigate, userData?.id]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [navigate]);
 
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
