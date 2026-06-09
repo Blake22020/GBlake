@@ -207,7 +207,7 @@ function UserPage() {
                         <div className="flex justify-between w-[90%] sm:w-[500px] md:w-[600px] lg:w-[700px] xl:w-[850px] items-center">
                             <div className="flex items-center gap-2 sm:gap-[25px]">
                                 <img
-                                    src={`${process.env.REACT_APP_API_URL}${user.avatar.trim()}`}
+                                    src={`${process.env.REACT_APP_API_URL}${user.avatar?.trim() ?? ""}`}
                                     alt=""
                                     className="h-[3rem] xs:h-[4rem] sm:h-[5rem] lg:h-[6rem] xl:h-[7rem] w-[3rem] xs:w-[4rem] sm:w-[5rem] lg:w-[6rem] xl:w-[7rem] object-cover bg-white rounded-full"
                                 />
