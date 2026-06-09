@@ -72,26 +72,30 @@ function Post(post: PostInterface) {
     const timeAgoStr = useMemo(() => timeAgo(post.createdAt), [post.createdAt]);
 
     const toggleLike = useCallback(async () => {
-        setLiked((prev) => !prev);
-        setLikesCount((prev) => prev + (liked ? -1 : 1));
+        const wasLiked = liked;
+        setLiked(!wasLiked);
+        setLikesCount((prev) => prev + (wasLiked ? -1 : 1));
+
+        const revert = () => {
+            setLiked(wasLiked);
+            setLikesCount((prev) => prev + (wasLiked ? 1 : -1));
+        };
 
         const token = localStorage.getItem("token");
 
         try {
             const res = await likePost(post._id, token);
 
-            if (!res) {
+            if (!res || res.likes === undefined || res.likes === null) {
+                revert();
                 toast.error("Сервер не ответил или вернул ошибку.");
                 return;
             }
 
-            if (res.likes === undefined || res.likes === null) {
-                toast.error("Сервер не ответил");
-                return;
-            }
-
+            setLikesCount(res.likes);
             toast.success("Лайк поставлен!");
         } catch (error: any) {
+            revert();
             const errMsg =
                 error?.response?.data?.message ||
                 error.message ||
