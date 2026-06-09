@@ -8,6 +8,9 @@ const User_1 = __importDefault(require("../models/User"));
 const Post_1 = __importDefault(require("../models/Post"));
 const handleError_1 = require("../utils/handleError");
 const router = (0, express_1.Router)();
+function escapeRegex(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 router.get("/", async (req, res, next) => {
     try {
         let { q } = req.query;
@@ -25,9 +28,9 @@ router.get("/", async (req, res, next) => {
         }
         const users = await User_1.default.find({
             $or: [
-                { visualName: { $regex: q, $options: "i" } },
-                { bio: { $regex: q, $options: "i" } },
-                { username: { $regex: q, $options: "i" } },
+                { visualName: { $regex: escapeRegex(q), $options: "i" } },
+                { bio: { $regex: escapeRegex(q), $options: "i" } },
+                { username: { $regex: escapeRegex(q), $options: "i" } },
             ],
         })
             .select("_id username visualName avatar followers posts")
@@ -40,8 +43,8 @@ router.get("/", async (req, res, next) => {
         }));
         const posts = await Post_1.default.find({
             $or: [
-                { title: { $regex: q, $options: "i" } },
-                { text: { $regex: q, $options: "i" } },
+                { title: { $regex: escapeRegex(q), $options: "i" } },
+                { text: { $regex: escapeRegex(q), $options: "i" } },
             ],
         })
             .populate("author", "username avatar _id")

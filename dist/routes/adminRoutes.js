@@ -11,22 +11,35 @@ const handleError_1 = require("../utils/handleError");
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const router = (0, express_1.Router)();
+function escapeRegex(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 router.get("/stats", auth_1.auth, auth_1.isAdmin, async (_req, res, next) => {
     try {
-        const [totalUsers, totalPosts, roleCounts, weekAgoUsers, weekAgoPosts] = await Promise.all([
+        const [totalUsers, totalPosts, roleCounts, weekAgoUsers, weekAgoPosts,] = await Promise.all([
             User_1.default.countDocuments(),
             Post_1.default.countDocuments(),
             User_1.default.aggregate([
                 { $group: { _id: "$role", count: { $sum: 1 } } },
             ]),
             User_1.default.countDocuments({
-                createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
+                createdAt: {
+                    $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+                },
             }),
             Post_1.default.countDocuments({
-                createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
+                createdAt: {
+                    $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+                },
             }),
         ]);
-        const byRole = { "-1": 0, "0": 0, "1": 0, "2": 0, "3": 0 };
+        const byRole = {
+            "-1": 0,
+            "0": 0,
+            "1": 0,
+            "2": 0,
+            "3": 0,
+        };
         for (const entry of roleCounts) {
             byRole[entry._id] = entry.count;
         }
@@ -50,8 +63,8 @@ router.get("/users", auth_1.auth, auth_1.isAdmin, async (req, res, next) => {
         const filter = {};
         if (search) {
             filter.$or = [
-                { username: { $regex: search, $options: "i" } },
-                { visualName: { $regex: search, $options: "i" } },
+                { username: { $regex: escapeRegex(search), $options: "i" } },
+                { visualName: { $regex: escapeRegex(search), $options: "i" } },
             ];
         }
         const [users, total] = await Promise.all([

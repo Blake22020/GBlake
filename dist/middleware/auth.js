@@ -53,7 +53,7 @@ async function optionalAuth(req, res, next) {
     }
 }
 async function isAdmin(req, res, next) {
-    if (req.user.role < 2) {
+    if (!req.user || req.user.role < 2) {
         return res.status(403).json({ ok: false, message: "Доступ запрещён" });
     }
     next();

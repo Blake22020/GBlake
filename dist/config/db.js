@@ -8,11 +8,15 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const env_1 = require("./env");
 async function connectDB() {
     try {
-        const conn = await mongoose_1.default.connect(env_1.env.mongoUrl);
-        console.log("MongoDB Connected! =)");
+        const conn = await mongoose_1.default.connect(env_1.env.mongoUrl, {
+            serverSelectionTimeoutMS: 5000,
+            connectTimeoutMS: 10000,
+        });
+        console.log(`MongoDB Connected: ${conn.connection.host} =)`);
     }
     catch (e) {
         console.error("DB ERROR: ", e);
-        process.exit(1);
+        console.log("Retrying in 5 seconds...");
+        setTimeout(connectDB, 5000);
     }
 }

@@ -39,14 +39,13 @@ const PostSchema = new mongoose_1.Schema({
         type: String,
         required: true,
         minlength: 1,
-        maxlength: 20
+        maxlength: 100
     },
     text: {
         type: String,
         required: true,
-        default: "",
         minlength: 1,
-        maxlength: 40
+        maxlength: 5000
     },
     createdAt: {
         type: Date,
@@ -61,5 +60,15 @@ const PostSchema = new mongoose_1.Schema({
         ref: 'User',
         required: true,
     },
+});
+PostSchema.index({
+    title: 'text',
+    text: 'text'
+}, {
+    name: "post_text_index",
+    weights: {
+        title: 5,
+        text: 1
+    }
 });
 exports.default = mongoose_1.default.model("Post", PostSchema);
