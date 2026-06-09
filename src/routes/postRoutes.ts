@@ -53,6 +53,58 @@ router.post("/", auth, async (req: Request, res: Response, next: NextFunction) =
     }
 });
 
+router.get("/likes", auth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userId = req.user!.id;
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return next(new AppError(404, "Пользователь не найден"));
+        }
+
+        const posts = await Post.find({
+            _id: { $in: user.likes },
+        })
+            .populate("author", "username avatar _id")
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
+
+        res.json(posts.map(normalizePost));
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.get("/followings", auth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userId = req.user!.id;
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return next(new AppError(404, "Пользователь не найден"));
+        }
+
+        const posts = await Post.find({
+            author: { $in: user.followings },
+        })
+            .populate("author", "username avatar _id")
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
+
+        res.json(posts.map(normalizePost));
+    } catch (err) {
+        next(err);
+    }
+});
+
 router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const post = await Post.findById(req.params.id).populate(
@@ -104,58 +156,6 @@ router.delete("/:id", auth, async (req: Request, res: Response, next: NextFuncti
         await Post.findByIdAndDelete(req.params.id);
 
         res.json({ message: "Пост удален" });
-    } catch (err) {
-        next(err);
-    }
-});
-
-router.get("/likes", auth, async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const userId = req.user!.id;
-        const page = Number(req.query.page) || 1;
-        const limit = Number(req.query.limit) || 10;
-        const skip = (page - 1) * limit;
-
-        const user = await User.findById(userId);
-        if (!user) {
-            return next(new AppError(404, "Пользователь не найден"));
-        }
-
-        const posts = await Post.find({
-            _id: { $in: user.likes },
-        })
-            .populate("author", "username avatar _id")
-            .sort({ createdAt: -1 })
-            .skip(skip)
-            .limit(limit);
-
-        res.json(posts.map(normalizePost));
-    } catch (err) {
-        next(err);
-    }
-});
-
-router.get("/followings", auth, async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const userId = req.user!.id;
-        const page = Number(req.query.page) || 1;
-        const limit = Number(req.query.limit) || 10;
-        const skip = (page - 1) * limit;
-
-        const user = await User.findById(userId);
-        if (!user) {
-            return next(new AppError(404, "Пользователь не найден"));
-        }
-
-        const posts = await Post.find({
-            author: { $in: user.followings },
-        })
-            .populate("author", "username avatar _id")
-            .sort({ createdAt: -1 })
-            .skip(skip)
-            .limit(limit);
-
-        res.json(posts.map(normalizePost));
     } catch (err) {
         next(err);
     }

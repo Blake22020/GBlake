@@ -49,46 +49,6 @@ router.post("/", auth_1.auth, async (req, res, next) => {
         next(err);
     }
 });
-router.get("/:id", async (req, res, next) => {
-    try {
-        const post = await Post_1.default.findById(req.params.id).populate("author", "username avatar _id");
-        if (!post) {
-            return next(new handleError_1.AppError(404, "Пост не найден"));
-        }
-        const normalizePost = (post) => ({
-            ...post,
-            _id: post._id.toString(),
-            author: post.author
-                ? {
-                    ...post.author,
-                    _id: post.author._id.toString(),
-                }
-                : null,
-        });
-        res.json(normalizePost(post));
-    }
-    catch (err) {
-        next(err);
-    }
-});
-router.delete("/:id", auth_1.auth, async (req, res, next) => {
-    try {
-        const post = await Post_1.default.findById(req.params.id);
-        if (!post) {
-            return next(new handleError_1.AppError(404, "Пост не найден"));
-        }
-        if (req.user.id !== post.author.toString()) {
-            return next(new handleError_1.AppError(403, "Нельзя удалить чужой пост"));
-        }
-        await User_1.default.updateOne({ _id: post.author }, { $pull: { posts: post._id } });
-        await User_1.default.updateMany({ likes: post._id }, { $pull: { likes: post._id } });
-        await Post_1.default.findByIdAndDelete(req.params.id);
-        res.json({ message: "Пост удален" });
-    }
-    catch (err) {
-        next(err);
-    }
-});
 router.get("/likes", auth_1.auth, async (req, res, next) => {
     try {
         const userId = req.user.id;
@@ -130,6 +90,46 @@ router.get("/followings", auth_1.auth, async (req, res, next) => {
             .skip(skip)
             .limit(limit);
         res.json(posts.map(normalizePost));
+    }
+    catch (err) {
+        next(err);
+    }
+});
+router.get("/:id", async (req, res, next) => {
+    try {
+        const post = await Post_1.default.findById(req.params.id).populate("author", "username avatar _id");
+        if (!post) {
+            return next(new handleError_1.AppError(404, "Пост не найден"));
+        }
+        const normalizePost = (post) => ({
+            ...post,
+            _id: post._id.toString(),
+            author: post.author
+                ? {
+                    ...post.author,
+                    _id: post.author._id.toString(),
+                }
+                : null,
+        });
+        res.json(normalizePost(post));
+    }
+    catch (err) {
+        next(err);
+    }
+});
+router.delete("/:id", auth_1.auth, async (req, res, next) => {
+    try {
+        const post = await Post_1.default.findById(req.params.id);
+        if (!post) {
+            return next(new handleError_1.AppError(404, "Пост не найден"));
+        }
+        if (req.user.id !== post.author.toString()) {
+            return next(new handleError_1.AppError(403, "Нельзя удалить чужой пост"));
+        }
+        await User_1.default.updateOne({ _id: post.author }, { $pull: { posts: post._id } });
+        await User_1.default.updateMany({ likes: post._id }, { $pull: { likes: post._id } });
+        await Post_1.default.findByIdAndDelete(req.params.id);
+        res.json({ message: "Пост удален" });
     }
     catch (err) {
         next(err);
