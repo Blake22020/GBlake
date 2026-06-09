@@ -11,13 +11,23 @@ const handleError_1 = require("../utils/handleError");
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
+const processImage_1 = require("../utils/processImage");
 const router = (0, express_1.Router)();
 const uploadsDir = path_1.default.join(process.cwd(), "uploads");
 if (!fs_1.default.existsSync(uploadsDir)) {
     fs_1.default.mkdirSync(uploadsDir, { recursive: true });
 }
 const upload = (0, multer_1.default)({
-    dest: uploadsDir,
+    storage: multer_1.default.memoryStorage(),
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+    fileFilter: (_req, file, cb) => {
+        if (file.mimetype.startsWith("image/")) {
+            cb(null, true);
+        }
+        else {
+            cb(new handleError_1.AppError(400, "Разрешены только изображения"));
+        }
+    },
 });
 router.get("/:id", async (req, res, next) => {
     try {
@@ -179,7 +189,7 @@ router.post("/me/avatar", auth_1.auth, upload.single("file"), async (req, res, n
                     console.log("Не удалось удалить старую аватарку:", err.message);
             });
         }
-        const newAvatarPath = "/uploads/" + fileData.filename;
+        const newAvatarPath = await (0, processImage_1.processAndSaveAvatar)(fileData.buffer);
         user.avatar = newAvatarPath;
         await user.save();
         res.json({

@@ -6,7 +6,7 @@ import { AppError } from "../utils/handleError";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
-import { processAndSaveAvatar } from "utils/processImage";
+import { processAndSaveAvatar } from "../utils/processImage";
 
 const router = Router();
 
@@ -16,7 +16,7 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 const upload = multer({
-    dest: uploadsDir,
+    storage: multer.memoryStorage(),
     limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
     fileFilter: (_req, file, cb) => {
         if (file.mimetype.startsWith("image/")) {
