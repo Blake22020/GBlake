@@ -54,8 +54,11 @@ function MainNavbar({ open }: any) {
                 >
                     Github
                 </a>
-                <a className="items-center bg-bg-contactButton opacity-50 py-[10px] rounded-[25px] w-full text-[1.3rem] text-white max-[900px]:min-[600px]:text-[1rem] text-center no-underline duration-200 cursor-not-allowed contactButton txt-white">
-                    Скоро
+                <a
+                    className="items-center bg-bg-contactButton hover:bg-bg-contactButtonHover py-[10px] rounded-[25px] w-full text-[1.3rem] text-white max-[900px]:min-[600px]:text-[1rem] text-center no-underline hover:translate-y-[-5px] duration-200 cursor-pointer contactButton txt-white"
+                    href="https://blake22020.github.io/portfolio/"
+                >
+                    Портфолио
                 </a>
             </div>
         </div>
