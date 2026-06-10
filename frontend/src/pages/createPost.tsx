@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import Textarea from "../components/Textarea";
+import { ReactComponent as CloseIcon } from "../assets/close.svg";
 
 function CreatePost() {
     const navigate = useNavigate();
@@ -115,25 +116,11 @@ function CreatePost() {
                             navigate("/");
                         }}
                     >
-                        <svg
+                        <CloseIcon
                             className="w-full h-full"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
                             width="50"
                             height="50"
-                        >
-                            <g data-name="Layer 2">
-                                <g data-name="close">
-                                    <rect
-                                        width="50"
-                                        height="50"
-                                        transform="rotate(180 12 12)"
-                                        opacity="0"
-                                    />
-                                    <path d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
-                                </g>
-                            </g>
-                        </svg>
+                        />
                     </button>
                     <h1 className="text-[1.3rem] min-[480px]:text-[1.5rem] xs:text-[1.8rem] md:text-[2rem] nav:text-[2.5rem] lg:text-[3rem] text-primary-600">
                         Создание поста
