@@ -34,45 +34,43 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const PostSchema = new mongoose_1.Schema({
-    title: {
-        type: String,
-        required: true,
-        minlength: 1,
-        maxlength: 100
-    },
+const CommentSchema = new mongoose_1.Schema({
     text: {
         type: String,
         required: true,
         minlength: 1,
-        maxlength: 5000
+        maxlength: 1000,
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
+    author: {
+        type: mongoose_1.Types.ObjectId,
+        ref: "User",
+        required: true,
+    },
+    post: {
+        type: mongoose_1.Types.ObjectId,
+        ref: "Post",
+        required: true,
+    },
+    parent: {
+        type: mongoose_1.Types.ObjectId,
+        ref: "Comment",
+        default: null,
     },
     likes: {
         type: Number,
         default: 0,
     },
-    commentsCount: {
-        type: Number,
-        default: 0,
+    likedBy: [
+        {
+            type: mongoose_1.Types.ObjectId,
+            ref: "User",
+            default: [],
+        },
+    ],
+    edited: {
+        type: Boolean,
+        default: false,
     },
-    author: {
-        type: mongoose_1.Types.ObjectId,
-        ref: 'User',
-        required: true,
-    },
-});
-PostSchema.index({
-    title: 'text',
-    text: 'text'
-}, {
-    name: "post_text_index",
-    weights: {
-        title: 5,
-        text: 1
-    }
-});
-exports.default = mongoose_1.default.model("Post", PostSchema);
+}, { timestamps: true });
+CommentSchema.index({ post: 1, parent: 1, createdAt: -1 });
+exports.default = mongoose_1.default.model("Comment", CommentSchema);

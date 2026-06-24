@@ -6,6 +6,7 @@ export interface IPost extends Document {
     text: string;
     createdAt: Date;
     likes: number;
+    commentsCount: number;
     author: Types.ObjectId
 }
 
@@ -28,6 +29,11 @@ const PostSchema = new Schema<IPost>({
     },
 
     likes: {
+        type: Number,
+        default: 0,
+    },
+
+    commentsCount: {
         type: Number,
         default: 0,
     },

@@ -49,6 +49,86 @@ export async function likePost(postId: string, token: string | null) {
     return res.data;
 }
 
+export async function getComments(
+    postId: string,
+    token: string | null,
+    page = 1,
+    limit = 10,
+) {
+    const res = await apiClient.get(`${BASE_URL}/api/comments/${postId}`, {
+        params: { page, limit },
+        headers: {
+            Authorization: token ? `Bearer ${token}` : "",
+        },
+    });
+
+    return res.data;
+}
+
+export async function createComment(
+    postId: string,
+    text: string,
+    token: string | null,
+    parentId?: string,
+) {
+    const res = await apiClient.post(
+        `${BASE_URL}/api/comments/${postId}`,
+        { text, parentId },
+        {
+            headers: {
+                Authorization: token ? `Bearer ${token}` : "",
+            },
+        },
+    );
+
+    return res.data;
+}
+
+export async function editComment(
+    commentId: string,
+    text: string,
+    token: string | null,
+) {
+    const res = await apiClient.patch(
+        `${BASE_URL}/api/comments/${commentId}`,
+        { text },
+        {
+            headers: {
+                Authorization: token ? `Bearer ${token}` : "",
+            },
+        },
+    );
+
+    return res.data;
+}
+
+export async function deleteComment(commentId: string, token: string | null) {
+    const res = await apiClient.delete(
+        `${BASE_URL}/api/comments/${commentId}`,
+        {
+            headers: {
+                Authorization: token ? `Bearer ${token}` : "",
+            },
+        },
+    );
+
+    return res.data;
+}
+
+export async function likeComment(commentId: string, token: string | null) {
+    const res = await apiClient.post(
+        `${BASE_URL}/api/comments/${commentId}/like`,
+        {},
+        {
+            headers: {
+                Authorization: token ? `Bearer ${token}` : "",
+            },
+        },
+    );
+
+    return res.data;
+}
+
 export async function registerRequest1({
     email,
     password,

@@ -29,6 +29,7 @@ interface PostInterface {
     text: string;
     createdAt: Date;
     likes: number;
+    commentsCount?: number;
     liked: boolean;
     author: {
         username: string;
@@ -258,6 +259,7 @@ function UserPage() {
                             text={post.text}
                             createdAt={post.createdAt}
                             likes={post.likes}
+                            commentsCount={post.commentsCount}
                             liked={post.liked}
                             author={post.author}
                         />

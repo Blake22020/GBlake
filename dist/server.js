@@ -10,6 +10,7 @@ const ROOT = process.cwd();
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 const postRoutes_1 = __importDefault(require("./routes/postRoutes"));
+const commentRoutes_1 = __importDefault(require("./routes/commentRoutes"));
 const feedRoutes_1 = __importDefault(require("./routes/feedRoutes"));
 const adminRoutes_1 = __importDefault(require("./routes/adminRoutes"));
 const searchRoutes_1 = __importDefault(require("./routes/searchRoutes"));
@@ -23,6 +24,7 @@ app.use('/uploads', express_1.default.static(path_1.default.join(ROOT, 'uploads'
 app.use("/api/users", userRoutes_1.default);
 app.use("/api", authRoutes_1.default);
 app.use("/api/posts", postRoutes_1.default);
+app.use("/api/comments", commentRoutes_1.default);
 app.use("/api/feed", feedRoutes_1.default);
 app.use("/api/admin", adminRoutes_1.default);
 app.use("/api/search", searchRoutes_1.default);

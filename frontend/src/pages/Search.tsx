@@ -24,6 +24,7 @@ interface PostInterface {
     text: string;
     createdAt: Date;
     likes: number;
+    commentsCount?: number;
     author: {
         _id: string;
         username: string;
@@ -203,6 +204,7 @@ function Search() {
                             text={post.text}
                             createdAt={post.createdAt}
                             likes={post.likes}
+                            commentsCount={post.commentsCount}
                             liked={false}
                             author={post.author}
                         />

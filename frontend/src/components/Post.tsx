@@ -1,7 +1,10 @@
 import React, { useState, useMemo, useCallback } from "react";
 import LikeIcon from "./icons/Like/LikeIcon";
 import LikedIcon from "./icons/Like/LikedIcon";
+import CommentIcon from "./icons/Comment/CommentIcon";
+import Comments from "./Comments";
 import { likePost } from "../services/api";
+import { timeAgo } from "../utils/time";
 import toast from "react-hot-toast";
 
 interface PostInterface {
@@ -10,6 +13,7 @@ interface PostInterface {
     createdAt: Date;
     likes: number;
     liked?: boolean;
+    commentsCount?: number;
     author: {
         username: string;
         avatar: string;
@@ -18,56 +22,11 @@ interface PostInterface {
     _id: string;
 }
 
-function plural(value: number, forms: [string, string, string]): string {
-    const mod10 = value % 10;
-    const mod100 = value % 100;
-
-    if (mod100 >= 11 && mod100 <= 14) return forms[2];
-    if (mod10 === 1) return forms[0];
-    if (mod10 >= 2 && mod10 <= 4) return forms[1];
-    return forms[2];
-}
-
-function timeAgo(date: Date): string {
-    const now = new Date();
-    const d = new Date(date);
-    const diffMs = now.getTime() - d.getTime();
-
-    if (diffMs < 0) return "только что";
-
-    const seconds = Math.floor(diffMs / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-    const months = Math.floor(days / 30);
-    const years = Math.floor(days / 365);
-
-    if (years > 0) {
-        return `${years} ${plural(years, ["год", "года", "лет"])} назад`;
-    }
-
-    if (months > 0) {
-        return `${months} ${plural(months, ["месяц", "месяца", "месяцев"])} назад`;
-    }
-
-    if (days > 0) {
-        return `${days} ${plural(days, ["день", "дня", "дней"])} назад`;
-    }
-
-    if (hours > 0) {
-        return `${hours} ${plural(hours, ["час", "часа", "часов"])} назад`;
-    }
-
-    if (minutes > 0) {
-        return `${minutes} ${plural(minutes, ["минута", "минуты", "минут"])} назад`;
-    }
-
-    return "только что";
-}
-
 function Post(post: PostInterface) {
     const [liked, setLiked] = useState(!!post.liked);
     const [likesCount, setLikesCount] = useState(post.likes);
+    const [showComments, setShowComments] = useState(false);
+    const [commentsCount, setCommentsCount] = useState(post.commentsCount ?? 0);
 
     const timeAgoStr = useMemo(() => timeAgo(post.createdAt), [post.createdAt]);
 
@@ -147,8 +106,24 @@ function Post(post: PostInterface) {
                         {liked ? <LikedIcon /> : <LikeIcon />}
                         {likesCount}
                     </button>
+                    <button
+                        className="flex items-center gap-[12px] bg-bg-contactButton hover:bg-bg-contactButtonHover px-[20px] py-[5px] border-0 rounded-[25px] text-[1.4rem] text-white cursor-pointer post__footer__buttons__btn"
+                        onClick={() => setShowComments((v) => !v)}
+                    >
+                        <CommentIcon />
+                        {commentsCount}
+                    </button>
                 </div>
             </div>
+            {showComments && (
+                <Comments
+                    postId={post._id}
+                    postAuthorId={post.author._id}
+                    onCountChange={(delta) =>
+                        setCommentsCount((prev) => Math.max(0, prev + delta))
+                    }
+                />
+            )}
         </article>
     );
 }

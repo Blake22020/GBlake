@@ -7,6 +7,7 @@ const ROOT = process.cwd();
 import userRoutes from './routes/userRoutes';
 import authRoutes from './routes/authRoutes';
 import postRoutes from './routes/postRoutes';
+import commentRoutes from './routes/commentRoutes';
 import feedRoutes from './routes/feedRoutes';
 import adminRoutes from './routes/adminRoutes';
 import searchRoutes from './routes/searchRoutes';
@@ -25,6 +26,7 @@ app.use('/uploads', express.static(path.join(ROOT, 'uploads')));
 app.use("/api/users", userRoutes);
 app.use("/api", authRoutes);
 app.use("/api/posts", postRoutes);
+app.use("/api/comments", commentRoutes);
 app.use("/api/feed", feedRoutes);
 app.use("/api/admin", adminRoutes)
 app.use("/api/search", searchRoutes);
